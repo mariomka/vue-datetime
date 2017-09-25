@@ -345,6 +345,10 @@
           return this.type === 'datetime' ? 'YYYY-MM-DD HH:mm' : 'YYYY-MM-DD'
         }
       },
+      autoContinue: {
+        type: Boolean,
+        default: false
+      },
       autoClose: {
         type: Boolean,
         default: false
@@ -551,7 +555,7 @@
 
         if (this.type === 'date' && this.autoClose) {
           this.close(true)
-        } else if (this.type === 'datetime' && this.autoClose) {
+        } else if (this.type === 'datetime' && this.autoContinue) {
           this.showTimePicker()
         }
       },
@@ -577,7 +581,7 @@
         this.currentMonthDate = this.currentMonthDate.clone().year(year)
         this.newDate = this.newDate.clone().year(year)
 
-        if (this.autoClose) {
+        if (this.autoContinue) {
           this.showDatePicker()
         }
       },
