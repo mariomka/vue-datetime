@@ -41,6 +41,7 @@
         "Ubuntu", "Cantarell", "Fira Sans",
         "Droid Sans", "Helvetica Neue", sans-serif;
         background: #fff;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
 
     .vdatetime-popup__header {
