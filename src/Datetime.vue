@@ -389,7 +389,7 @@
           days.push({
             number: '',
             selected: false,
-            disabled: this.isDisabled(moment([year, month, +i]))
+            disabled: true
           })
         }
 
