@@ -37,7 +37,7 @@
 
     <div class="example">
         <div class="example-inputs">
-            <datetime v-model="datetime" type="datetime"></datetime>
+            <datetime v-model="datetime" type="datetime" auto-continue></datetime>
 
             <div class="values">
                 <p>
@@ -46,16 +46,16 @@
             </div>
         </div>
         <div class="example-code">
-            <pre><code>&#x3C;datetime v-model=&#x22;datetime&#x22; type=&#x22;datetime&#x22;&#x3E;&#x3C;/datetime&#x3E;</code></pre>
+            <pre><code>&#x3C;datetime v-model=&#x22;datetime&#x22; type=&#x22;datetime&#x22; auto-continue&#x3E;&#x3C;/datetime&#x3E;</code></pre>
         </div>
     </div>
 
     <h2>Full demo</h2>
-    <p class="description">Placeholder, locale, input format, input class, wrapper class, disabled dates, auto close, monday first and required.</p>
+    <p class="description">Placeholder, locale, input format, input class, wrapper class, disabled dates, auto continue, auto close, monday first and required.</p>
 
     <div class="example">
         <div class="example-inputs">
-            <datetime v-model="dateEmpty" placeholder="Select date" type="datetime" locale="es" input-format="DD-MM-YYYY HH:mm" input-class="my-input-class" wrapper-class="my-wrapper-class" :disabled-dates="['2017-09-07', ['2017-09-25', '2017-10-05']]" auto-close monday-first required></datetime>
+            <datetime v-model="dateEmpty" placeholder="Select date" type="datetime" locale="es" input-format="DD-MM-YYYY HH:mm" input-class="my-input-class" wrapper-class="my-wrapper-class" :disabled-dates="['2017-09-07', ['2017-09-25', '2017-10-05']]" auto-continue auto-close monday-first required></datetime>
 
             <div class="values">
                 <p>
@@ -73,6 +73,7 @@
                  input-class=&#x22;my-input-class&#x22;
                  wrapper-class=&#x22;my-wrapper-class&#x22;
                  :disabled-dates=&#x22;[&#x27;2017-09-07&#x27;, [&#x27;2017-09-25&#x27;, &#x27;2017-10-05&#x27;]]&#x22;
+                 auto-continue
                  auto-close
                  monday-first
                  required&#x3E;&#x3C;/datetime&#x3E;</code></pre>
