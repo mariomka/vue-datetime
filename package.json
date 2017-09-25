@@ -1,0 +1,49 @@
+{
+  "name": "vue-datetime",
+  "version": "0.1.0",
+  "description": "Mobile friendly datetime picker for Vue. Supports date, datetime and time modes, popup, dropdown and inline presentations, i18n and disabling dates.",
+  "keywords": [
+    "datetime",
+    "datetime-picker",
+    "picker",
+    "date",
+    "vue"
+  ],
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "webpack -p --progress --hide-modules && yarn build-docs",
+    "build-docs": "webpack -p --progress --hide-modules --config docs/webpack.config.js",
+    "docs-watch": "webpack --progress --hide-modules --config docs/webpack.config.js --watch"
+  },
+  "author": {
+    "name": "Mario Juárez",
+    "email": "mario@mjp.one",
+    "url": "http://www.mjp.one"
+  },
+  "repository": "mariomka/vue-datetime",
+  "bugs": {
+    "url": "https://github.com/mariomka/vue-datetime/issues"
+  },
+  "homepage": "https://github.com/mariomka/vue-datetime#readme",
+  "license": "MIT",
+  "dependencies": {
+    "moment": "^2.11.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.1.4",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.5.1",
+    "css-loader": "^0.28.2",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "node-sass": "^4.5.3",
+    "postcss-loader": "^2.0.6",
+    "sass-loader": "^6.0.5",
+    "style-loader": "^0.18.1",
+    "vue": "^2.4.0",
+    "vue-loader": "^12.1.0",
+    "vue-template-compiler": "^2.3.3",
+    "webpack": "^2.6.0"
+  }
+}
