@@ -7,12 +7,12 @@
 
     .vdatetime-fade-enter-active,
     .vdatetime-fade-leave-active {
-        transition: opacity .5s
+        transition: opacity .4s;
     }
 
     .vdatetime-fade-enter,
     .vdatetime-fade-leave-to {
-        opacity: 0
+        opacity: 0;
     }
 
     .vdatetime-overlay {
@@ -49,13 +49,18 @@
         color: #fff;
         font-size: 32px;
         text-transform: capitalize;
+    }
 
-        .vdatetime-popup__year {
-            display: block;
-            font-weight: 300;
-            font-size: 14px;
-            opacity: 0.7;
-            cursor: pointer;
+    .vdatetime-popup__year {
+        display: block;
+        font-weight: 300;
+        font-size: 14px;
+        opacity: 0.7;
+        cursor: pointer;
+        transition: opacity .3s;
+
+        &:hover {
+            opacity: 1;
         }
     }
 
@@ -82,10 +87,14 @@
 
         svg {
             width: 8px;
+
+            path {
+                transition: stroke .3s;
+            }
         }
 
         &:hover svg path {
-            stroke: #3f51b5;
+            stroke: #888;
         }
     }
 
@@ -135,13 +144,18 @@
                 left: 0;
                 border: 0;
                 border-radius: 50%;
+                transition: background-color .3s, color .3s;
             }
         }
     }
 
-    .vdatetime-popup__date-picker__item:hover,
+    .vdatetime-popup__date-picker__item:hover > span > span {
+        background: #eee;
+    }
+
     .vdatetime-popup__date-picker__item--selected {
-        > span > span {
+        & > span > span,
+        &:hover > span > span {
             color: #fff;
             background: #3f51b5;
         }
@@ -152,7 +166,7 @@
     }
 
     .vdatetime-popup__date-picker__item--disabled {
-        opacity: 0.5;
+        opacity: 0.4;
         cursor: default;
 
         &:hover > span > span {
@@ -196,9 +210,13 @@
         font-size: 20px;
         text-align: center;
         cursor: pointer;
+        transition: font-size .3s;
     }
 
-    .vdatetime-popup__list-picker__item:hover,
+    .vdatetime-popup__list-picker__item:hover {
+        font-size: 32px;
+    }
+
     .vdatetime-popup__list-picker__item--selected {
         color: #3f51b5;
         font-size: 32px;
@@ -217,6 +235,7 @@
         font-size: 16px;
         color: #3f51b5;
         cursor: pointer;
+        transition: color .3s;
 
         &:hover {
             color: #444;
@@ -250,13 +269,13 @@
                             <div class="vdatetime-popup__month-selector">
                                 <div class="vdatetime-popup__month-selector__previous" @click="previousMonth">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 61.3 102.8">
-                                        <path fill="none" stroke="#231f20" stroke-width="14" stroke-miterlimit="10" d="M56.3 97.8L9.9 51.4 56.3 5"/>
+                                        <path fill="none" stroke="#444" stroke-width="14" stroke-miterlimit="10" d="M56.3 97.8L9.9 51.4 56.3 5"/>
                                     </svg>
                                 </div>
                                 <div class="vdatetime-popup__month-selector__current">{{ currentMonth }}</div>
                                 <div class="vdatetime-popup__month-selector__next" @click="nextMonth">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 61.3 102.8">
-                                        <path fill="none" stroke="#231f20" stroke-width="14" stroke-miterlimit="10" d="M56.3 97.8L9.9 51.4 56.3 5"/>
+                                        <path fill="none" stroke="#444" stroke-width="14" stroke-miterlimit="10" d="M56.3 97.8L9.9 51.4 56.3 5"/>
                                     </svg>
                                 </div>
                             </div>
