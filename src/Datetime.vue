@@ -226,7 +226,8 @@
 </style>
 <template>
     <div class="vdatetime" :class="wrapperClass">
-        <input v-bind="$attrs"
+        <input ref="input"
+               v-bind="$attrs"
                v-on="$listeners"
                type="text"
                readonly="readonly"
@@ -460,6 +461,7 @@
 
     methods: {
       open () {
+        this.$refs.input.blur()
         this.newDate = this.date ? this.date : moment().locale(this.locale)
         this.currentMonthDate = moment([this.newDate.year(), this.newDate.month(), 1]).locale(this.locale)
         this.isOpen = true
