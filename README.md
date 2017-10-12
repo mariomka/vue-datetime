@@ -1,7 +1,7 @@
 **WORK IN PROGRESS: DO NOT USE YET**
 
 # vue-datetime
-> Mobile friendly datetime picker for Vue. Supports date, datetime and ~~time~~ modes, popup, ~~dropdown~~ and ~~inline~~ presentations, i18n and disabling dates.
+> Mobile friendly datetime picker for Vue. Supports date, datetime and time modes, i18n and disabling dates.
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Latest Version on NPM](https://img.shields.io/npm/v/vue-datetime.svg?style=flat-square)](https://npmjs.com/package/vue-datetime)
@@ -45,6 +45,14 @@ Vue.component('datetime', Datetime);
 
 ## Usage
 
+### Minimal
+
+```html
+<datetime v-model="date"></datetime>
+```
+
+### Full
+
 ```html
 <datetime v-model="date"
           placeholder="Select date"
@@ -54,6 +62,7 @@ Vue.component('datetime', Datetime);
           input-class="my-input-class"
           wrapper-class="my-wrapper-class"
           :disabled-dates="['2017-09-07', ['2017-09-25', '2017-10-05']]"
+          auto-continue
           auto-close
           monday-first
           required></datetime>
