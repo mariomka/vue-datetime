@@ -14,22 +14,22 @@ body {
   "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 16px;
   padding: 1em;
-  color: #333;
+  color: #444;
 }
 
 .page {
   background-color: #fff;
   margin: 0 auto;
-  padding: 1em 1.5em;
+  padding: 2em 3em;
   width: 100%;
   max-width: 900px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
-  margin: 0 0 30px;
-  border-bottom: solid 1px #999;
-  font-weight: 100;
-  font-size: 48px;
+  margin: 0 0 1em;
+  font-weight: 200;
+  font-size: 52px;
 
   a {
     color: #333;
@@ -38,26 +38,29 @@ h1 {
 }
 
 h2 {
-  margin: 20px 0;
-  border-bottom: solid 1px #ccc;
-  font-weight: 100;
+  margin: 0 0 1em;
+  border-bottom: solid 1px #ddd;
+  font-weight: 200;
   font-size: 26px;
+  color: #666;
 }
 
 p.description {
-  margin: 0 0 20px;
+  margin: 0 0 1em;
   font-style: italic;
   font-size: 14px;
   color: #aaa;
 }
 
 .example {
-  margin: 0 0 30px;
+  margin: 0 0 2em;
 
   .example-inputs {
     input {
       padding: 8px 10px;
       font-size: 16px;
+      border: solid 1px #ddd;
+      color: #444;
     }
   }
 

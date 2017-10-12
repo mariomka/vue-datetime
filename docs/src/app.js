@@ -10,6 +10,8 @@ new Vue({
   data () {
     return {
       date: '2017-09-25',
+      dateRange: ['2017-09-25', '2017-10-01'],
+      time: '20:40',
       datetime: '2017-09-25T16:30:00Z',
       dateEmpty: ''
     }
