@@ -34,7 +34,7 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="vdatetime-popup__date-picker">
+                            <div class="vdatetime-popup__date-picker" :style="{height: datePickerHeight}">
                                 <div class="vdatetime-popup__date-picker__item vdatetime-popup__date-picker__item--header" v-for="weekday in weekdays">{{ weekday }}</div>
                                 <div class="vdatetime-popup__date-picker__item" v-for="day in currentMonthDays" @click="!day.disabled && selectDay(day.number)" :class="{'vdatetime-popup__date-picker__item--selected': day.selected, 'vdatetime-popup__date-picker__item--disabled': day.disabled}">
                                     <span><span>{{ day.number }}</span></span>
@@ -135,7 +135,8 @@
         date: date,
         newDate: null,
         currentMonthDate: null,
-        typeFlow: typeFlowFactory(this.type, this, date ? date.clone() : moment().locale(this.locale))
+        typeFlow: typeFlowFactory(this.type, this, date ? date.clone() : moment().locale(this.locale)),
+        datePickerItemHeight: null
       }
     },
 
@@ -203,6 +204,11 @@
         return this.disabledDates.map(function (item) {
           return Array.isArray(item) ? [moment(item[0]), moment(item[1])] : [moment(item), moment(item).add(1, 'day')]
         })
+      },
+      datePickerHeight () {
+        let height = (Math.ceil(this.currentMonthDays.length / 7) + 1) * this.datePickerItemHeight;
+
+        return height ? height + 'px' : 'auto';
       }
     },
 
@@ -246,6 +252,10 @@
       },
       showDatePicker () {
         this.show = 'date'
+
+        this.$nextTick(() => {
+          this.datePickerItemHeight = this.$refs.popupBody.getElementsByClassName('vdatetime-popup__date-picker__item')[7].offsetHeight
+        })
       },
       showTimePicker () {
         this.show = 'time'
@@ -419,6 +429,7 @@
 
     .vdatetime-popup__date-picker {
         padding: 0 20px;
+        transition: height .2s;
     }
 
     .vdatetime-popup__date-picker__item {
