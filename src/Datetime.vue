@@ -127,7 +127,7 @@
     },
 
     data () {
-      let date = this.value.length ? moment(this.value, this.type === 'time' ? 'HH:mm' : null).locale(this.locale) : null
+      let date = this.getDate();
 
       return {
         isOpen: false,
@@ -137,6 +137,12 @@
         currentMonthDate: null,
         typeFlow: typeFlowFactory(this.type, this, date ? date.clone() : moment().locale(this.locale)),
         datePickerItemHeight: null
+      }
+    },
+
+    watch: {
+      value: function (newValue) {
+        this.date = this.getDate();
       }
     },
 
@@ -307,6 +313,9 @@
         return this.disabledDatesParsed && this.disabledDatesParsed.find(function (dates) {
           return date.isBetween(dates[0], dates[1], 'day', '[)')
         }) !== undefined
+      },
+      getDate() {
+        return this.value.length ? moment(this.value, this.type === 'time' ? 'HH:mm' : null).locale(this.locale) : null;
       }
     }
   }
