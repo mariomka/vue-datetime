@@ -10,6 +10,9 @@
     "vue"
   ],
   "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "webpack -p --progress --hide-modules && yarn build-docs",
     "build-docs": "webpack -p --progress --hide-modules --config docs/webpack.config.js",
