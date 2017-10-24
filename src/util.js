@@ -1,7 +1,7 @@
 import moment from 'moment'
 
-export function weekdays (mondayFirst = false) {
-  let weekdays = moment.weekdaysMin()
+export function weekdays (locale, mondayFirst = false) {
+  let weekdays = moment.localeData(locale).weekdaysMin()
 
   if (mondayFirst) {
     weekdays.push(weekdays.shift())

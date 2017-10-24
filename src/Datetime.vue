@@ -158,7 +158,7 @@
         return this.currentMonthDate.format('MMMM YYYY')
       },
       weekdays () {
-        return util.weekdays(this.mondayFirst)
+        return util.weekdays(this.locale, this.mondayFirst)
       },
       currentMonthDays () {
         const currentYear = this.currentMonthDate.year()
