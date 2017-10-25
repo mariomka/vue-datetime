@@ -9,6 +9,8 @@
 
 ## Demo
 
+[![demo](https://raw.githubusercontent.com/mariomka/vue-datetime/master/docs/demo.gif)](http://mariomka.github.io/vue-datetime)
+
 **[Go to demo](http://mariomka.github.io/vue-datetime)**.
 
 # Install
