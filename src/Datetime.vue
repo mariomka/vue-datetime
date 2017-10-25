@@ -127,7 +127,7 @@
     },
 
     data () {
-      let date = this.getDate();
+      let date = this.getDate()
 
       return {
         isOpen: false,
@@ -142,7 +142,7 @@
 
     watch: {
       value: function (newValue) {
-        this.date = this.getDate();
+        this.date = this.getDate()
       }
     },
 
@@ -212,13 +212,16 @@
         })
       },
       datePickerHeight () {
-        let height = (Math.ceil(this.currentMonthDays.length / 7) + 1) * this.datePickerItemHeight;
+        let height = (Math.ceil(this.currentMonthDays.length / 7) + 1) * this.datePickerItemHeight
 
-        return height ? height + 'px' : 'auto';
+        return height ? height + 'px' : 'auto'
       }
     },
 
     methods: {
+      getDate () {
+        return this.value.length ? moment(this.value, this.type === 'time' ? 'HH:mm' : null).locale(this.locale) : null
+      },
       open () {
         this.newDate = this.date ? this.date.clone() : moment().locale(this.locale)
 
@@ -313,9 +316,6 @@
         return this.disabledDatesParsed && this.disabledDatesParsed.find(function (dates) {
           return date.isBetween(dates[0], dates[1], 'day', '[)')
         }) !== undefined
-      },
-      getDate() {
-        return this.value.length ? moment(this.value, this.type === 'time' ? 'HH:mm' : null).locale(this.locale) : null;
       }
     }
   }
