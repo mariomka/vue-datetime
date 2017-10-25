@@ -141,8 +141,11 @@
     },
 
     watch: {
-      value: function (newValue) {
+      value (newValue) {
         this.date = this.getDate()
+        this.typeFlow.setDate(this.date.clone())
+        this.newDate = this.getNewDate()
+        this.currentMonthDate = this.getCurrentMonthDate()
       }
     },
 
@@ -222,14 +225,21 @@
       getDate () {
         return this.value.length ? moment(this.value, this.type === 'time' ? 'HH:mm' : null).locale(this.locale) : null
       },
-      open () {
-        this.newDate = this.date ? this.date.clone() : moment().locale(this.locale)
+      getNewDate () {
+        let newDate = this.date ? this.date.clone() : moment().locale(this.locale)
 
-        for (let i = 0; i < 1e5 && this.isDisabled(this.newDate); i++) {
-          this.newDate = this.newDate.clone().add(1, 'day')
+        for (let i = 0; i < 1e5 && this.isDisabled(newDate); i++) {
+          newDate = newDate.clone().add(1, 'day')
         }
 
-        this.currentMonthDate = moment([this.newDate.year(), this.newDate.month(), 1]).locale(this.locale)
+        return newDate
+      },
+      getCurrentMonthDate () {
+        return moment([this.newDate.year(), this.newDate.month(), 1]).locale(this.locale)
+      },
+      open () {
+        this.newDate = this.getNewDate()
+        this.currentMonthDate = this.getCurrentMonthDate()
 
         this.isOpen = true
         this.$refs.input.blur()

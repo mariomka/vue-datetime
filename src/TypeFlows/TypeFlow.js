@@ -4,6 +4,10 @@ export default class TypeFlow {
     this.date = date
   }
 
+  setDate (date) {
+    this.date = date
+  }
+
   open () {}
 
   close () {}
