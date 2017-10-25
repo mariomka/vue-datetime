@@ -113,3 +113,16 @@ footer {
     }
   }
 }
+
+.example-style {
+  .vdatetime-popup__header,
+  .vdatetime-popup__date-picker__item--selected > span > span,
+  .vdatetime-popup__date-picker__item--selected:hover > span > span {
+    background: #FF9800;
+  }
+
+  .vdatetime-popup__list-picker__item--selected,
+  .vdatetime-popup__actions__button {
+    color: #FF9800;
+  }
+}

@@ -12,7 +12,8 @@ new Vue({
       date: '2017-09-25',
       time: '20:40',
       datetime: '2017-09-25T16:30:00Z',
-      dateEmpty: ''
+      dateEmpty: '',
+      dateStyle: new Date().toISOString()
     }
   }
 })

@@ -97,6 +97,33 @@
         </div>
     </div>
 
+    <h2>Stylized</h2>
+    <p class="description">For instance, change primary color.</p>
+
+    <div class="example example-style">
+        <div class="example-inputs">
+            <datetime v-model="dateStyle" type="datetime"></datetime>
+
+            <div class="values">
+                <p>
+                    <strong>Value:</strong> {{ dateStyle }}
+                </p>
+            </div>
+        </div>
+        <div class="example-code">
+            <pre><code>.vdatetime-popup__header,
+.vdatetime-popup__date-picker__item--selected &#x3E; span &#x3E; span,
+.vdatetime-popup__date-picker__item--selected:hover &#x3E; span &#x3E; span {
+    background: #FF9800;
+}
+
+.vdatetime-popup__list-picker__item--selected,
+.vdatetime-popup__actions__button {
+    color: #FF9800;
+}</code></pre>
+        </div>
+    </div>
+
     <footer>
         © <a href="https://github.com/mariomka">Mario Juárez</a> -
         <a href="https://github.com/mariomka/vue-datetime">Code on Github</a>
