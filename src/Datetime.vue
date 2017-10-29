@@ -150,7 +150,9 @@
     },
 
     created () {
-      this.$emit('input', this.typeFlow.isoDate())
+      if (this.date) {
+        this.$emit('input', this.typeFlow.isoDate())
+      }
     },
 
     computed: {
