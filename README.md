@@ -27,9 +27,7 @@ npm
 npm install vue-datetime --save
 ```
 
-## Setup
-
-Register the plugin.
+## Register the component
 
 ```js
 import Datetime from 'vue-datetime';
@@ -37,12 +35,27 @@ import Datetime from 'vue-datetime';
 Vue.use(Datetime);
 ```
 
-Or register components manually.
+### Register manually
+
+#### Global
 
 ```js
-import {Datetime} from 'vue-datetime';
+import { Datetime } from 'vue-datetime';
 
 Vue.component('datetime', Datetime);
+```
+
+#### Local
+
+```js
+import { Datetime } from 'vue-datetime';
+
+Vue.extend({
+  template: '...',
+  components: {
+    datetime: Datetime
+  }
+});
 ```
 
 ## Usage
