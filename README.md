@@ -102,7 +102,7 @@ The component is based on [Moment.js](https://momentjs.com), check out documenta
 
 ## Events
 
-Components emit the `input` event.
+Component emit the `input` event.
 
 # License
 
