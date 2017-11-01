@@ -13,7 +13,7 @@
                @focus="open"/>
         <transition name="vdatetime-fade">
             <div v-if="isOpen">
-                <div v-if="mode === 'popup'" class="vdatetime-overlay" @click.self="close(false)"></div>
+                <div class="vdatetime-overlay" @click.self="close(false)"></div>
                 <div class="vdatetime-popup">
                     <div class="vdatetime-popup__header">
                         <div class="vdatetime-popup__year" @click="showYearPicker">{{ newYear }}</div>
@@ -73,15 +73,6 @@
 
   export default {
     props: {
-      wrapperClass: {
-        type: String
-      },
-      inputClass: {
-        type: String
-      },
-      placeholder: {
-        type: String
-      },
       value: {
         type: String,
         required: true
@@ -90,25 +81,18 @@
         type: String,
         default: 'date'
       },
-      mode: {
-        type: String,
-        default: 'popup'
-      },
-      mondayFirst: {
-        type: Boolean,
-        default: false,
-      },
       inputFormat: {
         type: String,
         default: ''
       },
-      autoContinue: {
-        type: Boolean,
-        default: false
+      wrapperClass: {
+        type: String
       },
-      autoClose: {
-        type: Boolean,
-        default: false
+      inputClass: {
+        type: String
+      },
+      placeholder: {
+        type: String
       },
       locale: {
         type: String,
@@ -119,6 +103,18 @@
         default () {
           return []
         }
+      },
+      mondayFirst: {
+        type: Boolean,
+        default: false,
+      },
+      autoContinue: {
+        type: Boolean,
+        default: false
+      },
+      autoClose: {
+        type: Boolean,
+        default: false
       },
       required: {
         type: Boolean,
