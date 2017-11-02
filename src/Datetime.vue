@@ -195,7 +195,7 @@
         return util.hours().map(hour => {
           return {
             number: hour,
-            selected: hour === this.newDate.hour()
+            selected: parseInt(hour) === parseInt(this.newDate.hour())
           }
         })
       },
@@ -203,7 +203,7 @@
         return util.minutes().map(minute => {
           return {
             number: minute,
-            selected: minute === this.newDate.minute()
+            selected: parseInt(minute) === this.newDate.minute()
           }
         })
       },
