@@ -64,7 +64,7 @@ Vue.extend({
 <datetime v-model="date"></datetime>
 ```
 
-### Full
+### Complete
 
 ```html
 <datetime v-model="date"
@@ -75,6 +75,8 @@ Vue.extend({
           placeholder="Select date"
           locale="es"
           :disabled-dates="['2017-09-07', ['2017-09-25', '2017-10-05']]"
+          max-date="2017-12-10"
+          min-date="2017-07-10"
           monday-first
           auto-continue
           auto-close
@@ -85,24 +87,26 @@ Vue.extend({
 
 Parameter | Type | Default
 --------- | ---- | ------
-v-model (*required*) | `String` | -
+v-model (*required*) | Date `String` | -
 type | `String`: *date*, *datetime* or *time* | `date`
 input-format | `String` | `YYYY-MM-DD`, `YYYY-MM-DD HH:mm` or `HH:mm`
 wrapper-class | `String` | `null`
 input-class | `String` | `null`
 placeholder | `String` | `null`
 locale | `String` | `null`
-disabled-dates | `Array` | `[]`
+disabled-dates | `Array` of date `Strings` | `[]`
+min-date | Date `String` | `null`
+max-date | Date `String` | `null`
 monday-first | `Boolean` | `false`
 auto-continue | `Boolean` | `false`
 auto-close | `Boolean` | `false`
 required | `Boolean` | `false`
 
-The component is based on [Moment.js](https://momentjs.com), check out documentation to set `input-format` and `locale`.
+The component is based on [Moment.js](https://momentjs.com), check out documentation to set dates (ISO 8601 recommended), `input-format` and `locale`.
 
 ## Events
 
-Component emit the `input` event.
+Component emits the `input` event.
 
 # License
 

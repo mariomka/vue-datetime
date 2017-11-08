@@ -98,6 +98,14 @@
         type: String,
         default: null
       },
+      minDate: {
+        type: String,
+        default: null
+      },
+      maxDate: {
+        type: String,
+        default: null
+      },
       disabledDates: {
         type: Array,
         default () {
@@ -207,7 +215,7 @@
           }
         })
       },
-      disabledDatesParsed () {
+      disabledDatesRanges () {
         return this.disabledDates.map(function (item) {
           return Array.isArray(item) ? [moment(item[0]), moment(item[1])] : [moment(item), moment(item).add(1, 'day')]
         })
@@ -321,9 +329,11 @@
         this.newDate = this.typeFlow.date.clone()
       },
       isDisabled (date) {
-        return this.disabledDatesParsed && this.disabledDatesParsed.find(function (dates) {
-          return date.isBetween(dates[0], dates[1], 'day', '[)')
-        }) !== undefined
+        return (this.minDate && date.isBefore(this.minDate, 'day')) ||
+               (this.maxDate && date.isAfter(this.maxDate, 'day')) ||
+               (this.disabledDatesRanges && this.disabledDatesRanges.find(function (dates) {
+                 return date.isBetween(dates[0], dates[1], 'day', '[)')
+               }) !== undefined)
       }
     }
   }
