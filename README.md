@@ -83,6 +83,14 @@ Vue.extend({
           required></datetime>
 ```
 
+### Third-party libraries
+
+The component has a dependency, moment.js, and it behaves like an input text. It should work well with third-party libraries.
+
+How to use with other libraries:
+
+- [Use with Vue-Formly](https://gist.github.com/AndresCL/2e45360643a1858883616d349e0a9171) @AndresCL
+
 ## Params
 
 Parameter | Type | Default
