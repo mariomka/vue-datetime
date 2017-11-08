@@ -67,12 +67,26 @@
         </div>
     </div>
 
-    <h2>Full demo</h2>
-    <p class="description">Placeholder, locale, input format, input class, wrapper class, disabled dates, auto continue, auto close, monday first and required.</p>
+    <h2>Complete demo</h2>
+    <p class="description">Placeholder, locale, input format, input class, wrapper class, disabled dates, max date, min date, auto continue, auto close, monday first and required.</p>
 
     <div class="example">
         <div class="example-inputs">
-            <datetime v-model="dateEmpty" placeholder="Select date" type="datetime" locale="es" input-format="DD-MM-YYYY HH:mm" input-class="my-input-class" wrapper-class="my-wrapper-class" :disabled-dates="['2017-09-07', ['2017-09-25', '2017-10-05']]" auto-continue auto-close monday-first required></datetime>
+            <datetime
+                    v-model="dateEmpty"
+                    placeholder="Select date"
+                    type="datetime"
+                    locale="es"
+                    input-format="DD-MM-YYYY HH:mm"
+                    input-class="my-input-class"
+                    wrapper-class="my-wrapper-class"
+                    :disabled-dates="disabledDates"
+                    :max-date="maxDate"
+                    :min-date="minDate"
+                    auto-continue
+                    auto-close
+                    monday-first
+                    required></datetime>
 
             <div class="values">
                 <p>
@@ -90,6 +104,8 @@
           input-class=&#x22;my-input-class&#x22;
           wrapper-class=&#x22;my-wrapper-class&#x22;
           :disabled-dates=&#x22;[&#x27;2017-09-07&#x27;, [&#x27;2017-09-25&#x27;, &#x27;2017-10-05&#x27;]]&#x22;
+          :max-date=&#x22;maxDate&#x22;
+          :min-date=&#x22;minDate&#x22;
           auto-continue
           auto-close
           monday-first
