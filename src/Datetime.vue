@@ -147,7 +147,7 @@
     watch: {
       value (newValue) {
         this.date = this.getDate()
-        this.typeFlow.setDate(this.date.clone())
+        this.typeFlow.setDate(this.date ? this.date.clone() : moment().locale(this.locale))
         this.newDate = this.getNewDate()
         this.currentMonthDate = this.getCurrentMonthDate()
       }
