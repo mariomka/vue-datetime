@@ -1,12 +1,10 @@
 import moment from 'moment'
 
 export function weekdays (locale, mondayFirst = false) {
-  let weekdays = moment.localeData(locale).weekdaysMin()
-
+  const weekdays = moment.localeData(locale).weekdaysMin()
   if (mondayFirst) {
-    weekdays.push(weekdays.shift())
+    return weekdays.slice(1).concat(weekdays[0])
   }
-
   return weekdays
 }
 
