@@ -56,8 +56,8 @@
                         </div>
                     </div>
                     <div class="vdatetime-popup__actions">
-                        <div class="vdatetime-popup__actions__button" @click="close(false)">Cancel</div>
-                        <div class="vdatetime-popup__actions__button" @click="ok">Ok</div>
+                        <div class="vdatetime-popup__actions__button" @click="close(false)">{{buttonTexts.cancel}}</div>
+                        <div class="vdatetime-popup__actions__button" @click="ok">{{buttonTexts.ok}}</div>
                     </div>
                 </div>
             </div>
@@ -127,12 +127,21 @@
       required: {
         type: Boolean,
         default: false
+      },
+      buttonTexts: {
+        type: Object,
+        default () {
+            return {
+                ok: "Ok",
+                cancel: "Cancel"
+            }
+        }
       }
     },
 
     data () {
       let date = this.getDate()
-
+    
       return {
         isOpen: false,
         show: null,
