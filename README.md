@@ -74,6 +74,7 @@ Vue.extend({
           input-class="my-input-class"
           placeholder="Select date"
           locale="es"
+          :language=="{ok:'De acuerdo', cancel:'Cancelar'}"
           :disabled-dates="['2017-09-07', ['2017-09-25', '2017-10-05']]"
           max-date="2017-12-10"
           min-date="2017-07-10"
