@@ -94,7 +94,7 @@
       placeholder: {
         type: String
       },
-      locale: {
+      momentLocale: {
         type: String,
         default: null
       },
@@ -148,7 +148,7 @@
         date: date,
         newDate: null,
         currentMonthDate: null,
-        typeFlow: typeFlowFactory(this.type, this, date ? date.clone() : moment().locale(this.locale)),
+        typeFlow: typeFlowFactory(this.type, this, date ? date.clone() : moment().locale(this.momentLocale)),
         datePickerItemHeight: null
       }
     },
@@ -156,7 +156,7 @@
     watch: {
       value (newValue) {
         this.date = this.getDate()
-        this.typeFlow.setDate(this.date ? this.date.clone() : moment().locale(this.locale))
+        this.typeFlow.setDate(this.date ? this.date.clone() : moment().locale(this.momentLocale))
         this.newDate = this.getNewDate()
         this.currentMonthDate = this.getCurrentMonthDate()
       }
@@ -182,7 +182,7 @@
         return this.currentMonthDate.format('MMMM YYYY')
       },
       weekdays () {
-        return util.weekdays(this.locale, this.mondayFirst)
+        return util.weekdays(this.momentLocale, this.mondayFirst)
       },
       currentMonthDays () {
         const currentYear = this.currentMonthDate.year()
@@ -238,10 +238,10 @@
 
     methods: {
       getDate () {
-        return this.value.length ? moment(this.value, this.type === 'time' ? 'HH:mm' : null).locale(this.locale) : null
+        return this.value.length ? moment(this.value, this.type === 'time' ? 'HH:mm' : null).locale(this.momentLocale) : null
       },
       getNewDate () {
-        let newDate = this.date ? this.date.clone() : moment().locale(this.locale)
+        let newDate = this.date ? this.date.clone() : moment().locale(this.momentLocale)
 
         for (let i = 0; i < 1e5 && this.isDisabled(newDate); i++) {
           newDate = newDate.clone().add(1, 'day')
@@ -250,7 +250,7 @@
         return newDate
       },
       getCurrentMonthDate () {
-        return moment([this.newDate.year(), this.newDate.month(), 1]).locale(this.locale)
+        return moment([this.newDate.year(), this.newDate.month(), 1]).locale(this.momentLocale)
       },
       open () {
         this.newDate = this.getNewDate()

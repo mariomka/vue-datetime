@@ -73,7 +73,7 @@ Vue.extend({
           wrapper-class="my-wrapper-class"
           input-class="my-input-class"
           placeholder="Select date"
-          locale="es"
+          moment-locale="es"
           :language=="{ok:'De acuerdo', cancel:'Cancelar'}"
           :disabled-dates="['2017-09-07', ['2017-09-25', '2017-10-05']]"
           max-date="2017-12-10"
@@ -102,7 +102,7 @@ input-format | `String` | `YYYY-MM-DD`, `YYYY-MM-DD HH:mm` or `HH:mm`
 wrapper-class | `String` | `null`
 input-class | `String` | `null`
 placeholder | `String` | `null`
-locale | `String` | `null`
+moment-locale | `String` | `null`
 language | `Object` | | `{ok: 'Ok', cancel: 'Cancel'}`
 disabled-dates | `Array` of date `Strings` | `[]`
 min-date | Date `String` | `null`
@@ -112,7 +112,7 @@ auto-continue | `Boolean` | `false`
 auto-close | `Boolean` | `false`
 required | `Boolean` | `false`
 
-The component is based on [Moment.js](https://momentjs.com), check out documentation to set dates (ISO 8601 recommended), `input-format` and `locale`.
+The component is based on [Moment.js](https://momentjs.com), check out documentation to set dates (ISO 8601 recommended), `input-format` and `moment-locale`.
 
 ## Events
 

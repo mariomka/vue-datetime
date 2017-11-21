@@ -68,7 +68,7 @@
     </div>
 
     <h2>Complete demo</h2>
-    <p class="description">Placeholder, locale, input format, input class, wrapper class, disabled dates, max date, min date, auto continue, auto close, monday first and required.</p>
+    <p class="description">Placeholder, i18n, input format, input class, wrapper class, disabled dates, max date, min date, auto continue, auto close, monday first and required.</p>
 
     <div class="example">
         <div class="example-inputs">
@@ -76,7 +76,7 @@
                     v-model="dateEmpty"
                     placeholder="Select date"
                     type="datetime"
-                    locale="es"
+                    moment-locale="es"
                     :language="{ok:'De acuerdo',cancel:'Cancelar'}"
                     input-format="DD-MM-YYYY HH:mm"
                     input-class="my-input-class"
@@ -101,8 +101,8 @@
 &#x3C;datetime v-model=&#x22;dateEmpty&#x22;
           placeholder=&#x22;Select date&#x22;
           type=&#x22;datetime&#x22;
-          locale=&#x22;es&#x22;
-          :language=&#x22;{ok:'De acuerdo',cancel:'Cancelar'}&#x22;
+          :language=&#x22;{ok:'De acuerdo', cancel:'Cancelar'}&#x22;
+          moment-locale=&#x22;es&#x22;
           input-format=&#x22;DD-MM-YYYY HH:mm&#x22;
           input-class=&#x22;my-input-class&#x22;
           wrapper-class=&#x22;my-wrapper-class&#x22;

@@ -1,7 +1,7 @@
 import moment from 'moment'
 
-export function weekdays (locale, mondayFirst = false) {
-  const weekdays = moment.localeData(locale).weekdaysMin()
+export function weekdays (momentLocale, mondayFirst = false) {
+  const weekdays = moment.localeData(momentLocale).weekdaysMin()
   if (mondayFirst) {
     return weekdays.slice(1).concat(weekdays[0])
   }
