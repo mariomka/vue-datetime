@@ -56,8 +56,8 @@
                         </div>
                     </div>
                     <div class="vdatetime-popup__actions">
-                        <div class="vdatetime-popup__actions__button" @click="close(false)">{{language.cancel}}</div>
-                        <div class="vdatetime-popup__actions__button" @click="ok">{{language.ok}}</div>
+                        <div class="vdatetime-popup__actions__button" @click="close(false)">{{ language.cancel }}</div>
+                        <div class="vdatetime-popup__actions__button" @click="ok">{{ language.ok }}</div>
                     </div>
                 </div>
             </div>
@@ -131,17 +131,17 @@
       language: {
         type: Object,
         default () {
-            return {
-                ok: "Ok",
-                cancel: "Cancel"
-            }
+          return {
+            ok: 'Ok',
+            cancel: 'Cancel'
+          }
         }
       }
     },
 
     data () {
       let date = this.getDate()
-    
+
       return {
         isOpen: false,
         show: null,
