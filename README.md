@@ -74,7 +74,7 @@ Vue.extend({
           input-class="my-input-class"
           placeholder="Select date"
           moment-locale="es"
-          :language=="{ok:'De acuerdo', cancel:'Cancelar'}"
+          :i18n=="{ok:'De acuerdo', cancel:'Cancelar'}"
           :disabled-dates="['2017-09-07', ['2017-09-25', '2017-10-05']]"
           max-date="2017-12-10"
           min-date="2017-07-10"
@@ -103,7 +103,7 @@ wrapper-class | `String` | `null`
 input-class | `String` | `null`
 placeholder | `String` | `null`
 moment-locale | `String` | `null`
-language | `Object` | | `{ok: 'Ok', cancel: 'Cancel'}`
+i18n | `Object` | | `{ok: 'Ok', cancel: 'Cancel'}`
 disabled-dates | `Array` of date `Strings` | `[]`
 min-date | Date `String` | `null`
 max-date | Date `String` | `null`
