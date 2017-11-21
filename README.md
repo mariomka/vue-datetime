@@ -102,6 +102,7 @@ wrapper-class | `String` | `null`
 input-class | `String` | `null`
 placeholder | `String` | `null`
 locale | `String` | `null`
+language | `Object` | | `{ok: 'Ok', cancel: 'Cancel'}`
 disabled-dates | `Array` of date `Strings` | `[]`
 min-date | Date `String` | `null`
 max-date | Date `String` | `null`
