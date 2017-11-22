@@ -8,7 +8,7 @@
                :placeholder="placeholder"
                :value="inputValue"
                :class="inputClass"
-               :required="required"
+               :required.boolean="required"
                @click="open"
                @focus="open"/>
         <transition name="vdatetime-fade">
