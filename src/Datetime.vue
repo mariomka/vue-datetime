@@ -4,7 +4,7 @@
                v-bind="$attrs"
                v-on="$listeners"
                type="text"
-               readonly="readonly"
+               :readonly="readonly"
                :placeholder="placeholder"
                :value="inputValue"
                :class="inputClass"
@@ -125,6 +125,10 @@
         default: false
       },
       required: {
+        type: Boolean,
+        default: false
+      },
+      readonly: {
         type: Boolean,
         default: false
       },
