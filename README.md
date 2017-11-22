@@ -103,7 +103,7 @@ wrapper-class | `String` | `null`
 input-class | `String` | `null`
 placeholder | `String` | `null`
 moment-locale | `String` | `null`
-i18n | `Object` | | `{ok: 'Ok', cancel: 'Cancel'}`
+i18n | `Object` | `{ok: 'Ok', cancel: 'Cancel'}`
 disabled-dates | `Array` of date `Strings` | `[]`
 min-date | Date `String` | `null`
 max-date | Date `String` | `null`
