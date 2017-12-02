@@ -122,7 +122,7 @@ The user selects in his local time but datetime returned is UTC.
 
 ## Events
 
-Component emits the `input` event.
+Component emits the `input` event to work with `v-model`. [More info](https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events).
 
 # License
 
