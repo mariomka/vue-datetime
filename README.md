@@ -124,6 +124,12 @@ The user selects in his local time but datetime returned is UTC.
 
 Component emits the `input` event to work with `v-model`. [More info](https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events).
 
+## Theming
+
+Theming is supported by overwriting CSS classes, you can see all CSS in [Datetime.vue](src/Datetime.vue).
+
+Also there is an example in **[demo](http://mariomka.github.io/vue-datetime)**.
+
 # License
 
 [The MIT License](http://opensource.org/licenses/MIT)
