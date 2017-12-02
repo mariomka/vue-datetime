@@ -114,6 +114,12 @@ required | `Boolean` | `false`
 
 The component is based on [Moment.js](https://momentjs.com), check out documentation to set dates (ISO 8601 recommended), `input-format` and `moment-locale`.
 
+## Time zone
+
+If a time zone offset is not present, the local time zone is used.
+
+The user selects in his local time but datetime returned is UTC.
+
 ## Events
 
 Component emits the `input` event.
