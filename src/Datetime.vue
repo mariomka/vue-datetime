@@ -4,7 +4,6 @@
                v-bind="$attrs"
                v-on="$listeners"
                type="text"
-               readonly="readonly"
                :placeholder="placeholder"
                :value="inputValue"
                :class="inputClass"
