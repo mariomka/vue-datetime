@@ -40,6 +40,7 @@
     "babel-preset-env": "^1.5.1",
     "css-loader": "^0.28.2",
     "extract-text-webpack-plugin": "^2.1.0",
+    "moment-timezone": "^0.5.14",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.6",
     "sass-loader": "^6.0.5",
