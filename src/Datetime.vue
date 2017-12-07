@@ -66,7 +66,7 @@
 
 <script>
   import Vue from 'vue'
-  import moment from 'moment'
+  import moment from 'moment-timezone'
   import * as util from './util'
   import typeFlowFactory from './TypeFlows'
 
@@ -135,6 +135,10 @@
             cancel: 'Cancel'
           }
         }
+      },
+      timezone: {
+        type: String,
+        default: moment.tz.guess()
       }
     },
 
@@ -237,10 +241,10 @@
 
     methods: {
       getDate () {
-        return this.value.length ? moment(this.value, this.type === 'time' ? 'HH:mm' : null).locale(this.momentLocale) : null
+        return this.value.length ? moment(this.value, this.type === 'time' ? 'HH:mm' : null).locale(this.momentLocale).tz(this.timezone) : null
       },
       getNewDate () {
-        let newDate = this.date ? this.date.clone() : moment().locale(this.momentLocale)
+        let newDate = this.date ? this.date.clone() : moment().locale(this.momentLocale).tz(this.timezone)
 
         for (let i = 0; i < 1e5 && this.isDisabled(newDate); i++) {
           newDate = newDate.clone().add(1, 'day')
