@@ -158,10 +158,10 @@
 
     watch: {
       value (newValue) {
-        this.date = this.getDate()
-        this.typeFlow.setDate(this.date ? this.date.clone() : moment().locale(this.momentLocale))
-        this.newDate = this.getNewDate()
-        this.currentMonthDate = this.getCurrentMonthDate()
+        this.refreshDate()
+      },
+      timezone (newTimezone) {
+        this.refreshDate()
       }
     },
 
@@ -346,6 +346,12 @@
                (this.disabledDatesRanges && this.disabledDatesRanges.find(function (dates) {
                  return date.isBetween(dates[0], dates[1], 'day', '[)')
                }) !== undefined)
+      },
+      refreshDate () {
+        this.date = this.getDate()
+        this.typeFlow.setDate(this.date ? this.date.clone() : moment().locale(this.momentLocale))
+        this.newDate = this.getNewDate()
+        this.currentMonthDate = this.getCurrentMonthDate()
       }
     }
   }
