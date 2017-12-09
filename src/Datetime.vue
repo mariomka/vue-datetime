@@ -123,6 +123,18 @@
         type: Boolean,
         default: false
       },
+      minuteArray : {
+        type : Array,
+          default () {
+            return util.minutes()
+        }
+      },
+      hourArray : {
+        type : Array,
+        default () {
+          return util.hours()
+        }
+      },
       required: {
         type: Boolean,
         default: false
@@ -208,7 +220,7 @@
         })
       },
       hours () {
-        return util.hours().map(hour => {
+        return this.hoursArray.map(hour => {
           return {
             number: hour,
             selected: parseInt(hour) === parseInt(this.newDate.hour())
@@ -216,7 +228,7 @@
         })
       },
       minutes () {
-        return util.minutes().map(minute => {
+        return this.minuteArray.map(minute => {
           return {
             number: minute,
             selected: parseInt(minute) === this.newDate.minute()

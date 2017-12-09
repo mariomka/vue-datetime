@@ -107,6 +107,8 @@ i18n | `Object` | `{ok: 'Ok', cancel: 'Cancel'}`
 disabled-dates | `Array` of date `Strings` | `[]`
 min-date | Date `String` | `null`
 max-date | Date `String` | `null`
+minute-array | `Array of Integers` | `[0-60]`
+hour-array | `Array of Integers` | `[0-24]`
 monday-first | `Boolean` | `false`
 auto-continue | `Boolean` | `false`
 auto-close | `Boolean` | `false`
