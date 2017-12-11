@@ -220,7 +220,7 @@
         })
       },
       hours () {
-        return this.hoursArray.map(hour => {
+        return this.hourArray.map(hour => {
           return {
             number: hour,
             selected: parseInt(hour) === parseInt(this.newDate.hour())
