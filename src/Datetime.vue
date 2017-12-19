@@ -356,6 +356,8 @@
 
     .vdatetime-fade-enter-active,
     .vdatetime-fade-leave-active {
+        position: absolute;
+        z-index: 999;
         transition: opacity .4s;
     }
 
