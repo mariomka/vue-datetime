@@ -1,55 +1,48 @@
-import moment from 'moment'
+import { DateTime, Info } from 'luxon'
 
-export function weekdays (momentLocale, mondayFirst = false) {
-  const weekdays = moment.localeData(momentLocale).weekdaysMin()
-  if (mondayFirst) {
-    return weekdays.slice(1).concat(weekdays[0])
-  }
-  return weekdays
+export function capitalize (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-export function monthDays (month, year, mondayFirst = false) {
-  const monthDate = moment([year, month, 1])
-  let firstDay = monthDate.day() - (mondayFirst ? 1 : 0)
+export function monthDays (year, month) {
+  const monthDate = DateTime.local(year, month, 1)
+  const firstDay = monthDate.weekday - 1
 
-  if (firstDay === -1) {
-    firstDay = 6
-  }
-
-  let days = (new Array(monthDate.daysInMonth() + firstDay)).fill(null)
-
-  return days.map((value, index) => {
-    return index + 1 < firstDay ? null : index + 1 - firstDay
-  })
+  return new Array(monthDate.daysInMonth + firstDay)
+    .fill(null)
+    .map((value, index) => {
+      return index + 1 <= firstDay ? null : index + 1 - firstDay
+    })
 }
 
-export function years () {
-  const currentYear = moment().year()
-  let years = []
-
-  for (let i = currentYear - 100; i < currentYear + 100; i++) {
-    years.push(i)
-  }
-
-  return years
+export function weekdays () {
+  return Info.weekdays('short').map(weekday => capitalize(weekday))
 }
 
-export function hours () {
-  let hours = []
+export function months () {
+  return Info.months().map(month => capitalize(month))
+}
 
-  for (let i = 0; i < 24; i++) {
-    hours.push(i < 10 ? '0' + i : i)
+export function hours (step) {
+  const hours = []
+
+  for (let i = 0; i < 24; i += step) {
+    hours.push(i)
   }
 
   return hours
 }
 
-export function minutes () {
-  let minutes = []
+export function minutes (step) {
+  const minutes = []
 
-  for (let i = 0; i < 60; i++) {
-    minutes.push(i < 10 ? '0' + i : i)
+  for (let i = 0; i < 60; i += step) {
+    minutes.push(i)
   }
 
   return minutes
+}
+
+export function pad (number) {
+  return number < 10 ? '0' + number : number
 }

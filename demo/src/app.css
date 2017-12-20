@@ -1,6 +1,6 @@
 *,
-*:after,
-*:before {
+*::after,
+*::before {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -8,10 +8,7 @@
 
 body {
   background-color: #eee;
-  font-family: -apple-system, BlinkMacSystemFont,
-  "Segoe UI", "Roboto", "Oxygen",
-  "Ubuntu", "Cantarell", "Fira Sans",
-  "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 16px;
   padding: 1em;
   color: #444;
@@ -31,7 +28,7 @@ h1 {
   font-weight: 200;
   font-size: 52px;
 
-  a {
+  & a {
     color: #333;
     text-decoration: none;
   }
@@ -55,25 +52,21 @@ p.description {
 .example {
   margin: 0 0 2em;
 
-  .example-inputs {
-    input {
-      padding: 8px 10px;
-      font-size: 16px;
-      border: solid 1px #ddd;
-      color: #444;
-    }
+  & .example-inputs input {
+    padding: 8px 10px;
+    font-size: 16px;
+    border: solid 1px #ddd;
+    color: #444;
   }
 
-  .example-code {
-    margin-top: 20px;
-
-    pre {
+  & .example-code {
+    & pre {
       margin-bottom: 15px;
       width: 100%;
       font-size: 14px;
       overflow: scroll;
 
-      code {
+      & code {
         padding: 1.5em;
       }
     }
@@ -82,11 +75,11 @@ p.description {
   @media screen and (min-width: 900px) {
     display: flex;
 
-    .example-inputs {
+    & .example-inputs {
       width: 32%;
     }
 
-    .example-code {
+    & .example-code {
       margin-top: 0;
       width: 68%;
     }
@@ -104,25 +97,12 @@ footer {
   font-weight: lighter;
   color: #aaa;
 
-  a {
+  & a {
     color: #aaa;
     text-decoration: none;
 
     &:hover {
       text-decoration: underline;
     }
-  }
-}
-
-.example-style {
-  .vdatetime-popup__header,
-  .vdatetime-popup__date-picker__item--selected > span > span,
-  .vdatetime-popup__date-picker__item--selected:hover > span > span {
-    background: #FF9800;
-  }
-
-  .vdatetime-popup__list-picker__item--selected,
-  .vdatetime-popup__actions__button {
-    color: #FF9800;
   }
 }
