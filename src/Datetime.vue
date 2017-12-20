@@ -1,11 +1,10 @@
 <template>
-  <div class="vdatetime" :class="wrapperClass">
+  <div class="vdatetime">
     <input class="vdatetime-input"
            type="text"
            :value="inputValue"
            v-bind="$attrs"
            v-on="$listeners"
-           :class="inputClass"
            @click="open"
            @focus="open">
     <transition-group name="vdatetime-fade" tag="div">
@@ -38,12 +37,6 @@
       },
       format: {
         type: Object
-      },
-      wrapperClass: {
-        type: String
-      },
-      inputClass: {
-        type: String
       },
       type: {
         type: String,

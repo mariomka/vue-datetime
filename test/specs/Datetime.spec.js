@@ -6,7 +6,7 @@ describe('Datetime.vue', function () {
   describe('render', function () {
     it('should add class to wrapper', function () {
       const vm = createVM(this,
-        `<Datetime wrapper-class="class-name"></Datetime>`,
+        `<Datetime class="class-name"></Datetime>`,
         {
           components: { Datetime }
         })
@@ -22,16 +22,6 @@ describe('Datetime.vue', function () {
         })
 
       expect(vm.$('.vdatetime-input')).to.match('input')
-    })
-
-    it('should add class to input', function () {
-      const vm = createVM(this,
-        `<Datetime input-class="class-name"></Datetime>`,
-        {
-          components: { Datetime }
-        })
-
-      expect(vm.$('.vdatetime-input')).to.have.class('class-name')
     })
 
     it('input should inherit attributes', function () {

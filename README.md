@@ -8,7 +8,7 @@
 
 ## Work in progress
 
-This is an alpha version, don't use in production. [More info](https://github.com/mariomka/vue-datetime/issues/28).
+This is an alpha version, don't use yet in production. [More info](https://github.com/mariomka/vue-datetime/issues/28).
  
 ## Demo
 
@@ -93,13 +93,12 @@ type | `String`: date or datetime | date
 value-zone | `String`: Value time zone | UTC
 zone | `String`: Picker time zone | local
 format | `String`: Input date format | `DateTime.DATE_MED` or `DateTime.DATETIME_MED`
-wrapperClass | `String` | `null`
 
-Input inherits all props not defined above.
+Input inherits all props not defined above but `style` and `class` will be inherited by root element.
 
 The component is based on [Luxon](https://github.com/moment/luxon), check out [documentation](https://moment.github.io/luxon/docs/index.html) to set [time zones](https://moment.github.io/luxon/docs/manual/zones.html) and [format](https://moment.github.io/luxon/docs/manual/formatting.html). 
 
-## Date localization
+## Internationalization
 
 Date internationalization depends on luxon. [Set the default locale](https://moment.github.io/luxon/docs/manual/intl.html#setting-the-default).
 
