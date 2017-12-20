@@ -4,7 +4,7 @@ import DatetimePopup from 'src/DatetimePopup.vue'
 
 describe('DatetimePopup.vue', function () {
   describe('render', function () {
-    it('should render a popup', function () {
+    it('should render the popup', function () {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
         {
@@ -19,7 +19,7 @@ describe('DatetimePopup.vue', function () {
       expect(vm.$('.vdatetime-popup')).to.exist
     })
 
-    it('should render a header', function () {
+    it('should render the header', function () {
       LuxonSettings.defaultLocale = 'es-ES'
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
@@ -40,7 +40,7 @@ describe('DatetimePopup.vue', function () {
       expect(vm.$('.vdatetime-popup__date').textContent).to.be.equal('12 de mayo')
     })
 
-    it('should render a body', function () {
+    it('should render the body', function () {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
         {
@@ -55,7 +55,7 @@ describe('DatetimePopup.vue', function () {
       expect(vm.$('.vdatetime-popup__body')).to.exist
     })
 
-    it('should render action buttons', function () {
+    it('should render the action buttons', function () {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
         {
@@ -72,7 +72,7 @@ describe('DatetimePopup.vue', function () {
       expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.text('Ok')
     })
 
-    it('should render calendar by default', function () {
+    it('should render the calendar by default', function () {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
         {
@@ -87,7 +87,7 @@ describe('DatetimePopup.vue', function () {
       expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
     })
 
-    it('should render calendar when type is date', function () {
+    it('should render the calendar when type is date', function () {
       const vm = createVM(this,
         `<DatetimePopup type="date" :datetime="datetime"></DatetimePopup>`,
         {
@@ -102,7 +102,7 @@ describe('DatetimePopup.vue', function () {
       expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
     })
 
-    it('should render time picker when type is datetime', function (done) {
+    it('should render the time picker when type is datetime', function (done) {
       const vm = createVM(this,
         `<DatetimePopup type="datetime" :datetime="datetime"></DatetimePopup>`,
         {

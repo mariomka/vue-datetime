@@ -3,7 +3,7 @@ import DatetimeTimePicker from 'src/DatetimeTimePicker.vue'
 
 describe('DatetimeTimePicker.vue', function () {
   describe('render', function () {
-    it('should render a time picker', function () {
+    it('should render the time picker', function () {
       const vm = createVM(this,
         `<DatetimeTimePicker :hour="3" :minute="45"></DatetimeTimePicker>`,
         {
@@ -22,7 +22,7 @@ describe('DatetimeTimePicker.vue', function () {
       expect(selected).eql(['03', '45'])
     })
 
-    it('should render a time picker with custom steps', function () {
+    it('should render the time picker with custom steps', function () {
       const vm = createVM(this,
         `<DatetimeTimePicker :hour="3" :minute="45" :hour-step="2" :minute-step="15"></DatetimeTimePicker>`,
         {

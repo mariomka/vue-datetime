@@ -36,7 +36,7 @@ describe('DatetimeCalendar.vue', function () {
       expect(weekdays).deep.equal(['Lun.', 'Mar.', 'Mié.', 'Jue.', 'Vie.', 'Sáb.', 'Dom.'])
     })
 
-    it('should mark the current day as selected', function () {
+    it('should select the current day', function () {
       const vm = createVM(this,
         `<DatetimeCalendar :year="2018" :month="7" :day="10"></DatetimeCalendar>`,
         {
@@ -49,7 +49,6 @@ describe('DatetimeCalendar.vue', function () {
 
   describe('navigation', function () {
     it('should render a next month when clicking next', function (done) {
-      LuxonSettings.defaultLocale = 'en'
       const vm = createVM(this,
         `<DatetimeCalendar :year="2017" :month="4"></DatetimeCalendar>`,
         {
@@ -66,8 +65,7 @@ describe('DatetimeCalendar.vue', function () {
       })
     })
 
-    it('even if it is January', function (done) {
-      LuxonSettings.defaultLocale = 'en'
+    it('should render a next month when clicking next even at end of the year', function (done) {
       const vm = createVM(this,
         `<DatetimeCalendar :year="2017" :month="12"></DatetimeCalendar>`,
         {
@@ -85,7 +83,6 @@ describe('DatetimeCalendar.vue', function () {
     })
 
     it('should render a previous month when clicking previous', function (done) {
-      LuxonSettings.defaultLocale = 'en'
       const vm = createVM(this,
         `<DatetimeCalendar :year="2017" :month="4"></DatetimeCalendar>`,
         {
@@ -102,8 +99,7 @@ describe('DatetimeCalendar.vue', function () {
       })
     })
 
-    it('even if it is December', function (done) {
-      LuxonSettings.defaultLocale = 'en'
+    it('should render a previous month when clicking previous even at beginning of year', function (done) {
       const vm = createVM(this,
         `<DatetimeCalendar :year="2017" :month="1"></DatetimeCalendar>`,
         {

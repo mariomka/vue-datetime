@@ -53,7 +53,7 @@ describe('Datetime.vue', function () {
   })
 
   describe('types', function () {
-    it('should be date by default', function () {
+    it('should be date type by default', function () {
       const vm = createVM(this,
         `<Datetime></Datetime>`,
         {
@@ -67,7 +67,21 @@ describe('Datetime.vue', function () {
       })
     })
 
-    it('should be datetime', function (done) {
+    it('should be date type', function () {
+      const vm = createVM(this,
+        `<Datetime type="date"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-calendar')).to.exist
+      })
+    })
+
+    it('should be datetime type', function (done) {
       const vm = createVM(this,
         `<Datetime type="datetime"></Datetime>`,
         {
@@ -109,7 +123,7 @@ describe('Datetime.vue', function () {
           components: { Datetime },
           data () {
             return {
-              datetime: '2017-12-32T19:34:54.078Z'
+              datetime: '2017-32-32T19:34:54.078Z'
             }
           }
         })
@@ -117,7 +131,7 @@ describe('Datetime.vue', function () {
       expect(vm.datetime).null
     })
 
-    it('should be a UTC time by default', function () {
+    it('should be a UTC date by default', function () {
       const vm = createVM(this,
         `<Datetime type="datetime" v-model="datetime"></Datetime>`,
         {
@@ -132,7 +146,7 @@ describe('Datetime.vue', function () {
       expect(vm.datetime).to.be.equal('2017-12-07T16:34:54.078Z')
     })
 
-    it('should be a time in a specified time zone', function () {
+    it('should be a date in the specified time zone', function () {
       const vm = createVM(this,
         `<Datetime type="datetime" v-model="datetime" value-zone="UTC-04:00"></Datetime>`,
         {
@@ -179,7 +193,7 @@ describe('Datetime.vue', function () {
       expect(vm.$('.vdatetime-input').value).to.be.empty
     })
 
-    it('should be a localized date in a local time zone by default', function () {
+    it('should be a date in the local time zone by default', function () {
       const vm = createVM(this,
         `<Datetime type="datetime" v-model="datetime"></Datetime>`,
         {
@@ -194,7 +208,7 @@ describe('Datetime.vue', function () {
       expect(vm.$('.vdatetime-input').value).to.be.equal('Dec 7, 2017, 5:34 PM')
     })
 
-    it('should be a localized date in a specified time zone', function () {
+    it('should be a date in the specified time zone', function () {
       const vm = createVM(this,
         `<Datetime type="datetime" v-model="datetime" zone="UTC+04:00"></Datetime>`,
         {
@@ -209,24 +223,9 @@ describe('Datetime.vue', function () {
       expect(vm.$('.vdatetime-input').value).to.be.equal('Dec 7, 2017, 8:34 PM')
     })
 
-    it('should be a localized datetime in a specified time zone when is datetime', function () {
+    it('should be formatted in the specified format', function () {
       const vm = createVM(this,
-        `<Datetime v-model="datetime" zone="UTC+04:00" type="datetime"></Datetime>`,
-        {
-          components: { Datetime },
-          data () {
-            return {
-              datetime: '2017-12-07T19:34:54.078+03:00'
-            }
-          }
-        })
-
-      expect(vm.$('.vdatetime-input').value).to.be.equal('Dec 7, 2017, 8:34 PM')
-    })
-
-    it('should be formatted with specified format', function () {
-      const vm = createVM(this,
-        `<Datetime v-model="datetime" zone="UTC" :format="format"></Datetime>`,
+        `<Datetime v-model="datetime" :format="format" zone="UTC"></Datetime>`,
         {
           components: { Datetime },
           data () {
@@ -242,7 +241,7 @@ describe('Datetime.vue', function () {
   })
 
   describe('popup', function () {
-    it('should open when clicking input', function (done) {
+    it('should open when clicking the input', function (done) {
       const vm = createVM(this,
         `<Datetime></Datetime>`,
         {
@@ -258,7 +257,7 @@ describe('Datetime.vue', function () {
       })
     })
 
-    it('should open when focusing input', function (done) {
+    it('should open when focusing the input', function (done) {
       const vm = createVM(this,
         `<Datetime></Datetime>`,
         {
@@ -274,7 +273,7 @@ describe('Datetime.vue', function () {
       })
     })
 
-    it('should close when clicking overlay', function (done) {
+    it('should close when clicking the overlay', function (done) {
       const vm = createVM(this,
         `<Datetime></Datetime>`,
         {
