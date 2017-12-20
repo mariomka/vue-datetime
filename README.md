@@ -1,4 +1,4 @@
-# vue-datetime 0.x
+# vue-datetime 0.x
 
 > Mobile friendly datetime picker for Vue. Supports date, datetime and time modes, i18n and disabling dates.
 
