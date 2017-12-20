@@ -1,0 +1,108 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #eee;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  padding: 1em;
+  color: #444;
+}
+
+.page {
+  background-color: #fff;
+  margin: 0 auto;
+  padding: 2em 3em;
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  margin: 0 0 1em;
+  font-weight: 200;
+  font-size: 52px;
+
+  & a {
+    color: #333;
+    text-decoration: none;
+  }
+}
+
+h2 {
+  margin: 0 0 1em;
+  border-bottom: solid 1px #ddd;
+  font-weight: 200;
+  font-size: 26px;
+  color: #666;
+}
+
+p.description {
+  margin: 0 0 1em;
+  font-style: italic;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.example {
+  margin: 0 0 2em;
+
+  & .example-inputs input {
+    padding: 8px 10px;
+    font-size: 16px;
+    border: solid 1px #ddd;
+    color: #444;
+  }
+
+  & .example-code {
+    & pre {
+      margin-bottom: 15px;
+      width: 100%;
+      font-size: 14px;
+      overflow: scroll;
+
+      & code {
+        padding: 1.5em;
+      }
+    }
+  }
+
+  @media screen and (min-width: 900px) {
+    display: flex;
+
+    & .example-inputs {
+      width: 32%;
+    }
+
+    & .example-code {
+      margin-top: 0;
+      width: 68%;
+    }
+  }
+}
+
+.values {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+footer {
+  margin: 50px 0 0;
+  font-size: 14px;
+  font-weight: lighter;
+  color: #aaa;
+
+  & a {
+    color: #aaa;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
