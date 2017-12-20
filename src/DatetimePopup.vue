@@ -71,7 +71,6 @@
       },
       dateFormatted () {
         return this.newDatetime.toLocaleString({
-          year: 'numeric',
           month: 'long',
           day: 'numeric'
         })
@@ -134,7 +133,6 @@
     background: #3f51b5;
     color: #fff;
     font-size: 32px;
-    text-transform: capitalize;
   }
 
   .vdatetime-popup__year {

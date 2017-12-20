@@ -37,7 +37,7 @@ describe('DatetimePopup.vue', function () {
         })
 
       expect(vm.$('.vdatetime-popup__year').textContent).to.be.equal('2017')
-      expect(vm.$('.vdatetime-popup__date').textContent).to.be.equal('12 de mayo de 2017')
+      expect(vm.$('.vdatetime-popup__date').textContent).to.be.equal('12 de mayo')
     })
 
     it('should render a body', function () {
