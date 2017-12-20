@@ -67,6 +67,7 @@ Vue.extend({
 <script src="vue-datetime/dist/vue-datetime.js"></script>
 
 <!-- From CDN -->
+<!-- NOT ready yet. It will be ready for first stable version. -->
 <link rel="stylesheet" href="https://unpkg.com/vue-datetime/dist/vue-datetime.css"></link>
 <script src="https://unpkg.com/vue-datetime"></script>
 ```
