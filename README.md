@@ -83,9 +83,16 @@ Vue.extend({
 
 Parameter | Type | Default
 --------- | ---- | ------
-v-model (*required*) | Date `String` | -
+v-model (*required*) | `String` ISO-8601 datetime | -
+type | `String`: date or datetime | date
+value-zone | `String`: Value time zone | UTC
+zone | `String`: Picker time zone | local
+format | `String`: Input date format | `DateTime.DATE_MED` or `DateTime.DATETIME_MED`
+wrapperClass | `String` | `null`
 
-The component is based on [Luxon](https://github.com/moment/luxon).
+Input inherits all props not defined above.
+
+The component is based on [Luxon](https://github.com/moment/luxon), check out [documentation](https://moment.github.io/luxon/docs/index.html) to set [time zones](https://moment.github.io/luxon/docs/manual/zones.html) and [format](https://moment.github.io/luxon/docs/manual/formatting.html).
 
 ## Events
 
@@ -98,6 +105,12 @@ Also, input text inherits all component events.
 Theming is supported by overwriting CSS classes
 
 ## Development
+
+### Launch tests
+
+```bash
+yarn test
+```
 
 ### Launch visual tests
 
@@ -113,7 +126,7 @@ yarn dev:coverage
 
 ### Build
 
-Bundle the js and css of to the `dist` folder:
+Bundle the js and css to the `dist` folder:
 
 ```bash
 yarn build
