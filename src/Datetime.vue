@@ -8,12 +8,10 @@
            :class="inputClass"
            @click="open"
            @focus="open">
-    <transition name="vdatetime-fade">
-      <div v-if="isOpen">
-        <div class="vdatetime-overlay" @click.self="cancel"></div>
-        <datetime-popup :type="type" :datetime="popupDate" @confirm="confirm" @cancel="cancel"></datetime-popup>
-      </div>
-    </transition>
+    <transition-group name="vdatetime-fade" tag="div">
+        <div key="overlay" v-if="isOpen" class="vdatetime-overlay" @click.self="cancel"></div>
+        <datetime-popup key="popup" v-if="isOpen":type="type" :datetime="popupDate" @confirm="confirm" @cancel="cancel"></datetime-popup>
+    </transition-group>
   </div>
 </template>
 
