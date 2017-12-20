@@ -5,6 +5,10 @@
 [![npm](https://img.shields.io/npm/dt/vue-datetime.svg?style=flat-square)](https://www.npmjs.com/package/vue-datetime)
 
 > Mobile friendly datetime picker for Vue. Supports date, datetime and time modes, i18n and disabling dates.
+
+## Work in progress
+
+This is an alpha version, don't use in production. [More info](https://github.com/mariomka/vue-datetime/issues/28).
  
 ## Demo
 
@@ -93,7 +97,17 @@ wrapperClass | `String` | `null`
 
 Input inherits all props not defined above.
 
-The component is based on [Luxon](https://github.com/moment/luxon), check out [documentation](https://moment.github.io/luxon/docs/index.html) to set [time zones](https://moment.github.io/luxon/docs/manual/zones.html) and [format](https://moment.github.io/luxon/docs/manual/formatting.html).
+The component is based on [Luxon](https://github.com/moment/luxon), check out [documentation](https://moment.github.io/luxon/docs/index.html) to set [time zones](https://moment.github.io/luxon/docs/manual/zones.html) and [format](https://moment.github.io/luxon/docs/manual/formatting.html). 
+
+## Date localization
+
+Date internationalization depends on luxon. [Set the default locale](https://moment.github.io/luxon/docs/manual/intl.html#setting-the-default).
+
+```js
+import { Settings } from 'luxon'
+
+Settings.defaultLocale = 'es'
+```
 
 ## Events
 
