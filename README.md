@@ -1,9 +1,11 @@
-# vue-datetime
+# vue-datetime 0.x
 > Mobile friendly datetime picker for Vue. Supports date, datetime and time modes, i18n and disabling dates.
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Latest Version on NPM](https://img.shields.io/npm/v/vue-datetime.svg?style=flat-square)](https://npmjs.com/package/vue-datetime)
 [![npm](https://img.shields.io/npm/dt/vue-datetime.svg?style=flat-square)](https://www.npmjs.com/package/vue-datetime)
+
+#### New version 1.x is under development, [more info](https://github.com/mariomka/vue-datetime/issues/28).
 
 ## Demo
 
@@ -16,13 +18,13 @@
 yarn
 
 ```bash
-yarn add vue-datetime
+yarn add vue-datetime@0.7.1
 ```
 
 npm
 
 ```bash
-npm install vue-datetime --save
+npm install vue-datetime@0.7.1 --save
 ```
 
 ## Register the component
