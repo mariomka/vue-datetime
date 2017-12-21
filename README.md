@@ -20,12 +20,12 @@ Not ready yet for 1.x version.
 ### Yarn
 
 ```bash
-yarn add luxon vue-datetime@1.0.0-alpha.1
+yarn add luxon vue-datetime
 ```
 ### npm
 
 ```bash
-npm install --save luxon vue-datetime@1.0.0-alpha.1
+npm install --save luxon vue-datetime
 ```
 
 ### Bundler (Webpack, Rollup)
@@ -84,21 +84,24 @@ Vue.extend({
 <datetime v-model="date"></datetime>
 ```
 
-## Configuration
+## Setup
 
-Parameter | Type | Default
---------- | ---- | ------
-v-model (*required*) | `String` ISO-8601 datetime | -
-type | `String`: date or datetime | date
-value-zone | `String`: Value time zone | UTC
-zone | `String`: Picker time zone | local
-format | `String`: Input date format | `DateTime.DATE_MED` or `DateTime.DATETIME_MED`
+### Parameters
+
+Parameter | Type | Default | Description
+--------- | ---- | ------- | -----------
+v-model (*required*) | `String` | - | ISO 8601 datetime.
+type | `String` | date | Picker type. date or datetime.
+value-zone | `String` | UTC | Time zone for the value.
+zone | `String` | local | Time zone for the picker.
+format | `String` | `DateTime.DATE_MED` or `DateTime.DATETIME_MED` | Input date format.
+phrases | `Object` | `{ok: 'Ok', cancel: 'Cancel'}` | Phrases.
 
 Input inherits all props not defined above but `style` and `class` will be inherited by root element.
 
 The component is based on [Luxon](https://github.com/moment/luxon), check out [documentation](https://moment.github.io/luxon/docs/index.html) to set [time zones](https://moment.github.io/luxon/docs/manual/zones.html) and [format](https://moment.github.io/luxon/docs/manual/formatting.html). 
 
-## Internationalization
+### Internationalization
 
 Date internationalization depends on luxon. [Set the default locale](https://moment.github.io/luxon/docs/manual/intl.html#setting-the-default).
 
@@ -108,7 +111,7 @@ import { Settings } from 'luxon'
 Settings.defaultLocale = 'es'
 ```
 
-## Events
+### Events
 
 Component emits the `input` event to work with `v-model`. [More info](https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events).
 
@@ -116,7 +119,7 @@ Also, input text inherits all component events.
 
 ## Theming
 
-Theming is supported by overwriting CSS classes
+Theming is supported by overwriting CSS classes.
 
 ## Development
 
