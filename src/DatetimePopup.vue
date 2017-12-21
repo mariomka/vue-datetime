@@ -9,8 +9,8 @@
       <datetime-time-picker v-if="step === 'time'" @change="onChangeTime" :hour="hour" :minute="minute"></datetime-time-picker>
     </div>
     <div class="vdatetime-popup__actions">
-      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">{{ i18n.cancel }}</div>
-      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" @click="confirm">{{ i18n.ok }}</div>
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">{{ phrases.cancel }}</div>
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" @click="confirm">{{ phrases.ok }}</div>
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@
         type: DateTime,
         required: true
       },
-      i18n: {
+      phrases: {
         type: Object,
         default () {
           return {

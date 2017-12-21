@@ -24,6 +24,29 @@ describe('Datetime.vue', function () {
       expect(vm.$('.vdatetime-input')).to.match('input')
     })
 
+    it('input should render custom phrases', function () {
+      const vm = createVM(this,
+        `<Datetime :phrases="phrases"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              phrases: {
+                cancel: 'Cancelar',
+                ok: 'Confirmar'
+              }
+            }
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-popup__actions__button--confirm').innerText).to.be.equal('Confirmar')
+        expect(vm.$('.vdatetime-popup__actions__button--cancel').innerText).to.be.equal('Cancelar')
+      })
+    })
+
     it('input should inherit attributes', function () {
       const vm = createVM(this,
         `<Datetime placeholder="Select date..."></Datetime>`,
