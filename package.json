@@ -35,6 +35,7 @@
     "demo": "webpack-dev-server --config build/webpack.config.demo.js --open",
     "demo:build": "webpack --config build/webpack.config.demo.js",
     "demo:deploy": "gh-pages -d demo",
+    "version": "auto-changelog -p --starting-commit 975d478b80b8e1ed3663f55b34c3a35521a43bdb && git add CHANGELOG.md",
     "prepublish": "yon run build && yon run demo:build",
     "postpublish": "yon run demo:deploy"
   },
@@ -50,6 +51,7 @@
   "pre-commit": "lint:staged",
   "devDependencies": {
     "add-asset-html-webpack-plugin": "^2.0.0",
+    "auto-changelog": "^1.3.0",
     "babel-core": "^6.24.0",
     "babel-eslint": "^7.2.0",
     "babel-loader": "^7.0.0",
