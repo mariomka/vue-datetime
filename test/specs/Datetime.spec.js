@@ -24,29 +24,6 @@ describe('Datetime.vue', function () {
       expect(vm.$('.vdatetime-input')).to.match('input')
     })
 
-    it('input should render custom phrases', function () {
-      const vm = createVM(this,
-        `<Datetime :phrases="phrases"></Datetime>`,
-        {
-          components: { Datetime },
-          data () {
-            return {
-              phrases: {
-                cancel: 'Cancelar',
-                ok: 'Confirmar'
-              }
-            }
-          }
-        })
-
-      vm.$('.vdatetime-input').click()
-
-      vm.$nextTick(() => {
-        expect(vm.$('.vdatetime-popup__actions__button--confirm').innerText).to.be.equal('Confirmar')
-        expect(vm.$('.vdatetime-popup__actions__button--cancel').innerText).to.be.equal('Cancelar')
-      })
-    })
-
     it('input should inherit attributes', function () {
       const vm = createVM(this,
         `<Datetime placeholder="Select date..."></Datetime>`,
@@ -72,6 +49,34 @@ describe('Datetime.vue', function () {
       expect(vm.spy).to.have.not.been.called
       vm.$('.vdatetime-input').click()
       expect(vm.spy).to.have.been.calledOnce
+    })
+  })
+
+  describe('pass props', function () {
+    it('should pass phrases to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime :phrases="phrases"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              phrases: {
+                cancel: 'Cancelar',
+                ok: 'Confirmar'
+              }
+            }
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').phrases).to.be.eql({
+          cancel: 'Cancelar',
+          ok: 'Confirmar'
+        })
+        done()
+      })
     })
   })
 

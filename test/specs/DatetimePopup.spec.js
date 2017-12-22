@@ -120,6 +120,26 @@ describe('DatetimePopup.vue', function () {
         done()
       })
     })
+
+    it('should render custom phrases', function () {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" :phrases="phrases"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local(),
+              phrases: {
+                cancel: 'Cancelar',
+                ok: 'Confirmar'
+              }
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-popup__actions__button--confirm').innerText).to.be.equal('Confirmar')
+      expect(vm.$('.vdatetime-popup__actions__button--cancel').innerText).to.be.equal('Cancelar')
+    })
   })
 
   describe('events', function () {

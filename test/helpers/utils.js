@@ -25,8 +25,8 @@ Vue.prototype.$$ = function $$ (selector) {
   const els = document.querySelectorAll(selector)
   const vmEls = this.$el.querySelectorAll(selector)
   const fn = vmEls.length
-          ? el => Array.from(vmEls).find(vmEl => el === vmEl)
-          : el => this.$el === el
+    ? el => Array.from(vmEls).find(vmEl => el === vmEl)
+    : el => this.$el === el
   const found = Array.from(els).filter(fn)
   return found.length
     ? found
@@ -37,18 +37,23 @@ Vue.prototype.$ = function $ (selector) {
   const els = document.querySelectorAll(selector)
   const vmEl = this.$el.querySelector(selector)
   const fn = vmEl
-          ? el => el === vmEl
-          : el => el === this.$el
+    ? el => el === vmEl
+    : el => el === this.$el
   // Allow should chaining for tests
   return Array.from(els).find(fn) || emptyNodes
+}
+
+Vue.prototype.$findChild = function $ (selector) {
+  return this.$children.find(child => child.$el.matches(selector)) ||
+         this.$children.reduce((found, child) => found || child.$findChild(selector), null)
 }
 
 export function createKarmaTest (context, template, opts) {
   const el = document.createElement('div')
   document.getElementById('tests').appendChild(el)
   const render = typeof template === 'string'
-          ? { template: `<div>${template}</div>` }
-          : { render: template }
+    ? { template: `<div>${template}</div>` }
+    : { render: template }
   return new Vue({
     el,
     name: 'Test',
