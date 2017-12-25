@@ -121,6 +121,47 @@ describe('DatetimePopup.vue', function () {
       })
     })
 
+    it('should render the year picker', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      vm.$('.vdatetime-popup__year').click()
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-popup__body .vdatetime-year-picker')).to.exist
+        done()
+      })
+    })
+
+    it('should render the calendar on confirm in year picker', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      vm.$('.vdatetime-popup__year').click()
+      vm.$nextTick(() => {
+        vm.$('.vdatetime-popup__actions__button--confirm').click()
+        vm.$nextTick(() => {
+          expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
+          done()
+        })
+      })
+    })
+
     it('should render custom phrases', function () {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime" :phrases="phrases"></DatetimePopup>`,

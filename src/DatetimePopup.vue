@@ -1,10 +1,14 @@
 <template>
   <div class="vdatetime-popup">
     <div class="vdatetime-popup__header">
-      <div class="vdatetime-popup__year">{{ year }}</div>
+      <div class="vdatetime-popup__year" @click="showYear">{{ year }}</div>
       <div class="vdatetime-popup__date">{{ dateFormatted }}</div>
     </div>
     <div class="vdatetime-popup__body">
+      <datetime-year-picker
+          v-if="step === 'year'"
+          @change="onChangeYear"
+          :year="year"></datetime-year-picker>
       <datetime-calendar
           v-if="step === 'date'"
           @change="onChangeDate"
@@ -31,11 +35,13 @@
   import { createFlowManagerFromType } from './util'
   import DatetimeCalendar from './DatetimeCalendar'
   import DatetimeTimePicker from './DatetimeTimePicker'
+  import DatetimeYearPicker from './DatetimeYearPicker'
 
   export default {
     components: {
       DatetimeCalendar,
-      DatetimeTimePicker
+      DatetimeTimePicker,
+      DatetimeYearPicker
     },
 
     props: {
@@ -104,6 +110,10 @@
       nextStep () {
         this.step = this.flow.next(this.step)
       },
+      showYear () {
+        this.step = 'year'
+        this.flow.diversion('date')
+      },
       confirm () {
         this.nextStep()
 
@@ -113,6 +123,9 @@
       },
       cancel () {
         this.$emit('cancel')
+      },
+      onChangeYear (year) {
+        this.newDatetime = this.newDatetime.set({ year })
       },
       onChangeDate (year, month, day) {
         this.newDatetime = this.newDatetime.set({ year, month, day })

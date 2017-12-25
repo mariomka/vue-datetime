@@ -44,6 +44,16 @@ export function minutes (step) {
   return minutes
 }
 
+export function years (current) {
+  const years = []
+
+  for (let i = current - 100; i <= current + 100; i++) {
+    years.push(i)
+  }
+
+  return years
+}
+
 export function pad (number) {
   return number < 10 ? '0' + number : number
 }

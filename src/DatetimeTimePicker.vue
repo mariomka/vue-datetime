@@ -32,10 +32,6 @@
       }
     },
 
-    data () {
-      return {}
-    },
-
     computed: {
       hours () {
         return hours(this.hourStep).map(hour => ({

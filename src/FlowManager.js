@@ -2,6 +2,7 @@ export default class FlowManager {
   constructor (flow = [], endStatus = null) {
     this.flow = flow
     this.endStatus = endStatus
+    this.diversionNext = null
   }
 
   step (index) {
@@ -13,6 +14,17 @@ export default class FlowManager {
   }
 
   next (current) {
+    if (this.diversionNext) {
+      const next = this.diversionNext
+      this.diversionNext = null
+
+      return next
+    }
+
     return this.step(this.flow.indexOf(current) + 1)
+  }
+
+  diversion (next) {
+    this.diversionNext = next
   }
 }
