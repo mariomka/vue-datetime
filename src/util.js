@@ -25,33 +25,15 @@ export function months () {
 }
 
 export function hours (step) {
-  const hours = []
-
-  for (let i = 0; i < 24; i += step) {
-    hours.push(i)
-  }
-
-  return hours
+  return new Array(Math.ceil(24 / step)).fill(null).map((item, index) => index * step)
 }
 
 export function minutes (step) {
-  const minutes = []
-
-  for (let i = 0; i < 60; i += step) {
-    minutes.push(i)
-  }
-
-  return minutes
+  return new Array(Math.ceil(60 / step)).fill(null).map((item, index) => index * step)
 }
 
 export function years (current) {
-  const years = []
-
-  for (let i = current - 100; i <= current + 100; i++) {
-    years.push(i)
-  }
-
-  return years
+  return new Array(201).fill(null).map((item, index) => current - 100 + index)
 }
 
 export function pad (number) {
