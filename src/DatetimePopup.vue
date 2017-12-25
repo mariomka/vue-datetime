@@ -5,8 +5,19 @@
       <div class="vdatetime-popup__date">{{ dateFormatted }}</div>
     </div>
     <div class="vdatetime-popup__body">
-      <datetime-calendar v-if="step === 'date'" @change="onChangeDate" :year="year" :month="month" :day="day"></datetime-calendar>
-      <datetime-time-picker v-if="step === 'time'" @change="onChangeTime" :hour="hour" :minute="minute"></datetime-time-picker>
+      <datetime-calendar
+          v-if="step === 'date'"
+          @change="onChangeDate"
+          :year="year"
+          :month="month"
+          :day="day"></datetime-calendar>
+      <datetime-time-picker
+          v-if="step === 'time'"
+          @change="onChangeTime"
+          :hour="hour"
+          :minute="minute"
+          :hour-step="hourStep"
+          :minute-step="minuteStep"></datetime-time-picker>
     </div>
     <div class="vdatetime-popup__actions">
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">{{ phrases.cancel }}</div>
@@ -43,6 +54,14 @@
       type: {
         type: String,
         default: 'date'
+      },
+      hourStep: {
+        type: Number,
+        default: 1
+      },
+      minuteStep: {
+        type: Number,
+        default: 1
       }
     },
 

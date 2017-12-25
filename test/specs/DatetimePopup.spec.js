@@ -142,6 +142,29 @@ describe('DatetimePopup.vue', function () {
     })
   })
 
+  describe('pass props', function () {
+    it('should pass time steps to time picker', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" type="datetime" :hour-step="2" :minute-step="15"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-time-picker').hourStep).to.be.equal(2)
+        expect(vm.$findChild('.vdatetime-time-picker').minuteStep).to.be.equal(15)
+        done()
+      })
+    })
+  })
+
   describe('events', function () {
     it('should emit confirm event on confirm', function () {
       const vm = createVM(this,

@@ -9,7 +9,16 @@
            @focus="open">
     <transition-group name="vdatetime-fade" tag="div">
         <div key="overlay" v-if="isOpen" class="vdatetime-overlay" @click.self="cancel"></div>
-        <datetime-popup key="popup" v-if="isOpen":type="type" :datetime="popupDate" :phrases="phrases" @confirm="confirm" @cancel="cancel"></datetime-popup>
+        <datetime-popup
+            key="popup"
+            v-if="isOpen"
+            :type="type"
+            :datetime="popupDate"
+            :phrases="phrases"
+            :hour-step="hourStep"
+            :minute-step="minuteStep"
+            @confirm="confirm"
+            @cancel="cancel"></datetime-popup>
     </transition-group>
   </div>
 </template>
@@ -50,6 +59,14 @@
             ok: 'Ok'
           }
         }
+      },
+      hourStep: {
+        type: Number,
+        default: 1
+      },
+      minuteStep: {
+        type: Number,
+        default: 1
       }
     },
 
