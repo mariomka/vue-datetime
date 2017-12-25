@@ -1,4 +1,5 @@
 import { DateTime, Info } from 'luxon'
+import FlowManager from './FlowManager'
 
 export function capitalize (string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
@@ -45,4 +46,18 @@ export function minutes (step) {
 
 export function pad (number) {
   return number < 10 ? '0' + number : number
+}
+
+export function createFlowManagerFromType (type) {
+  let flow = []
+
+  switch (type) {
+    case 'datetime':
+      flow = ['date', 'time']
+      break
+    default:
+      flow = ['date']
+  }
+
+  return new FlowManager(flow, 'end')
 }

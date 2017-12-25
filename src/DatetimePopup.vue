@@ -28,6 +28,7 @@
 
 <script>
   import { DateTime } from 'luxon'
+  import { createFlowManagerFromType } from './util'
   import DatetimeCalendar from './DatetimeCalendar'
   import DatetimeTimePicker from './DatetimeTimePicker'
 
@@ -66,9 +67,12 @@
     },
 
     data () {
+      const flow = createFlowManagerFromType(this.type)
+
       return {
         newDatetime: this.datetime,
-        step: 'date'
+        flow: flow,
+        step: flow.first()
       }
     },
 
@@ -98,13 +102,7 @@
 
     methods: {
       nextStep () {
-        if (this.type === 'datetime' && this.step === 'date') {
-          this.step = 'time'
-
-          return
-        }
-
-        this.step = 'end'
+        this.step = this.flow.next(this.step)
       },
       confirm () {
         this.nextStep()
