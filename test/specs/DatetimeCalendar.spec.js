@@ -1,4 +1,4 @@
-import { Settings as LuxonSettings } from 'luxon'
+import { DateTime as LuxonDatetime, Settings as LuxonSettings } from 'luxon'
 import { createVM } from '../helpers/utils.js'
 import DatetimeCalendar from 'src/DatetimeCalendar.vue'
 
@@ -44,6 +44,56 @@ describe('DatetimeCalendar.vue', function () {
         })
 
       expect(vm.$('.vdatetime-calendar__month__day--selected')).to.have.text('10')
+    })
+
+    it('should disable days before min date', function () {
+      const vm = createVM(this,
+        `<DatetimeCalendar :year="2018" :month="7" :day="10" :min-date="minDate"></DatetimeCalendar>`,
+        {
+          components: { DatetimeCalendar },
+          data () {
+            return {
+              minDate: LuxonDatetime.fromISO('2018-07-06T12:00:00')
+            }
+          }
+        })
+
+      const monthDays = vm.$$('.vdatetime-calendar__month__day')
+
+      monthDays.forEach(monthDay => {
+        const dayNumber = parseInt(monthDay.textContent)
+
+        if (isNaN(dayNumber) || dayNumber < 6) {
+          expect(monthDay).to.have.class('vdatetime-calendar__month__day--disabled')
+        } else {
+          expect(monthDay).to.have.not.class('vdatetime-calendar__month__day--disabled')
+        }
+      })
+    })
+
+    it('should disable days after max date', function () {
+      const vm = createVM(this,
+        `<DatetimeCalendar :year="2018" :month="7" :day="10" :max-date="maxDate"></DatetimeCalendar>`,
+        {
+          components: { DatetimeCalendar },
+          data () {
+            return {
+              maxDate: LuxonDatetime.fromISO('2018-07-12T00:00:00')
+            }
+          }
+        })
+
+      const monthDays = vm.$$('.vdatetime-calendar__month__day')
+
+      monthDays.forEach(monthDay => {
+        const dayNumber = parseInt(monthDay.textContent)
+
+        if (isNaN(dayNumber) || dayNumber > 12) {
+          expect(monthDay).to.have.class('vdatetime-calendar__month__day--disabled')
+        } else {
+          expect(monthDay).to.have.not.class('vdatetime-calendar__month__day--disabled')
+        }
+      })
     })
   })
 
@@ -143,6 +193,23 @@ describe('DatetimeCalendar.vue', function () {
       expect(vm.year).to.be.equal(2017)
       expect(vm.month).to.be.equal(4)
       expect(vm.day).to.be.equal(6)
+    })
+
+    it('should not emit change event on select a disabled day', function () {
+      const vm = createVM(this,
+        `<DatetimeCalendar @change="spy" :year="2017" :month="4" :max-date="maxDate"></DatetimeCalendar>`,
+        {
+          components: { DatetimeCalendar },
+          data () {
+            return {
+              maxDate: LuxonDatetime.fromISO('2017-04-04T04:04:04.000Z'),
+              spy: sinon.spy()
+            }
+          }
+        })
+
+      vm.$$('.vdatetime-calendar__month__day')[10].click()
+      expect(vm.spy).to.have.not.been.called
     })
   })
 })

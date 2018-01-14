@@ -90,7 +90,7 @@ Vue.extend({
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
-v-model (*required*) | `String` | - | ISO 8601 datetime.
+v-model (*required*) | ISO 8601 `String` | - | Datetime.
 type | `String` | `date` | Picker type. date or datetime.
 value-zone | `String` | `UTC` | Time zone for the value.
 zone | `String` | `local` | Time zone for the picker.
@@ -98,6 +98,8 @@ format | `String` | `DateTime.DATE_MED` or `DateTime.DATETIME_MED` | Input date 
 phrases | `Object` | `{ok: 'Ok', cancel: 'Cancel'}` | Phrases.
 hour-step | `Number` | `1` | Hour step.
 minute-step | `Number` | `1` | Minute step.
+min-datetime | ISO 8601 `String` | `null` | Minimum datetime.
+max-datetime | ISO 8601 `String` | `null` | Maximum datetime.
 
 Input inherits all props not defined above but `style` and `class` will be inherited by root element.
 

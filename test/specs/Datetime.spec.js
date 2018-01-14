@@ -94,6 +94,22 @@ describe('Datetime.vue', function () {
         done()
       })
     })
+
+    it('should pass min and max datetimes to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" min-datetime="2018-01-01T12:35:22.000Z" max-datetime="2018-01-03T20:43:13.000Z"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').minDatetime.toUTC().toISO()).to.be.equal('2018-01-01T12:35:22.000Z')
+        expect(vm.$findChild('.vdatetime-popup').maxDatetime.toUTC().toISO()).to.be.equal('2018-01-03T20:43:13.000Z')
+        done()
+      })
+    })
   })
 
   describe('types', function () {

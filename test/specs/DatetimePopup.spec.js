@@ -204,6 +204,50 @@ describe('DatetimePopup.vue', function () {
         done()
       })
     })
+
+    it('should pass min and max date to calendar', function () {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" type="datetime" :min-datetime="minDatetime" :max-datetime="maxDatetime"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local(),
+              minDatetime: LuxonDatetime.fromISO('2018-01-01T12:35:22.000Z'),
+              maxDatetime: LuxonDatetime.fromISO('2018-01-03T20:43:13.000Z')
+            }
+          }
+        })
+
+      expect(vm.$findChild('.vdatetime-calendar').minDate.toISODate()).to.be.equal('2018-01-01')
+      expect(vm.$findChild('.vdatetime-calendar').maxDate.toISODate()).to.be.equal('2018-01-03')
+    })
+
+    it('should pass min and max time to time picker when date are equals', function (done) {
+      const minDatetime = LuxonDatetime.fromISO('2018-01-01T12:35:22.000Z')
+      const maxDatetime = LuxonDatetime.fromISO('2018-01-01T20:43:13.000Z')
+
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" type="datetime" :min-datetime="minDatetime" :max-datetime="maxDatetime"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.fromISO('2018-01-01T17:42:11.000Z'),
+              minDatetime: minDatetime,
+              maxDatetime: maxDatetime
+            }
+          }
+        })
+
+      vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-time-picker').minTime).to.be.equal(minDatetime.toFormat('HH:mm'))
+        expect(vm.$findChild('.vdatetime-time-picker').maxTime).to.be.equal(maxDatetime.toFormat('HH:mm'))
+        done()
+      })
+    })
   })
 
   describe('events', function () {

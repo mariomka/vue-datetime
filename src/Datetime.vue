@@ -17,6 +17,8 @@
             :phrases="phrases"
             :hour-step="hourStep"
             :minute-step="minuteStep"
+            :min-datetime="popupMinDatetime"
+            :max-datetime="popupMaxDatetime"
             @confirm="confirm"
             @cancel="cancel"></datetime-popup>
     </transition-group>
@@ -67,6 +69,14 @@
       minuteStep: {
         type: Number,
         default: 1
+      },
+      minDatetime: {
+        type: String,
+        default: null
+      },
+      maxDatetime: {
+        type: String,
+        default: null
       }
     },
 
@@ -91,6 +101,12 @@
       },
       popupDate () {
         return this.date ? this.date : DateTime.local()
+      },
+      popupMinDatetime () {
+        return this.minDatetime ? DateTime.fromISO(this.minDatetime) : null
+      },
+      popupMaxDatetime () {
+        return this.maxDatetime ? DateTime.fromISO(this.maxDatetime) : null
       }
     },
 

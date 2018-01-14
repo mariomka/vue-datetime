@@ -23,7 +23,8 @@
 </template>
 
 <script>
-  import { monthDays, weekdays, months } from './util'
+  import { DateTime } from 'luxon'
+  import { monthDays, weekdays, months, monthDayIsDisabled } from './util'
 
   export default {
     props: {
@@ -41,6 +42,14 @@
       },
       disabled: {
         type: Array
+      },
+      minDate: {
+        type: DateTime,
+        default: null
+      },
+      maxDate: {
+        type: DateTime,
+        default: null
       }
     },
 
@@ -60,13 +69,17 @@
         return monthDays(this.newYear, this.newMonth).map(day => ({
           number: day,
           selected: day && this.year === this.newYear && this.month === this.newMonth && this.day === day,
-          disabled: !day
+          disabled: !day || monthDayIsDisabled(this.minDate, this.maxDate, this.newYear, this.newMonth, day)
         }))
       }
     },
 
     methods: {
       selectDay (day) {
+        if (day.disabled) {
+          return
+        }
+
         this.$emit('change', this.newYear, this.newMonth, day.number)
       },
       previousMonth () {

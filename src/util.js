@@ -16,6 +16,26 @@ export function monthDays (year, month) {
     })
 }
 
+export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
+  const date = DateTime.fromObject({ year, month, day })
+
+  if (minDate) {
+    minDate = minDate.set({ hour: 0, minute: 0, seconds: 0, milliseconds: 0 })
+  }
+
+  if (maxDate) {
+    maxDate = maxDate.set({ hour: 0, minute: 0, seconds: 0, milliseconds: 0 })
+  }
+
+  return (minDate && date < minDate) ||
+         (maxDate && date > maxDate)
+}
+
+export function timeComponentIsDisabled (min, max, component) {
+  return (min && component < min) ||
+         (max && component > max)
+}
+
 export function weekdays () {
   return Info.weekdays('short').map(weekday => capitalize(weekday))
 }

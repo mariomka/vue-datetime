@@ -1,16 +1,16 @@
 <template>
   <div class="vdatetime-time-picker">
     <div class="vdatetime-time-picker__list vdatetime-time-picker__list--hours" ref="hourList">
-      <div class="vdatetime-time-picker__item" v-for="hour in hours" @click="selectHour(hour.number)" :class="{'vdatetime-time-picker__item--selected': hour.selected}">{{ hour.number }}</div>
+      <div class="vdatetime-time-picker__item" v-for="hour in hours" @click="selectHour(hour)" :class="{'vdatetime-time-picker__item--selected': hour.selected, 'vdatetime-time-picker__item--disabled': hour.disabled}">{{ hour.number }}</div>
     </div>
     <div class="vdatetime-time-picker__list vdatetime-time-picker__list--minutes" ref="minuteList">
-      <div class="vdatetime-time-picker__item" v-for="minute in minutes" @click="selectMinute(minute.number)" :class="{'vdatetime-time-picker__item--selected': minute.selected}">{{ minute.number }}</div>
+      <div class="vdatetime-time-picker__item" v-for="minute in minutes" @click="selectMinute(minute)" :class="{'vdatetime-time-picker__item--selected': minute.selected, 'vdatetime-time-picker__item--disabled': minute.disabled}">{{ minute.number }}</div>
     </div>
   </div>
 </template>
 
 <script>
-  import { hours, minutes, pad } from './util'
+  import { hours, minutes, pad, timeComponentIsDisabled } from './util'
 
   export default {
     props: {
@@ -29,6 +29,14 @@
       minuteStep: {
         type: Number,
         default: 1
+      },
+      minTime: {
+        type: String,
+        default: null
+      },
+      maxTime: {
+        type: String,
+        default: null
       }
     },
 
@@ -36,23 +44,45 @@
       hours () {
         return hours(this.hourStep).map(hour => ({
           number: pad(hour),
-          selected: hour === this.hour
+          selected: hour === this.hour,
+          disabled: timeComponentIsDisabled(this.minHour, this.maxHour, hour)
         }))
       },
       minutes () {
         return minutes(this.minuteStep).map(minute => ({
           number: pad(minute),
-          selected: minute === this.minute
+          selected: minute === this.minute,
+          disabled: timeComponentIsDisabled(this.minMinute, this.maxMinute, minute)
         }))
+      },
+      minHour () {
+        return this.minTime ? parseInt(this.minTime.split(':')[0]) : null
+      },
+      minMinute () {
+        return this.minTime && this.minHour === this.hour ? parseInt(this.minTime.split(':')[1]) : null
+      },
+      maxHour () {
+        return this.maxTime ? parseInt(this.maxTime.split(':')[0]) : null
+      },
+      maxMinute () {
+        return this.maxTime && this.maxHour === this.hour ? parseInt(this.maxTime.split(':')[1]) : null
       }
     },
 
     methods: {
       selectHour (hour) {
-        this.$emit('change', parseInt(hour), this.minute)
+        if (hour.disabled) {
+          return
+        }
+
+        this.$emit('change', parseInt(hour.number), this.minute)
       },
       selectMinute (minute) {
-        this.$emit('change', this.hour, parseInt(minute))
+        if (minute.disabled) {
+          return
+        }
+
+        this.$emit('change', this.hour, parseInt(minute.number))
       }
     },
 
@@ -114,5 +144,11 @@
   .vdatetime-time-picker__item--selected {
     color: #3f51b5;
     font-size: 32px;
+  }
+
+  .vdatetime-time-picker__item--disabled {
+    opacity: 0.4;
+    cursor: default;
+    font-size: 20px !important;
   }
 </style>

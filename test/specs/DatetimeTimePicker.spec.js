@@ -35,6 +35,70 @@ describe('DatetimeTimePicker.vue', function () {
       const minutes = vm.$$('.vdatetime-time-picker__list--minutes .vdatetime-time-picker__item').map(el => el.textContent)
       expect(minutes).eql(['00', '15', '30', '45'])
     })
+
+    it('should disable time before min time', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker :hour="8" :minute="52" min-time="08:32"></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker }
+        })
+
+      const hours = vm.$$('.vdatetime-time-picker__list--hours .vdatetime-time-picker__item')
+
+      hours.forEach(hour => {
+        const hourNumber = parseInt(hour.textContent)
+
+        if (hourNumber < 8) {
+          expect(hour).to.have.class('vdatetime-time-picker__item--disabled')
+        } else {
+          expect(hour).to.have.not.class('vdatetime-time-picker__item--disabled')
+        }
+      })
+
+      const minutes = vm.$$('.vdatetime-time-picker__list--minutes .vdatetime-time-picker__item')
+
+      minutes.forEach(minute => {
+        const minuteNumber = parseInt(minute.textContent)
+
+        if (minuteNumber < 32) {
+          expect(minute).to.have.class('vdatetime-time-picker__item--disabled')
+        } else {
+          expect(minute).to.have.not.class('vdatetime-time-picker__item--disabled')
+        }
+      })
+    })
+
+    it('should disable time after max time', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker :hour="15" :minute="11" max-time="15:21"></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker }
+        })
+
+      const hours = vm.$$('.vdatetime-time-picker__list--hours .vdatetime-time-picker__item')
+
+      hours.forEach(hour => {
+        const hourNumber = parseInt(hour.textContent)
+
+        if (hourNumber > 15) {
+          expect(hour).to.have.class('vdatetime-time-picker__item--disabled')
+        } else {
+          expect(hour).to.have.not.class('vdatetime-time-picker__item--disabled')
+        }
+      })
+
+      const minutes = vm.$$('.vdatetime-time-picker__list--minutes .vdatetime-time-picker__item')
+
+      minutes.forEach(minute => {
+        const minuteNumber = parseInt(minute.textContent)
+
+        if (minuteNumber > 21) {
+          expect(minute).to.have.class('vdatetime-time-picker__item--disabled')
+        } else {
+          expect(minute).to.have.not.class('vdatetime-time-picker__item--disabled')
+        }
+      })
+    })
   })
 
   describe('events', function () {
@@ -59,6 +123,22 @@ describe('DatetimeTimePicker.vue', function () {
       expect(vm.hour).to.be.equal(10)
     })
 
+    it('should not emit change event on select a disabled hour', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker @change="spy" :hour="12" :minute="45" max-time="04:15"></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker },
+          data () {
+            return {
+              spy: sinon.spy()
+            }
+          }
+        })
+
+      vm.$$('.vdatetime-time-picker__list--hours .vdatetime-time-picker__item')[10].click()
+      expect(vm.spy).to.have.not.been.called
+    })
+
     it('should emit change event on select a minute', function () {
       const vm = createVM(this,
         `<DatetimeTimePicker @change="onChange" :hour="3" :minute="45"></DatetimeTimePicker>`,
@@ -78,6 +158,22 @@ describe('DatetimeTimePicker.vue', function () {
 
       vm.$$('.vdatetime-time-picker__list--minutes .vdatetime-time-picker__item')[30].click()
       expect(vm.minute).to.be.equal(30)
+    })
+
+    it('should not emit change event on select a disabled minute', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker @change="spy" :hour="3" :minute="45" max-time="03:15"></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker },
+          data () {
+            return {
+              spy: sinon.spy()
+            }
+          }
+        })
+
+      vm.$$('.vdatetime-time-picker__list--minutes .vdatetime-time-picker__item')[30].click()
+      expect(vm.spy).to.have.not.been.called
     })
   })
 })
