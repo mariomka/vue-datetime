@@ -6,14 +6,22 @@
 
 > Mobile friendly datetime picker for Vue. Supports date, datetime and time modes, i18n and disabling dates.
 
-## Work in progress
 
-This is an alpha version, don't use yet in production. [More info](https://github.com/mariomka/vue-datetime/issues/28).
+**NOTICE:** This README is related to next version (1.x) of vue-datetime. For the old release 0.x, [see here](https://github.com/mariomka/vue-datetime/tree/v0.x).
  
 ## Demo
 
 Not ready yet for 1.x version. 
 
+## TODO
+
+Not all functionality of v0.x is implemented yet in v1.0.
+
+- First day of week
+- Auto close
+- Auto continue
+- Disabled dates
+- Time picker (Not sure if it will be implemented)
 
 ## Installation
 
