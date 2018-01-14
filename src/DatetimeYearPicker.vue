@@ -7,94 +7,94 @@
 </template>
 
 <script>
-  import { years } from './util'
+import { years } from './util'
 
-  export default {
-    props: {
-      year: {
-        type: Number,
-        required: true
-      }
-    },
-
-    computed: {
-      years () {
-        return years(this.year).map(year => ({
-          number: year,
-          selected: year === this.year
-        }))
-      }
-    },
-
-    methods: {
-      select (year) {
-        this.$emit('change', parseInt(year))
-      },
-
-      scrollToCurrent () {
-        const selectedYear = this.$refs.yearList.querySelector('.vdatetime-year-picker__item--selected')
-        this.$refs.yearList.scrollTop = selectedYear ? selectedYear.offsetTop - 250 : 0
-      }
-    },
-
-    mounted () {
-      this.scrollToCurrent()
-    },
-
-    updated () {
-      this.scrollToCurrent()
+export default {
+  props: {
+    year: {
+      type: Number,
+      required: true
     }
+  },
+
+  computed: {
+    years () {
+      return years(this.year).map(year => ({
+        number: year,
+        selected: year === this.year
+      }))
+    }
+  },
+
+  methods: {
+    select (year) {
+      this.$emit('change', parseInt(year))
+    },
+
+    scrollToCurrent () {
+      const selectedYear = this.$refs.yearList.querySelector('.vdatetime-year-picker__item--selected')
+      this.$refs.yearList.scrollTop = selectedYear ? selectedYear.offsetTop - 250 : 0
+    }
+  },
+
+  mounted () {
+    this.scrollToCurrent()
+  },
+
+  updated () {
+    this.scrollToCurrent()
   }
+}
 </script>
 
 <style>
-  .vdatetime-year-picker {
+.vdatetime-year-picker {
+  box-sizing: border-box;
+
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  & * {
     box-sizing: border-box;
+  }
+}
 
-    &::after {
-      content: '';
-      display: table;
-      clear: both;
-    }
+.vdatetime-year-picker__list {
+  float: left;
+  width: 100%;
+  height: 305px;
+  overflow-y: scroll;
 
-    & * {
-      box-sizing: border-box;
-    }
+  &::-webkit-scrollbar {
+    width: 3px;
   }
 
-  .vdatetime-year-picker__list {
-    float: left;
-    width: 100%;
-    height: 305px;
-    overflow-y: scroll;
-
-    &::-webkit-scrollbar {
-      width: 3px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: #efefef;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #ccc;
-    }
+  &::-webkit-scrollbar-track {
+    background: #efefef;
   }
 
-  .vdatetime-year-picker__item {
-    padding: 10px 0;
-    font-size: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: font-size .3s;
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
   }
+}
 
-  .vdatetime-year-picker__item:hover {
-    font-size: 32px;
-  }
+.vdatetime-year-picker__item {
+  padding: 10px 0;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: font-size .3s;
+}
 
-  .vdatetime-year-picker__item--selected {
-    color: #3f51b5;
-    font-size: 32px;
-  }
+.vdatetime-year-picker__item:hover {
+  font-size: 32px;
+}
+
+.vdatetime-year-picker__item--selected {
+  color: #3f51b5;
+  font-size: 32px;
+}
 </style>

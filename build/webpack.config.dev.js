@@ -65,8 +65,8 @@ module.exports = merge(base, {
       minChunks (module, count) {
         return (
           module.resource &&
-            /\.js$/.test(module.resource) &&
-            module.resource.indexOf(join(__dirname, '../node_modules/')) === 0
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf(join(__dirname, '../node_modules/')) === 0
         )
       }
     }),

@@ -1,13 +1,13 @@
 import 'style-loader!css-loader!mocha-css'
+import 'mocha/mocha.js'
+import sinon from 'sinon'
+import chai from 'chai'
 
 // create a div where mocha can add its stuff
 const mochaDiv = document.createElement('DIV')
 mochaDiv.id = 'mocha'
 document.body.appendChild(mochaDiv)
 
-import 'mocha/mocha.js'
-import sinon from 'sinon'
-import chai from 'chai'
 window.mocha.setup({
   ui: 'bdd',
   slow: 750,
@@ -38,11 +38,19 @@ afterEach(function () {
   const testReportElements = document.getElementsByClassName('test')
   const lastReportElement = testReportElements[testReportElements.length - 1]
 
-  if (!lastReportElement) return
+  if (!lastReportElement) {
+    return
+  }
+
   const el = document.getElementById(this.DOMElement.id)
-  if (el) lastReportElement.appendChild(el)
+  if (el) {
+    lastReportElement.appendChild(el)
+  }
+
   // Save the vm to hide it later
-  if (this.DOMElement.vm) vms.push(this.DOMElement.vm)
+  if (this.DOMElement.vm) {
+    vms.push(this.DOMElement.vm)
+  }
 })
 
 // Set up
