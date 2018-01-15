@@ -82,6 +82,10 @@ export default {
     maxDatetime: {
       type: DateTime,
       default: null
+    },
+    auto: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -91,7 +95,8 @@ export default {
     return {
       newDatetime: this.datetime,
       flow: flow,
-      step: flow.first()
+      step: flow.first(),
+      timeTouched: false
     }
   },
 
@@ -138,6 +143,11 @@ export default {
   methods: {
     nextStep () {
       this.step = this.flow.next(this.step)
+      this.timeTouched = false
+
+      if (this.step === 'end') {
+        this.$emit('confirm', this.newDatetime)
+      }
     },
     showYear () {
       this.step = 'year'
@@ -145,22 +155,32 @@ export default {
     },
     confirm () {
       this.nextStep()
-
-      if (this.step === 'end') {
-        this.$emit('confirm', this.newDatetime)
-      }
     },
     cancel () {
       this.$emit('cancel')
     },
     onChangeYear (year) {
       this.newDatetime = this.newDatetime.set({ year })
+
+      if (this.auto) {
+        this.nextStep()
+      }
     },
     onChangeDate (year, month, day) {
       this.newDatetime = this.newDatetime.set({ year, month, day })
+
+      if (this.auto) {
+        this.nextStep()
+      }
     },
     onChangeTime (hour, minute) {
       this.newDatetime = this.newDatetime.set({ hour, minute })
+
+      if (this.auto && this.timeTouched) {
+        this.nextStep()
+      }
+
+      this.timeTouched = true
     }
   }
 }

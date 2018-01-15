@@ -18,8 +18,6 @@ Not ready yet for 1.x version.
 Not all functionality of v0.x is implemented yet in v1.0.
 
 - First day of week
-- Auto close
-- Auto continue
 - Disabled dates
 - Time picker (Not sure if it will be implemented)
 
@@ -109,6 +107,7 @@ hour-step | `Number` | `1` | Hour step.
 minute-step | `Number` | `1` | Minute step.
 min-datetime | ISO 8601 `String` | `null` | Minimum datetime.
 max-datetime | ISO 8601 `String` | `null` | Maximum datetime.
+auto | `Boolean` | `false` | Auto continue/close on select.
 
 Input inherits all props not defined above but `style` and `class` will be inherited by root element.
 

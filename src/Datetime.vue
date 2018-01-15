@@ -21,7 +21,8 @@
           :min-datetime="popupMinDatetime"
           :max-datetime="popupMaxDatetime"
           @confirm="confirm"
-          @cancel="cancel"></datetime-popup>
+          @cancel="cancel"
+          :auto="auto"></datetime-popup>
     </transition-group>
   </div>
 </template>
@@ -83,6 +84,10 @@ export default {
     maxDatetime: {
       type: String,
       default: null
+    },
+    auto: {
+      type: Boolean,
+      default: false
     }
   },
 

@@ -333,4 +333,69 @@ describe('DatetimePopup.vue', function () {
       expect(vm.spy).to.have.been.calledOnce
     })
   })
+
+  describe('auto', function () {
+    it('should close on change date when auto is active', function () {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" @confirm="spy" auto></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local(),
+              spy: sinon.spy()
+            }
+          }
+        })
+
+      expect(vm.spy).to.have.not.been.called
+      vm.$findChild('.vdatetime-popup').onChangeDate(2017, 5, 10)
+      expect(vm.spy).to.have.been.calledOnce
+    })
+
+    it('should close year picker on change year when auto is active', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" auto></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      vm.$('.vdatetime-popup__year').click()
+      vm.$nextTick(() => {
+        vm.$findChild('.vdatetime-popup').onChangeYear(2017)
+        vm.$nextTick(() => {
+          expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
+          done()
+        })
+      })
+    })
+
+    it('should close time picker on change time when auto is active', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" auto></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      vm.$('.vdatetime-popup__year').click()
+      vm.$nextTick(() => {
+        vm.$findChild('.vdatetime-popup').onChangeTime(14, 15) // First select hour
+        vm.$findChild('.vdatetime-popup').onChangeTime(14, 30) // then minute
+        vm.$nextTick(() => {
+          expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
+          done()
+        })
+      })
+    })
+  })
 })

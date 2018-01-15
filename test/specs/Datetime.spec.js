@@ -120,6 +120,21 @@ describe('Datetime.vue', function () {
         done()
       })
     })
+
+    it('should pass auto to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime auto></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').auto).to.be.equal(true)
+        done()
+      })
+    })
   })
 
   describe('types', function () {
