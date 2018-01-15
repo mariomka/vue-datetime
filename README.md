@@ -100,6 +100,7 @@ Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
 v-model (*required*) | ISO 8601 `String` | - | Datetime.
 type | `String` | `date` | Picker type. date or datetime.
+input-class | `String` | `''` | Class for the input.
 value-zone | `String` | `UTC` | Time zone for the value.
 zone | `String` | `local` | Time zone for the picker.
 format | `String` | `DateTime.DATE_MED` or `DateTime.DATETIME_MED` | Input date format.
