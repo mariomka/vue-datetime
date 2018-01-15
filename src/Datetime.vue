@@ -106,7 +106,7 @@ export default {
       return this.date ? this.date.setZone(this.zone).toLocaleString(format) : ''
     },
     popupDate () {
-      return this.date ? this.date : DateTime.local()
+      return this.date ? this.date.setZone(this.zone) : DateTime.utc().setZone(this.zone)
     },
     popupMinDatetime () {
       return this.minDatetime ? DateTime.fromISO(this.minDatetime) : null

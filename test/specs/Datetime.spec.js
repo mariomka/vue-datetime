@@ -381,12 +381,12 @@ describe('Datetime.vue', function () {
   describe('events', function () {
     it('should update value and close popup on confirm ', function (done) {
       const vm = createVM(this,
-        `<Datetime v-model="datetime" zone="UTC+02:00"></Datetime>`,
+        `<Datetime v-model="datetime" type="datetime" zone="UTC+02:00"></Datetime>`,
         {
           components: { Datetime },
           data () {
             return {
-              datetime: '2020-05-07T00:00:00.000Z'
+              datetime: '2020-05-07T14:32:00.000Z'
             }
           }
         })
@@ -396,12 +396,18 @@ describe('Datetime.vue', function () {
       vm.$nextTick(() => {
         vm.$$('.vdatetime-calendar__month__day')[23].click()
         vm.$('.vdatetime-popup__actions__button--confirm').click()
+
         vm.$nextTick(() => {
-          expect(vm.$('.vdatetime-input').value).to.be.equal('May 20, 2020')
-          expect(vm.datetime).to.be.equal('2020-05-20T00:00:00.000Z')
-          expect(vm.$('.vdatetime-overlay')).to.not.exist
-          expect(vm.$('.vdatetime-popup')).to.not.exist
-          done()
+          vm.$$('.vdatetime-time-picker__list--hours .vdatetime-time-picker__item')[12].click()
+          vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+          vm.$nextTick(() => {
+            expect(vm.datetime).to.be.equal('2020-05-20T10:32:00.000Z')
+            expect(vm.$('.vdatetime-input').value).to.be.equal('May 20, 2020, 12:32 PM')
+            expect(vm.$('.vdatetime-overlay')).to.not.exist
+            expect(vm.$('.vdatetime-popup')).to.not.exist
+            done()
+          })
         })
       })
     })
