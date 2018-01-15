@@ -19,13 +19,8 @@ export function monthDays (year, month) {
 export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
   const date = DateTime.fromObject({ year, month, day })
 
-  if (minDate) {
-    minDate = minDate.set({ hour: 0, minute: 0, seconds: 0, milliseconds: 0 })
-  }
-
-  if (maxDate) {
-    maxDate = maxDate.set({ hour: 0, minute: 0, seconds: 0, milliseconds: 0 })
-  }
+  minDate = minDate ? clearTime(minDate) : null
+  maxDate = maxDate ? clearTime(maxDate) : null
 
   return (minDate && date < minDate) ||
          (maxDate && date > maxDate)
