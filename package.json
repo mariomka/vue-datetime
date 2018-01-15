@@ -81,7 +81,7 @@
     "karma-spec-reporter": "^0.0.31",
     "karma-webpack": "^2.0.0",
     "lint-staged": "^3.4.0",
-    "luxon": "^0.2.5",
+    "luxon": "^0.3.1",
     "mkdirp": "^0.5.1",
     "mocha": "^3.3.0",
     "mocha-css": "^1.0.1",

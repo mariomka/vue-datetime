@@ -262,7 +262,7 @@ describe('DatetimePopup.vue', function () {
                 year: 2017,
                 month: 7,
                 day: 23,
-                zone: '+2'
+                zone: 'UTC+02:00'
               }),
               newDatetime: ''
             }
@@ -290,7 +290,7 @@ describe('DatetimePopup.vue', function () {
                 year: 2017,
                 month: 7,
                 day: 23,
-                zone: '+2'
+                zone: 'UTC+02:00'
               }),
               newDatetime: ''
             }
