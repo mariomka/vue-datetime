@@ -60,6 +60,10 @@ export function pad (number) {
   return number < 10 ? '0' + number : number
 }
 
+export function clearTime (datetime) {
+  return datetime.set({ hour: 0, minute: 0, seconds: 0, milliseconds: 0 })
+}
+
 export function createFlowManagerFromType (type) {
   let flow = []
 

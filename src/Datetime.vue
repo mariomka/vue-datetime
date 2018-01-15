@@ -28,6 +28,7 @@
 <script>
 import { DateTime } from 'luxon'
 import DatetimePopup from './DatetimePopup'
+import { clearTime } from './util'
 
 export default {
   components: {
@@ -112,7 +113,13 @@ export default {
 
   methods: {
     emitInput () {
-      this.$emit('input', this.date ? this.date.setZone(this.valueZone).toISO() : null)
+      let date = this.date ? this.date.setZone(this.valueZone) : null
+
+      if (date && this.type === 'date') {
+        date = clearTime(this.date)
+      }
+
+      this.$emit('input', date ? date.toISO() : null)
     },
     open () {
       this.isOpen = true

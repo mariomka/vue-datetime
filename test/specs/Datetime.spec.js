@@ -220,6 +220,21 @@ describe('Datetime.vue', function () {
 
       expect(vm.datetime).to.be.equal('2017-12-07T12:34:54.078-04:00')
     })
+
+    it('should be a date with cleared time when type is date', function () {
+      const vm = createVM(this,
+        `<Datetime type="date" v-model="datetime"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T19:34:54.078Z'
+            }
+          }
+        })
+
+      expect(vm.datetime).to.be.equal('2017-12-07T00:00:00.000Z')
+    })
   })
 
   describe('input value', function () {
@@ -361,7 +376,7 @@ describe('Datetime.vue', function () {
           components: { Datetime },
           data () {
             return {
-              datetime: '2020-05-07T05:22:00.123Z'
+              datetime: '2020-05-07T00:00:00.000Z'
             }
           }
         })
@@ -373,7 +388,7 @@ describe('Datetime.vue', function () {
         vm.$('.vdatetime-popup__actions__button--confirm').click()
         vm.$nextTick(() => {
           expect(vm.$('.vdatetime-input').value).to.be.equal('May 20, 2020')
-          expect(vm.datetime).to.be.equal('2020-05-20T05:22:00.123Z')
+          expect(vm.datetime).to.be.equal('2020-05-20T00:00:00.000Z')
           expect(vm.$('.vdatetime-overlay')).to.not.exist
           expect(vm.$('.vdatetime-popup')).to.not.exist
           done()
@@ -388,7 +403,7 @@ describe('Datetime.vue', function () {
           components: { Datetime },
           data () {
             return {
-              datetime: '2020-05-07T05:22:00.123Z'
+              datetime: '2020-05-07T00:00:00.000Z'
             }
           }
         })
@@ -400,7 +415,7 @@ describe('Datetime.vue', function () {
         vm.$('.vdatetime-popup__actions__button--cancel').click()
         vm.$nextTick(() => {
           expect(vm.$('.vdatetime-input').value).to.be.equal('May 7, 2020')
-          expect(vm.datetime).to.be.equal('2020-05-07T05:22:00.123Z')
+          expect(vm.datetime).to.be.equal('2020-05-07T00:00:00.000Z')
           expect(vm.$('.vdatetime-overlay')).to.not.exist
           expect(vm.$('.vdatetime-popup')).to.not.exist
           done()
