@@ -7700,8 +7700,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /*!
- * vue-datetime v1.0.0-alpha.3
- * (c) 2017 Mario Juárez
+ * vue-datetime v1.0.0-alpha.4
+ * (c) 2018 Mario Juárez
  * Released under the MIT License.
  */
 
@@ -7758,6 +7758,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     });
   }
 
+  function monthDayIsDisabled(minDate, maxDate, year, month, day) {
+    var date = luxon.DateTime.fromObject({ year: year, month: month, day: day });
+
+    minDate = minDate ? clearTime(minDate) : null;
+    maxDate = maxDate ? clearTime(maxDate) : null;
+
+    return minDate && date < minDate || maxDate && date > maxDate;
+  }
+
+  function timeComponentIsDisabled(min, max, component) {
+    return min && component < min || max && component > max;
+  }
+
   function weekdays() {
     return luxon.Info.weekdays('short').map(function (weekday) {
       return capitalize(weekday);
@@ -7790,6 +7803,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   function pad(number) {
     return number < 10 ? '0' + number : number;
+  }
+
+  function clearTime(datetime) {
+    return datetime.set({ hour: 0, minute: 0, seconds: 0, milliseconds: 0 });
   }
 
   function createFlowManagerFromType(type) {
@@ -7830,6 +7847,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       },
       disabled: {
         type: Array
+      },
+      minDate: {
+        type: luxon.DateTime,
+        default: null
+      },
+      maxDate: {
+        type: luxon.DateTime,
+        default: null
       }
     },
 
@@ -7852,7 +7877,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           return {
             number: day,
             selected: day && this$1.year === this$1.newYear && this$1.month === this$1.newMonth && this$1.day === day,
-            disabled: !day
+            disabled: !day || monthDayIsDisabled(this$1.minDate, this$1.maxDate, this$1.newYear, this$1.newMonth, day)
           };
         });
       }
@@ -7860,6 +7885,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     methods: {
       selectDay: function selectDay(day) {
+        if (day.disabled) {
+          return;
+        }
+
         this.$emit('change', this.newYear, this.newMonth, day.number);
       },
       previousMonth: function previousMonth() {
@@ -7887,12 +7916,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   var DatetimeTimePicker = { render: function render() {
       var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "vdatetime-time-picker" }, [_c('div', { ref: "hourList", staticClass: "vdatetime-time-picker__list vdatetime-time-picker__list--hours" }, _vm._l(_vm.hours, function (hour) {
-        return _c('div', { staticClass: "vdatetime-time-picker__item", class: { 'vdatetime-time-picker__item--selected': hour.selected }, on: { "click": function click($event) {
-              _vm.selectHour(hour.number);
+        return _c('div', { staticClass: "vdatetime-time-picker__item", class: { 'vdatetime-time-picker__item--selected': hour.selected, 'vdatetime-time-picker__item--disabled': hour.disabled }, on: { "click": function click($event) {
+              _vm.selectHour(hour);
             } } }, [_vm._v(_vm._s(hour.number))]);
       })), _vm._v(" "), _c('div', { ref: "minuteList", staticClass: "vdatetime-time-picker__list vdatetime-time-picker__list--minutes" }, _vm._l(_vm.minutes, function (minute) {
-        return _c('div', { staticClass: "vdatetime-time-picker__item", class: { 'vdatetime-time-picker__item--selected': minute.selected }, on: { "click": function click($event) {
-              _vm.selectMinute(minute.number);
+        return _c('div', { staticClass: "vdatetime-time-picker__item", class: { 'vdatetime-time-picker__item--selected': minute.selected, 'vdatetime-time-picker__item--disabled': minute.disabled }, on: { "click": function click($event) {
+              _vm.selectMinute(minute);
             } } }, [_vm._v(_vm._s(minute.number))]);
       }))]);
     }, staticRenderFns: [],
@@ -7912,6 +7941,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       minuteStep: {
         type: Number,
         default: 1
+      },
+      minTime: {
+        type: String,
+        default: null
+      },
+      maxTime: {
+        type: String,
+        default: null
       }
     },
 
@@ -7922,7 +7959,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return hours(this.hourStep).map(function (hour) {
           return {
             number: pad(hour),
-            selected: hour === this$1.hour
+            selected: hour === this$1.hour,
+            disabled: timeComponentIsDisabled(this$1.minHour, this$1.maxHour, hour)
           };
         });
       },
@@ -7932,18 +7970,39 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return minutes(this.minuteStep).map(function (minute) {
           return {
             number: pad(minute),
-            selected: minute === this$1.minute
+            selected: minute === this$1.minute,
+            disabled: timeComponentIsDisabled(this$1.minMinute, this$1.maxMinute, minute)
           };
         });
+      },
+      minHour: function minHour() {
+        return this.minTime ? parseInt(this.minTime.split(':')[0]) : null;
+      },
+      minMinute: function minMinute() {
+        return this.minTime && this.minHour === this.hour ? parseInt(this.minTime.split(':')[1]) : null;
+      },
+      maxHour: function maxHour() {
+        return this.maxTime ? parseInt(this.maxTime.split(':')[0]) : null;
+      },
+      maxMinute: function maxMinute() {
+        return this.maxTime && this.maxHour === this.hour ? parseInt(this.maxTime.split(':')[1]) : null;
       }
     },
 
     methods: {
       selectHour: function selectHour(hour) {
-        this.$emit('change', parseInt(hour), this.minute);
+        if (hour.disabled) {
+          return;
+        }
+
+        this.$emit('change', parseInt(hour.number), this.minute);
       },
       selectMinute: function selectMinute(minute) {
-        this.$emit('change', this.hour, parseInt(minute));
+        if (minute.disabled) {
+          return;
+        }
+
+        this.$emit('change', this.hour, parseInt(minute.number));
       }
     },
 
@@ -8003,7 +8062,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   };
 
   var DatetimePopup = { render: function render() {
-      var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "vdatetime-popup" }, [_c('div', { staticClass: "vdatetime-popup__header" }, [_c('div', { staticClass: "vdatetime-popup__year", on: { "click": _vm.showYear } }, [_vm._v(_vm._s(_vm.year))]), _vm._v(" "), _c('div', { staticClass: "vdatetime-popup__date" }, [_vm._v(_vm._s(_vm.dateFormatted))])]), _vm._v(" "), _c('div', { staticClass: "vdatetime-popup__body" }, [_vm.step === 'year' ? _c('datetime-year-picker', { attrs: { "year": _vm.year }, on: { "change": _vm.onChangeYear } }) : _vm._e(), _vm._v(" "), _vm.step === 'date' ? _c('datetime-calendar', { attrs: { "year": _vm.year, "month": _vm.month, "day": _vm.day }, on: { "change": _vm.onChangeDate } }) : _vm._e(), _vm._v(" "), _vm.step === 'time' ? _c('datetime-time-picker', { attrs: { "hour": _vm.hour, "minute": _vm.minute, "hour-step": _vm.hourStep, "minute-step": _vm.minuteStep }, on: { "change": _vm.onChangeTime } }) : _vm._e()], 1), _vm._v(" "), _c('div', { staticClass: "vdatetime-popup__actions" }, [_c('div', { staticClass: "vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel", on: { "click": _vm.cancel } }, [_vm._v(_vm._s(_vm.phrases.cancel))]), _vm._v(" "), _c('div', { staticClass: "vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm", on: { "click": _vm.confirm } }, [_vm._v(_vm._s(_vm.phrases.ok))])])]);
+      var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "vdatetime-popup" }, [_c('div', { staticClass: "vdatetime-popup__header" }, [_c('div', { staticClass: "vdatetime-popup__year", on: { "click": _vm.showYear } }, [_vm._v(_vm._s(_vm.year))]), _vm._v(" "), _c('div', { staticClass: "vdatetime-popup__date" }, [_vm._v(_vm._s(_vm.dateFormatted))])]), _vm._v(" "), _c('div', { staticClass: "vdatetime-popup__body" }, [_vm.step === 'year' ? _c('datetime-year-picker', { attrs: { "year": _vm.year }, on: { "change": _vm.onChangeYear } }) : _vm._e(), _vm._v(" "), _vm.step === 'date' ? _c('datetime-calendar', { attrs: { "year": _vm.year, "month": _vm.month, "day": _vm.day, "min-date": _vm.minDatetime, "max-date": _vm.maxDatetime }, on: { "change": _vm.onChangeDate } }) : _vm._e(), _vm._v(" "), _vm.step === 'time' ? _c('datetime-time-picker', { attrs: { "hour": _vm.hour, "minute": _vm.minute, "hour-step": _vm.hourStep, "minute-step": _vm.minuteStep, "min-time": _vm.minTime, "max-time": _vm.maxTime }, on: { "change": _vm.onChangeTime } }) : _vm._e()], 1), _vm._v(" "), _c('div', { staticClass: "vdatetime-popup__actions" }, [_c('div', { staticClass: "vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel", on: { "click": _vm.cancel } }, [_vm._v(_vm._s(_vm.phrases.cancel))]), _vm._v(" "), _c('div', { staticClass: "vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm", on: { "click": _vm.confirm } }, [_vm._v(_vm._s(_vm.phrases.ok))])])]);
     }, staticRenderFns: [],
     components: {
       DatetimeCalendar: DatetimeCalendar,
@@ -8036,6 +8095,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       minuteStep: {
         type: Number,
         default: 1
+      },
+      minDatetime: {
+        type: luxon.DateTime,
+        default: null
+      },
+      maxDatetime: {
+        type: luxon.DateTime,
+        default: null
       }
     },
 
@@ -8070,6 +8137,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           month: 'long',
           day: 'numeric'
         });
+      },
+      minTime: function minTime() {
+        return this.minDatetime && this.minDatetime.year === this.year && this.minDatetime.month === this.month && this.minDatetime.day === this.day ? this.minDatetime.toFormat('HH:mm') : null;
+      },
+      maxTime: function maxTime() {
+        return this.maxDatetime && this.maxDatetime.year === this.year && this.maxDatetime.month === this.month && this.maxDatetime.day === this.day ? this.maxDatetime.toFormat('HH:mm') : null;
       }
     },
 
@@ -8108,7 +8181,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             if ($event.target !== $event.currentTarget) {
               return null;
             }_vm.cancel($event);
-          } } }) : _vm._e(), _vm._v(" "), _vm.isOpen ? _c('datetime-popup', { key: "popup", attrs: { "type": _vm.type, "datetime": _vm.popupDate, "phrases": _vm.phrases, "hour-step": _vm.hourStep, "minute-step": _vm.minuteStep }, on: { "confirm": _vm.confirm, "cancel": _vm.cancel } }) : _vm._e()], 1)], 1);
+          } } }) : _vm._e(), _vm._v(" "), _vm.isOpen ? _c('datetime-popup', { key: "popup", attrs: { "type": _vm.type, "datetime": _vm.popupDate, "phrases": _vm.phrases, "hour-step": _vm.hourStep, "minute-step": _vm.minuteStep, "min-datetime": _vm.popupMinDatetime, "max-datetime": _vm.popupMaxDatetime }, on: { "confirm": _vm.confirm, "cancel": _vm.cancel } }) : _vm._e()], 1)], 1);
     }, staticRenderFns: [],
     components: {
       DatetimePopup: DatetimePopup
@@ -8149,6 +8222,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       minuteStep: {
         type: Number,
         default: 1
+      },
+      minDatetime: {
+        type: String,
+        default: null
+      },
+      maxDatetime: {
+        type: String,
+        default: null
       }
     },
 
@@ -8173,12 +8254,24 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       },
       popupDate: function popupDate() {
         return this.date ? this.date : luxon.DateTime.local();
+      },
+      popupMinDatetime: function popupMinDatetime() {
+        return this.minDatetime ? luxon.DateTime.fromISO(this.minDatetime) : null;
+      },
+      popupMaxDatetime: function popupMaxDatetime() {
+        return this.maxDatetime ? luxon.DateTime.fromISO(this.maxDatetime) : null;
       }
     },
 
     methods: {
       emitInput: function emitInput() {
-        this.$emit('input', this.date ? this.date.setZone(this.valueZone).toISO() : null);
+        var date = this.date ? this.date.setZone(this.valueZone) : null;
+
+        if (date && this.type === 'date') {
+          date = clearTime(this.date);
+        }
+
+        this.$emit('input', date ? date.toISO() : null);
       },
       open: function open() {
         this.isOpen = true;
@@ -8206,7 +8299,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     window.Vue.use(plugin);
   }
 
-  var version = '1.0.0-alpha.3';
+  var version = '1.0.0-alpha.4';
 
   exports['default'] = plugin;
   exports.Datetime = Datetime;
@@ -19050,7 +19143,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-fade-enter-active,\n.vdatetime-fade-leave-active {\n  transition: opacity .4s;\n}\n\n.vdatetime-fade-enter,\n.vdatetime-fade-leave-to {\n  opacity: 0;\n}\n\n.vdatetime-overlay {\n  z-index: 999;\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(0, 0, 0, .5);\n  transition: opacity .5s;\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-popup {\n  box-sizing: border-box;\n  z-index: 1000;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  width: 340px;\n  max-width: calc(100% - 30px);\n  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);\n  color: #444;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif;\n  background: #fff;\n  -webkit-tap-highlight-color: rgba(0, 0, 0, 0)\n}\n\n.vdatetime-popup * {\n    box-sizing: border-box\n}\n\n.vdatetime-popup__header {\n  padding: 15px 30px;\n  background: #3f51b5;\n  color: #fff;\n  font-size: 32px;\n}\n\n.vdatetime-popup__year {\n  display: block;\n  font-weight: 300;\n  font-size: 14px;\n  opacity: 0.7;\n  cursor: pointer;\n  transition: opacity .3s\n}\n\n.vdatetime-popup__year:hover {\n    opacity: 1\n}\n\n.vdatetime-popup__actions {\n  padding: 0 20px 10px 30px;\n  text-align: right;\n}\n\n.vdatetime-popup__actions__button {\n  display: inline-block;\n  border: none;\n  padding: 10px 20px;\n  background: transparent;\n  font-size: 16px;\n  color: #3f51b5;\n  cursor: pointer;\n  transition: color .3s\n}\n\n.vdatetime-popup__actions__button:hover {\n    color: #444\n}\n.vdatetime-calendar__navigation--previous:hover svg path, .vdatetime-calendar__navigation--next:hover svg path {\n    stroke: #888;\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-calendar__navigation,\n.vdatetime-calendar__navigation * {\n  box-sizing: border-box;\n}\n\n.vdatetime-calendar__navigation {\n  position: relative;\n  margin: 15px 0;\n  padding: 0 30px;\n  width: 100%;\n}\n\n.vdatetime-calendar__navigation--previous,\n.vdatetime-calendar__navigation--next {\n  position: absolute;\n  top: 0;\n  padding: 0 5px;\n  width: 18px;\n  cursor: pointer\n}\n\n.vdatetime-calendar__navigation--previous svg, .vdatetime-calendar__navigation--next svg {\n    width: 8px;\n}\n\n.vdatetime-calendar__navigation--previous svg path, .vdatetime-calendar__navigation--next svg path {\n      transition: stroke .3s;\n}\n\n.vdatetime-calendar__navigation--previous {\n  left: 25px;\n}\n\n.vdatetime-calendar__navigation--next {\n  right: 25px;\n  -webkit-transform: scaleX(-1);\n          transform: scaleX(-1);\n}\n\n.vdatetime-calendar__current--month {\n  text-align: center;\n  text-transform: capitalize;\n}\n\n.vdatetime-calendar__month {\n  padding: 0 20px;\n  transition: height .2s;\n}\n\n.vdatetime-calendar__month__weekday,\n.vdatetime-calendar__month__day {\n  display: inline-block;\n  width: 14.28571%;\n  line-height: 36px;\n  text-align: center;\n  font-size: 15px;\n  font-weight: 300;\n  cursor: pointer\n}\n\n.vdatetime-calendar__month__weekday > span, .vdatetime-calendar__month__day > span {\n    display: block;\n    width: 100%;\n    position: relative;\n    height: 0;\n    padding: 0 0 100%;\n    overflow: hidden;\n}\n\n.vdatetime-calendar__month__weekday > span > span, .vdatetime-calendar__month__day > span > span {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      position: absolute;\n      top: 0;\n      right: 0;\n      bottom: 0;\n      left: 0;\n      border: 0;\n      border-radius: 50%;\n      transition: background-color .3s, color .3s;\n}\n\n.vdatetime-calendar__month__weekday {\n  font-weight: bold;\n}\n\n.vdatetime-calendar__month__day:hover > span > span {\n  background: #eee;\n}\n\n.vdatetime-calendar__month__day--selected {\n}\n\n.vdatetime-calendar__month__day--selected > span > span,\n  .vdatetime-calendar__month__day--selected:hover > span > span {\n    color: #fff;\n    background: #3f51b5;\n}\n\n.vdatetime-calendar__month__day--disabled {\n  opacity: 0.4;\n  cursor: default\n}\n\n.vdatetime-calendar__month__day--disabled:hover > span > span {\n    color: inherit;\n    background: transparent;\n}\n.vdatetime-time-picker__list::-webkit-scrollbar-thumb {\n    background: #ccc\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker__list::-webkit-scrollbar-track {\n    background: #efefef\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker * {\n    box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker {\n  box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker::after {\n    content: '';\n    display: table;\n    clear: both\n}\n\n.vdatetime-time-picker__list {\n  float: left;\n  width: 50%;\n  height: 305px;\n  overflow-y: scroll\n}\n\n.vdatetime-time-picker__list::-webkit-scrollbar {\n    width: 3px\n}\n\n.vdatetime-time-picker__item {\n  padding: 10px 0;\n  font-size: 20px;\n  text-align: center;\n  cursor: pointer;\n  transition: font-size .3s;\n}\n\n.vdatetime-time-picker__item:hover {\n  font-size: 32px;\n}\n\n.vdatetime-time-picker__item--selected {\n  color: #3f51b5;\n  font-size: 32px;\n}\n.vdatetime-year-picker__list::-webkit-scrollbar-thumb {\n    background: #ccc\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker__list::-webkit-scrollbar-track {\n    background: #efefef\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker * {\n    box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker {\n  box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker::after {\n    content: '';\n    display: table;\n    clear: both\n}\n\n.vdatetime-year-picker__list {\n  float: left;\n  width: 100%;\n  height: 305px;\n  overflow-y: scroll\n}\n\n.vdatetime-year-picker__list::-webkit-scrollbar {\n    width: 3px\n}\n\n.vdatetime-year-picker__item {\n  padding: 10px 0;\n  font-size: 20px;\n  text-align: center;\n  cursor: pointer;\n  transition: font-size .3s;\n}\n\n.vdatetime-year-picker__item:hover {\n  font-size: 32px;\n}\n\n.vdatetime-year-picker__item--selected {\n  color: #3f51b5;\n  font-size: 32px;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-fade-enter-active,\n.vdatetime-fade-leave-active {\n  transition: opacity .4s;\n}\n\n.vdatetime-fade-enter,\n.vdatetime-fade-leave-to {\n  opacity: 0;\n}\n\n.vdatetime-overlay {\n  z-index: 999;\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(0, 0, 0, .5);\n  transition: opacity .5s;\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-popup {\n  box-sizing: border-box;\n  z-index: 1000;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  width: 340px;\n  max-width: calc(100% - 30px);\n  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);\n  color: #444;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif;\n  background: #fff;\n  -webkit-tap-highlight-color: rgba(0, 0, 0, 0)\n}\n\n.vdatetime-popup * {\n    box-sizing: border-box\n}\n\n.vdatetime-popup__header {\n  padding: 15px 30px;\n  background: #3f51b5;\n  color: #fff;\n  font-size: 32px;\n}\n\n.vdatetime-popup__year {\n  display: block;\n  font-weight: 300;\n  font-size: 14px;\n  opacity: 0.7;\n  cursor: pointer;\n  transition: opacity .3s\n}\n\n.vdatetime-popup__year:hover {\n    opacity: 1\n}\n\n.vdatetime-popup__actions {\n  padding: 0 20px 10px 30px;\n  text-align: right;\n}\n\n.vdatetime-popup__actions__button {\n  display: inline-block;\n  border: none;\n  padding: 10px 20px;\n  background: transparent;\n  font-size: 16px;\n  color: #3f51b5;\n  cursor: pointer;\n  transition: color .3s\n}\n\n.vdatetime-popup__actions__button:hover {\n    color: #444\n}\n.vdatetime-calendar__navigation--previous:hover svg path, .vdatetime-calendar__navigation--next:hover svg path {\n    stroke: #888;\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-calendar__navigation,\n.vdatetime-calendar__navigation * {\n  box-sizing: border-box;\n}\n\n.vdatetime-calendar__navigation {\n  position: relative;\n  margin: 15px 0;\n  padding: 0 30px;\n  width: 100%;\n}\n\n.vdatetime-calendar__navigation--previous,\n.vdatetime-calendar__navigation--next {\n  position: absolute;\n  top: 0;\n  padding: 0 5px;\n  width: 18px;\n  cursor: pointer\n}\n\n.vdatetime-calendar__navigation--previous svg, .vdatetime-calendar__navigation--next svg {\n    width: 8px;\n}\n\n.vdatetime-calendar__navigation--previous svg path, .vdatetime-calendar__navigation--next svg path {\n      transition: stroke .3s;\n}\n\n.vdatetime-calendar__navigation--previous {\n  left: 25px;\n}\n\n.vdatetime-calendar__navigation--next {\n  right: 25px;\n  -webkit-transform: scaleX(-1);\n          transform: scaleX(-1);\n}\n\n.vdatetime-calendar__current--month {\n  text-align: center;\n  text-transform: capitalize;\n}\n\n.vdatetime-calendar__month {\n  padding: 0 20px;\n  transition: height .2s;\n}\n\n.vdatetime-calendar__month__weekday,\n.vdatetime-calendar__month__day {\n  display: inline-block;\n  width: 14.28571%;\n  line-height: 36px;\n  text-align: center;\n  font-size: 15px;\n  font-weight: 300;\n  cursor: pointer\n}\n\n.vdatetime-calendar__month__weekday > span, .vdatetime-calendar__month__day > span {\n    display: block;\n    width: 100%;\n    position: relative;\n    height: 0;\n    padding: 0 0 100%;\n    overflow: hidden;\n}\n\n.vdatetime-calendar__month__weekday > span > span, .vdatetime-calendar__month__day > span > span {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      position: absolute;\n      top: 0;\n      right: 0;\n      bottom: 0;\n      left: 0;\n      border: 0;\n      border-radius: 50%;\n      transition: background-color .3s, color .3s;\n}\n\n.vdatetime-calendar__month__weekday {\n  font-weight: bold;\n}\n\n.vdatetime-calendar__month__day:hover > span > span {\n  background: #eee;\n}\n\n.vdatetime-calendar__month__day--selected {\n}\n\n.vdatetime-calendar__month__day--selected > span > span,\n  .vdatetime-calendar__month__day--selected:hover > span > span {\n    color: #fff;\n    background: #3f51b5;\n}\n\n.vdatetime-calendar__month__day--disabled {\n  opacity: 0.4;\n  cursor: default\n}\n\n.vdatetime-calendar__month__day--disabled:hover > span > span {\n    color: inherit;\n    background: transparent;\n}\n.vdatetime-time-picker__list::-webkit-scrollbar-thumb {\n    background: #ccc\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker__list::-webkit-scrollbar-track {\n    background: #efefef\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker * {\n    box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker {\n  box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker::after {\n    content: '';\n    display: table;\n    clear: both\n}\n\n.vdatetime-time-picker__list {\n  float: left;\n  width: 50%;\n  height: 305px;\n  overflow-y: scroll\n}\n\n.vdatetime-time-picker__list::-webkit-scrollbar {\n    width: 3px\n}\n\n.vdatetime-time-picker__item {\n  padding: 10px 0;\n  font-size: 20px;\n  text-align: center;\n  cursor: pointer;\n  transition: font-size .3s;\n}\n\n.vdatetime-time-picker__item:hover {\n  font-size: 32px;\n}\n\n.vdatetime-time-picker__item--selected {\n  color: #3f51b5;\n  font-size: 32px;\n}\n\n.vdatetime-time-picker__item--disabled {\n  opacity: 0.4;\n  cursor: default;\n  font-size: 20px !important;\n}\n.vdatetime-year-picker__list::-webkit-scrollbar-thumb {\n    background: #ccc\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker__list::-webkit-scrollbar-track {\n    background: #efefef\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker * {\n    box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker {\n  box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker::after {\n    content: '';\n    display: table;\n    clear: both\n}\n\n.vdatetime-year-picker__list {\n  float: left;\n  width: 100%;\n  height: 305px;\n  overflow-y: scroll\n}\n\n.vdatetime-year-picker__list::-webkit-scrollbar {\n    width: 3px\n}\n\n.vdatetime-year-picker__item {\n  padding: 10px 0;\n  font-size: 20px;\n  text-align: center;\n  cursor: pointer;\n  transition: font-size .3s;\n}\n\n.vdatetime-year-picker__item:hover {\n  font-size: 32px;\n}\n\n.vdatetime-year-picker__item--selected {\n  color: #3f51b5;\n  font-size: 32px;\n}\n", ""]);
 
 // exports
 
