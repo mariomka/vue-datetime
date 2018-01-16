@@ -14,17 +14,24 @@
  
 ## Demo
 
-[![demo](https://raw.githubusercontent.com/mariomka/vue-datetime/v1.x/demo/demo.gif)](http://mariomka.github.io/vue-datetime)
+Demo isn't ready yet for 1.x version. 
 
-Not ready yet for 1.x version. 
+[![demo](https://raw.githubusercontent.com/mariomka/vue-datetime/v1.x/demo/demo.gif)](http://mariomka.github.io/vue-datetime)
 
 ## TODO
 
-Not all functionality of v0.x is implemented yet in v1.0.
+v1.x currently support most of v0.x functionality but it's still behind.
+
+Old features not yet implemented:
 
 - First day of week
 - Disabled dates
 - Time picker (Not sure if it will be implemented)
+
+New features:
+
+- Close on press `ESC` key
+- Auto-detect the first day of week
 
 ## Installation
 
@@ -140,7 +147,7 @@ Theming is supported by overwriting CSS classes.
 
 ## Development
 
-### Launch tests
+### Launch lint and tests
 
 ```bash
 yarn test
@@ -150,12 +157,6 @@ yarn test
 
 ```bash
 yarn dev
-```
-
-### Launch Karma with coverage
-
-```bash
-yarn dev:coverage
 ```
 
 ### Build
