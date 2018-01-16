@@ -11,6 +11,8 @@
  
 ## Demo
 
+[![demo](https://raw.githubusercontent.com/mariomka/vue-datetime/v1.x/demo/demo.gif)](http://mariomka.github.io/vue-datetime)
+
 Not ready yet for 1.x version. 
 
 ## TODO
