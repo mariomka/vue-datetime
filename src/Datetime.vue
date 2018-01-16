@@ -54,7 +54,8 @@ export default {
       default: 'local'
     },
     format: {
-      type: Object
+      type: Object,
+      default: null
     },
     type: {
       type: String,

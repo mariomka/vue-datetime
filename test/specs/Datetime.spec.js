@@ -297,17 +297,20 @@ describe('Datetime.vue', function () {
 
     it('should be a date in the local time zone by default', function () {
       const vm = createVM(this,
-        `<Datetime type="datetime" v-model="datetime"></Datetime>`,
+        `<Datetime type="datetime" v-model="datetime" :format="format"></Datetime>`,
         {
           components: { Datetime },
           data () {
             return {
-              datetime: '2017-12-07T19:34:54.078+03:00'
+              datetime: '2017-12-07T19:34:54.078+03:00',
+              format: LuxonDateTime.DATETIME_MED
             }
           }
         })
 
-      expect(vm.$('.vdatetime-input').value).to.be.equal('Dec 7, 2017, 5:34 PM')
+      const localDateString = LuxonDateTime.fromISO('2017-12-07T19:34:54.078+03:00').toLocal().toLocaleString(LuxonDateTime.DATETIME_MED)
+
+      expect(vm.$('.vdatetime-input').value).to.be.equal(localDateString)
     })
 
     it('should be a date in the specified time zone', function () {
