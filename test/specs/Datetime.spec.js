@@ -138,7 +138,7 @@ describe('Datetime.vue', function () {
   })
 
   describe('types', function () {
-    it('should be date type by default', function () {
+    it('should be date type by default', function (done) {
       const vm = createVM(this,
         `<Datetime></Datetime>`,
         {
@@ -149,10 +149,11 @@ describe('Datetime.vue', function () {
 
       vm.$nextTick(() => {
         expect(vm.$('.vdatetime-calendar')).to.exist
+        done()
       })
     })
 
-    it('should be date type', function () {
+    it('should be date type', function (done) {
       const vm = createVM(this,
         `<Datetime type="date"></Datetime>`,
         {
@@ -163,6 +164,7 @@ describe('Datetime.vue', function () {
 
       vm.$nextTick(() => {
         expect(vm.$('.vdatetime-calendar')).to.exist
+        done()
       })
     })
 
