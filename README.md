@@ -82,16 +82,13 @@ Vue.extend({
 
 ### Browser
 
-```html
-<!-- Include after Vue -->
-<!-- Local files -->
-<link rel="stylesheet" href="vue-datetime/dist/vue-datetime.css"></link>
-<script src="vue-datetime/dist/vue-datetime.js"></script>
+Download vue, luxon and vue-datetime or use a CDN like unpkg.
 
-<!-- From CDN -->
-<!-- NOT ready yet. It will be ready for first stable version. -->
-<link rel="stylesheet" href="https://unpkg.com/vue-datetime/dist/vue-datetime.css"></link>
-<script src="https://unpkg.com/vue-datetime"></script>
+```html
+<link rel="stylesheet" href="vue-datetime.css"></link>
+<script src="vue.js"></script>
+<script src="luxon.js"></script>
+<script src="vue-datetime.js"></script>
 ```
 
 ## Usage
