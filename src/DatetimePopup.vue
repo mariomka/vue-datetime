@@ -100,6 +100,14 @@ export default {
     }
   },
 
+  created () {
+    document.addEventListener('keyup', this.onKeyup)
+  },
+
+  beforeDestroy () {
+    document.removeEventListener('keyup', this.onKeyup)
+  },
+
   computed: {
     year () {
       return this.newDatetime.year
@@ -181,6 +189,11 @@ export default {
       }
 
       this.timeTouched = true
+    },
+    onKeyup (event) {
+      if (event.keyCode === 27) {
+        this.cancel()
+      }
     }
   }
 }

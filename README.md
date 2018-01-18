@@ -30,7 +30,6 @@ Old features not yet implemented:
 
 New features:
 
-- Close on press `ESC` key
 - Auto-detect the first day of week
 
 ## Installation

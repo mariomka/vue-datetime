@@ -332,6 +332,32 @@ describe('DatetimePopup.vue', function () {
       vm.$('.vdatetime-popup__actions__button--cancel').click()
       expect(vm.spy).to.have.been.calledOnce
     })
+
+    it('should emit cancel event on key up ESC', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" @cancel="spy"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local(),
+              spy: sinon.spy()
+            }
+          }
+        })
+
+      expect(vm.spy).to.have.not.been.called
+
+      const event = document.createEvent('Event')
+      event.keyCode = 27
+      event.initEvent('keyup')
+      document.dispatchEvent(event)
+
+      vm.$nextTick(() => {
+        expect(vm.spy).to.have.been.calledOnce
+        done()
+      })
+    })
   })
 
   describe('auto', function () {
