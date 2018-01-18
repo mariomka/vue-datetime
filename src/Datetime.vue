@@ -101,6 +101,14 @@ export default {
     }
   },
 
+  watch: {
+    value (newValue) {
+      const date = DateTime.fromISO(newValue).toUTC()
+
+      this.date = date.isValid ? date : null
+    }
+  },
+
   created () {
     this.emitInput()
   },

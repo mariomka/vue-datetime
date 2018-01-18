@@ -343,6 +343,29 @@ describe('Datetime.vue', function () {
 
       expect(vm.$('.vdatetime-input').value).to.be.equal('Thursday, December 7, 2017')
     })
+
+    it('should be updated if value is updated', function (done) {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-05T00:00:00.000Z'
+            }
+          },
+          mounted () {
+            setTimeout(() => {
+              this.datetime = '2017-12-07T00:00:00.000Z'
+            }, 50)
+          }
+        })
+
+      setTimeout(() => {
+        expect(vm.$('.vdatetime-input').value).to.be.equal('Dec 7, 2017')
+        done()
+      }, 50)
+    })
   })
 
   describe('popup', function () {
