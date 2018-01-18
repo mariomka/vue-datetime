@@ -13,8 +13,7 @@ window.mocha.setup({
   slow: 750,
   timeout: 5000,
   globals: [
-    '__VUE_DEVTOOLS_INSTANCE_MAP__',
-    '__VUE_DEVTOOLS_TOAST__',
+    '__VUE_DEVTOOLS*',
     'script',
     'inject',
     'originalOpenFunction'
