@@ -138,7 +138,7 @@ export default {
         date = clearTime(this.date)
       }
 
-      this.$emit('input', date ? date.toISO() : null)
+      this.$emit('input', date ? date.toISO() : '')
     },
     open () {
       this.isOpen = true

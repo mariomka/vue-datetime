@@ -188,7 +188,7 @@ describe('Datetime.vue', function () {
   })
 
   describe('value', function () {
-    it('should be null when value is empty', function () {
+    it('should be empty string when value is empty', function () {
       const vm = createVM(this,
         `<Datetime v-model="datetime"></Datetime>`,
         {
@@ -200,10 +200,10 @@ describe('Datetime.vue', function () {
           }
         })
 
-      expect(vm.datetime).null
+      expect(vm.datetime).to.be.equal('')
     })
 
-    it('should be null when value is not valid', function () {
+    it('should be empty string when value is not valid', function () {
       const vm = createVM(this,
         `<Datetime v-model="datetime"></Datetime>`,
         {
@@ -215,7 +215,7 @@ describe('Datetime.vue', function () {
           }
         })
 
-      expect(vm.datetime).null
+      expect(vm.datetime).to.be.equal('')
     })
 
     it('should be a UTC date by default', function () {
