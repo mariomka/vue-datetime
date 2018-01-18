@@ -42,6 +42,9 @@ import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeTimePicker from './DatetimeTimePicker'
 import DatetimeYearPicker from './DatetimeYearPicker'
 
+const KEY_TAB = 9
+const KEY_ESC = 27
+
 export default {
   components: {
     DatetimeCalendar,
@@ -101,11 +104,11 @@ export default {
   },
 
   created () {
-    document.addEventListener('keyup', this.onKeyup)
+    document.addEventListener('keydown', this.onKeyDown)
   },
 
   beforeDestroy () {
-    document.removeEventListener('keyup', this.onKeyup)
+    document.removeEventListener('keydown', this.onKeyDown)
   },
 
   computed: {
@@ -190,8 +193,8 @@ export default {
 
       this.timeTouched = true
     },
-    onKeyup (event) {
-      if (event.keyCode === 27) {
+    onKeyDown (event) {
+      if (event.keyCode === KEY_ESC || event.keyCode === KEY_TAB) {
         this.cancel()
       }
     }

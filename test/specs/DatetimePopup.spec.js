@@ -333,7 +333,7 @@ describe('DatetimePopup.vue', function () {
       expect(vm.spy).to.have.been.calledOnce
     })
 
-    it('should emit cancel event on key up ESC', function (done) {
+    it('should emit cancel event on key down ESC', function (done) {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime" @cancel="spy"></DatetimePopup>`,
         {
@@ -350,7 +350,33 @@ describe('DatetimePopup.vue', function () {
 
       const event = document.createEvent('Event')
       event.keyCode = 27
-      event.initEvent('keyup')
+      event.initEvent('keydown')
+      document.dispatchEvent(event)
+
+      vm.$nextTick(() => {
+        expect(vm.spy).to.have.been.calledOnce
+        done()
+      })
+    })
+
+    it('should emit cancel event on key down TAB', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" @cancel="spy"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local(),
+              spy: sinon.spy()
+            }
+          }
+        })
+
+      expect(vm.spy).to.have.not.been.called
+
+      const event = document.createEvent('Event')
+      event.keyCode = 9
+      event.initEvent('keydown')
       document.dispatchEvent(event)
 
       vm.$nextTick(() => {
