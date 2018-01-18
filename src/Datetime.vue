@@ -140,7 +140,9 @@ export default {
 
       this.$emit('input', date ? date.toISO() : '')
     },
-    open () {
+    open (event) {
+      event.target.blur()
+
       this.isOpen = true
     },
     close () {

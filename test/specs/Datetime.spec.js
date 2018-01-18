@@ -401,6 +401,21 @@ describe('Datetime.vue', function () {
       })
     })
 
+    it('should blur input when open popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').focus()
+
+      setTimeout(() => {
+        expect(document.activeElement.isEqualNode(vm.$('.vdatetime-input'))).to.be.false
+        done()
+      }, 50)
+    })
+
     it('should close when clicking the overlay', function (done) {
       const vm = createVM(this,
         `<Datetime></Datetime>`,
