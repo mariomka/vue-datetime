@@ -75,14 +75,14 @@ export default {
         return
       }
 
-      this.$emit('change', parseInt(hour.number), this.minute)
+      this.$emit('change', { hour: parseInt(hour.number) })
     },
     selectMinute (minute) {
       if (minute.disabled) {
         return
       }
 
-      this.$emit('change', this.hour, parseInt(minute.number))
+      this.$emit('change', { minute: parseInt(minute.number) })
     }
   },
 

@@ -113,7 +113,7 @@ describe('DatetimeTimePicker.vue', function () {
             }
           },
           methods: {
-            onChange (hour) {
+            onChange ({ hour }) {
               this.hour = hour
             }
           }
@@ -150,7 +150,7 @@ describe('DatetimeTimePicker.vue', function () {
             }
           },
           methods: {
-            onChange (hour, minute) {
+            onChange ({ minute }) {
               this.minute = minute
             }
           }

@@ -441,8 +441,8 @@ describe('DatetimePopup.vue', function () {
 
       vm.$('.vdatetime-popup__year').click()
       vm.$nextTick(() => {
-        vm.$findChild('.vdatetime-popup').onChangeTime(14, 15) // First select hour
-        vm.$findChild('.vdatetime-popup').onChangeTime(14, 30) // then minute
+        vm.$findChild('.vdatetime-popup').onChangeTime({ hour: 14 }) // First select hour
+        vm.$findChild('.vdatetime-popup').onChangeTime({ minute: 30 }) // then minute
         vm.$nextTick(() => {
           expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
           done()

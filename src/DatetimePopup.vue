@@ -184,14 +184,26 @@ export default {
         this.nextStep()
       }
     },
-    onChangeTime (hour, minute) {
-      this.newDatetime = this.newDatetime.set({ hour, minute })
+    onChangeTime ({ hour, minute }) {
+      let goNext = false
 
-      if (this.auto && this.timeTouched) {
-        this.nextStep()
+      if (hour) {
+        this.newDatetime = this.newDatetime.set({ hour })
+
+        goNext = this.timeTouched === 'minute'
+        this.timeTouched = 'hour'
       }
 
-      this.timeTouched = true
+      if (minute) {
+        this.newDatetime = this.newDatetime.set({ minute })
+
+        goNext = this.timeTouched === 'hour'
+        this.timeTouched = 'minute'
+      }
+
+      if (this.auto && goNext) {
+        this.nextStep()
+      }
     },
     onKeyDown (event) {
       if (event.keyCode === KEY_ESC || event.keyCode === KEY_TAB) {
