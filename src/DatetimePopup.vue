@@ -43,6 +43,7 @@ import DatetimeTimePicker from './DatetimeTimePicker'
 import DatetimeYearPicker from './DatetimeYearPicker'
 
 const KEY_TAB = 9
+const KEY_ENTER = 13
 const KEY_ESC = 27
 
 export default {
@@ -206,8 +207,15 @@ export default {
       }
     },
     onKeyDown (event) {
-      if (event.keyCode === KEY_ESC || event.keyCode === KEY_TAB) {
-        this.cancel()
+      switch (event.keyCode) {
+        case KEY_ESC:
+        case KEY_TAB:
+          this.cancel()
+          break
+
+        case KEY_ENTER:
+          this.nextStep()
+          break
       }
     }
   }
