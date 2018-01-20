@@ -6,7 +6,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../demo/dist'),
     filename: 'app.js',
-    publicPath: path.resolve(__dirname, '../demo/dist/')
+    publicPath: '/dist/'
   },
 
   module: {
@@ -45,6 +45,7 @@ module.exports = {
     extensions: ['.js', '.vue']
   },
   devServer: {
-    contentBase: path.resolve(__dirname, '../demo')
+    contentBase: path.resolve(__dirname, '../demo'),
+    watchContentBase: true
   }
 }
