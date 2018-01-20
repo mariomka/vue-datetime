@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/Users/mario/Work/mjp.one/vue-datetime-picker/demo/dist";
+/******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 8);
@@ -68,88 +68,6 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6918,6 +6836,88 @@ exports.Settings = Settings;
 
 
 /***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7273,7 +7273,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  */
 
 (function (global, factory) {
-  ( false ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports, __webpack_require__(1)) :  true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+  ( false ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports, __webpack_require__(0)) :  true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(0)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : factory(global.VueDatetime = global.VueDatetime || {}, global.luxon);
@@ -18743,6 +18743,8 @@ var _vue = __webpack_require__(7);
 
 var _vue2 = _interopRequireDefault(_vue);
 
+var _luxon = __webpack_require__(0);
+
 var _vueDatetime = __webpack_require__(4);
 
 var _vueDatetime2 = _interopRequireDefault(_vueDatetime);
@@ -18760,7 +18762,12 @@ new _vue2.default({
 
   data: function data() {
     return {
-      datetime: '2018-05-12T17:19:06.151+01:00'
+      date: '2018-05-12T00:00:00.000Z',
+      datetime: '2018-05-12T17:19:06.151Z',
+      datetimeEmpty: '',
+      minDatetime: _luxon.DateTime.local().minus({ days: 3 }).toISO(),
+      maxDatetime: _luxon.DateTime.local().plus({ days: 3 }).toISO(),
+      datetimeTheming: _luxon.DateTime.local().toISO()
     };
   }
 });
@@ -18769,12 +18776,12 @@ new _vue2.default({
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(undefined);
+exports = module.exports = __webpack_require__(1)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n\n  @media screen and (min-width: 900px) {\n    .example .example-code {\n      margin-top: 0;\n      width: 68%;\n    }\n    .example {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    }\n    .example .example-inputs {\n      width: 32%;\n    }\n  }\n.example .example-code {\n    & pre {\n      margin-bottom: 15px;\n      width: 100%;\n      font-size: 14px;\n      overflow: scroll;\n\n      & code {\n        padding: 1.5em;\n      }\n    }\n}*,\n*::after,\n*::before {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nbody {\n  background-color: #eee;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  padding: 1em;\n  color: #444;\n}\n\n.page {\n  background-color: #fff;\n  margin: 0 auto;\n  padding: 2em 3em;\n  width: 100%;\n  max-width: 900px;\n  box-shadow: 2px 2px 4px rgba(0, 0, 0, .2);\n}\n\nh1 {\n  margin: 0 0 1em;\n  font-weight: 200;\n  font-size: 52px\n}\n\nh1 a {\n    color: #333;\n    text-decoration: none;\n}\n\nh2 {\n  margin: 0 0 1em;\n  border-bottom: solid 1px #ddd;\n  font-weight: 200;\n  font-size: 26px;\n  color: #666;\n}\n\np.description {\n  margin: 0 0 1em;\n  font-style: italic;\n  font-size: 14px;\n  color: #aaa;\n}\n\n.example {\n  margin: 0 0 2em\n}\n\n.example .example-inputs input {\n    padding: 8px 10px;\n    font-size: 16px;\n    border: solid 1px #ddd;\n    color: #444;\n}\n\n.values {\n  margin-top: 20px;\n  font-size: 14px;\n}\n\nfooter {\n  margin: 50px 0 0;\n  font-size: 14px;\n  font-weight: lighter;\n  color: #aaa\n}\n\nfooter a {\n    color: #aaa;\n    text-decoration: none;\n}\n\nfooter a:hover {\n      text-decoration: underline;\n}\n", ""]);
+exports.push([module.i, ".theme-orange .vdatetime-year-picker__item--selected,\n  .theme-orange .vdatetime-time-picker__item--selected,\n  .theme-orange .vdatetime-popup__actions__button {\n    color: #ff9800;\n}\n\n  @media screen and (min-width: 900px) {\n\n    .example .example-code {\n      margin-top: 0;\n      width: 68%;\n    }\n\n    .example {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    }\n\n    .example .example-inputs {\n      width: 32%;\n    }\n  }\n\n.example .example-code {\n    & pre {\n      margin-bottom: 15px;\n      width: 100%;\n      font-size: 14px;\n      overflow: scroll;\n\n      & code {\n        padding: 1.5em;\n      }\n    }\n}*,\n*::after,\n*::before {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nbody {\n  background-color: #eee;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  padding: 1em;\n  color: #444;\n}\n\n.page {\n  background-color: #fff;\n  margin: 0 auto;\n  padding: 2em 3em;\n  width: 100%;\n  max-width: 900px;\n  box-shadow: 0 2px 10px rgba(0, 0, 0, .2);\n}\n\nh1 {\n  margin: 0 0 1em;\n  font-weight: 200;\n  font-size: 52px\n}\n\nh1 a {\n    color: #333;\n    text-decoration: none;\n}\n\nh2 {\n  margin: 0 0 1em;\n  border-bottom: solid 1px #ddd;\n  font-weight: 200;\n  font-size: 26px;\n  color: #666;\n}\n\np.description {\n  margin: 0 0 1em;\n  font-style: italic;\n  font-size: 14px;\n  color: #aaa;\n}\n\n.example {\n  margin: 0 0 2em\n}\n\n.example .example-inputs input {\n    padding: 8px 10px;\n    font-size: 16px;\n    border: solid 1px #ddd;\n    color: #444;\n}\n\n.values {\n  margin-top: 20px;\n  font-size: 14px;\n}\n\nfooter {\n  margin: 50px 0 0;\n  font-size: 14px;\n  font-weight: lighter;\n  color: #aaa\n}\n\nfooter a {\n    color: #aaa;\n    text-decoration: none;\n}\n\nfooter a:hover {\n      text-decoration: underline;\n}\n\n.theme-orange {\n}\n\n.theme-orange .vdatetime-popup__header,\n  .theme-orange .vdatetime-calendar__month__day--selected > span > span,\n  .theme-orange .vdatetime-calendar__month__day--selected:hover > span > span {\n    background: #ff9800;\n}\n", ""]);
 
 // exports
 
@@ -18783,7 +18790,7 @@ exports.push([module.i, "\n\n  @media screen and (min-width: 900px) {\n    .exam
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(undefined);
+exports = module.exports = __webpack_require__(1)(undefined);
 // imports
 
 

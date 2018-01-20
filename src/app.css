@@ -20,7 +20,7 @@ body {
   padding: 2em 3em;
   width: 100%;
   max-width: 900px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
@@ -104,5 +104,19 @@ footer {
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+.theme-orange {
+  & .vdatetime-popup__header,
+  & .vdatetime-calendar__month__day--selected > span > span,
+  & .vdatetime-calendar__month__day--selected:hover > span > span {
+    background: #ff9800;
+  }
+
+  & .vdatetime-year-picker__item--selected,
+  & .vdatetime-time-picker__item--selected,
+  & .vdatetime-popup__actions__button {
+    color: #ff9800;
   }
 }
