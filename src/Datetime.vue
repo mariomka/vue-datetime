@@ -148,8 +148,8 @@ export default {
     close () {
       this.isOpen = false
     },
-    confirm (datetime) {
-      this.date = datetime
+    confirm (date) {
+      this.date = date.toUTC()
       this.emitInput()
       this.close()
     },
