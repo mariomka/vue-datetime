@@ -35,7 +35,7 @@
     "demo": "webpack-dev-server --config build/webpack.config.demo.js --open",
     "demo:build": "webpack --config build/webpack.config.demo.js",
     "demo:deploy": "gh-pages -d demo",
-    "version": "auto-changelog -p --starting-commit 975d478b80b8e1ed3663f55b34c3a35521a43bdb && git add CHANGELOG.md",
+    "version": "auto-changelog -p --starting-commit 975d478b80b8e1ed3663f55b34c3a35521a43bdb --commit-limit false && git add CHANGELOG.md",
     "prepublish": "yon run build && yon run demo:build",
     "postpublish": "yon run demo:deploy"
   },
