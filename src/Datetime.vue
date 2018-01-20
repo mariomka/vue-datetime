@@ -93,19 +93,19 @@ export default {
   },
 
   data () {
-    const date = DateTime.fromISO(this.value).toUTC()
+    const datetime = DateTime.fromISO(this.value).toUTC()
 
     return {
       isOpen: false,
-      date: date.isValid ? date : null
+      datetime: datetime.isValid ? datetime : null
     }
   },
 
   watch: {
     value (newValue) {
-      const date = DateTime.fromISO(newValue).toUTC()
+      const datetime = DateTime.fromISO(newValue).toUTC()
 
-      this.date = date.isValid ? date : null
+      this.datetime = datetime.isValid ? datetime : null
     }
   },
 
@@ -117,10 +117,10 @@ export default {
     inputValue () {
       const format = this.format || (this.type === 'date' ? DateTime.DATE_MED : DateTime.DATETIME_MED)
 
-      return this.date ? this.date.setZone(this.zone).toLocaleString(format) : ''
+      return this.datetime ? this.datetime.setZone(this.zone).toLocaleString(format) : ''
     },
     popupDate () {
-      return this.date ? this.date.setZone(this.zone) : DateTime.utc().setZone(this.zone)
+      return this.datetime ? this.datetime.setZone(this.zone) : DateTime.utc().setZone(this.zone)
     },
     popupMinDatetime () {
       return this.minDatetime ? DateTime.fromISO(this.minDatetime) : null
@@ -132,13 +132,13 @@ export default {
 
   methods: {
     emitInput () {
-      let date = this.date ? this.date.setZone(this.valueZone) : null
+      let datetime = this.datetime ? this.datetime.setZone(this.valueZone) : null
 
-      if (date && this.type === 'date') {
-        date = clearTime(this.date)
+      if (datetime && this.type === 'date') {
+        datetime = clearTime(this.datetime)
       }
 
-      this.$emit('input', date ? date.toISO() : '')
+      this.$emit('input', datetime ? datetime.toISO() : '')
     },
     open (event) {
       event.target.blur()
@@ -148,8 +148,8 @@ export default {
     close () {
       this.isOpen = false
     },
-    confirm (date) {
-      this.date = date.toUTC()
+    confirm (datetime) {
+      this.datetime = datetime.toUTC()
       this.emitInput()
       this.close()
     },
