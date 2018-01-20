@@ -30,7 +30,7 @@
 <script>
 import { DateTime } from 'luxon'
 import DatetimePopup from './DatetimePopup'
-import { datetimeFromISO, clearTime } from './util'
+import { datetimeFromISO, startOfDay } from './util'
 
 export default {
   components: {
@@ -131,7 +131,7 @@ export default {
       let datetime = this.datetime ? this.datetime.setZone(this.valueZone) : null
 
       if (datetime && this.type === 'date') {
-        datetime = clearTime(this.datetime)
+        datetime = startOfDay(this.datetime)
       }
 
       this.$emit('input', datetime ? datetime.toISO() : '')

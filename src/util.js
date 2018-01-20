@@ -25,8 +25,8 @@ export function monthDays (year, month) {
 export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
   const date = DateTime.fromObject({ year, month, day })
 
-  minDate = minDate ? clearTime(minDate) : null
-  maxDate = maxDate ? clearTime(maxDate) : null
+  minDate = minDate ? startOfDay(minDate) : null
+  maxDate = maxDate ? startOfDay(maxDate) : null
 
   return (minDate && date < minDate) ||
          (maxDate && date > maxDate)
@@ -61,8 +61,8 @@ export function pad (number) {
   return number < 10 ? '0' + number : number
 }
 
-export function clearTime (datetime) {
-  return datetime.set({ hour: 0, minute: 0, seconds: 0, milliseconds: 0 })
+export function startOfDay (datetime) {
+  return datetime.startOf('day')
 }
 
 export function createFlowManagerFromType (type) {
