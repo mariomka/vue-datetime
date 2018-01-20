@@ -5,6 +5,12 @@ export function capitalize (string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
+export function datetimeFromISO (string) {
+  const datetime = DateTime.fromISO(string).toUTC()
+
+  return datetime.isValid ? datetime : null
+}
+
 export function monthDays (year, month) {
   const monthDate = DateTime.local(year, month, 1)
   const firstDay = monthDate.weekday - 1

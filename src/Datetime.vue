@@ -30,7 +30,7 @@
 <script>
 import { DateTime } from 'luxon'
 import DatetimePopup from './DatetimePopup'
-import { clearTime } from './util'
+import { datetimeFromISO, clearTime } from './util'
 
 export default {
   components: {
@@ -93,19 +93,15 @@ export default {
   },
 
   data () {
-    const datetime = DateTime.fromISO(this.value).toUTC()
-
     return {
       isOpen: false,
-      datetime: datetime.isValid ? datetime : null
+      datetime: datetimeFromISO(this.value)
     }
   },
 
   watch: {
     value (newValue) {
-      const datetime = DateTime.fromISO(newValue).toUTC()
-
-      this.datetime = datetime.isValid ? datetime : null
+      this.datetime = datetimeFromISO(newValue)
     }
   },
 
