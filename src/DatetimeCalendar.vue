@@ -55,15 +55,21 @@ export default {
 
   data () {
     return {
+      newDate: DateTime.fromObject({ year: this.year, month: this.month, timeZone: 'UTC' }),
       weekdays: weekdays(),
-      newYear: this.year,
-      newMonth: this.month
+      months: months()
     }
   },
 
   computed: {
+    newYear () {
+      return this.newDate.year
+    },
+    newMonth () {
+      return this.newDate.month
+    },
     monthName () {
-      return months()[this.newMonth - 1]
+      return this.months[this.newMonth - 1]
     },
     days () {
       return monthDays(this.newYear, this.newMonth).map(day => ({
@@ -83,24 +89,10 @@ export default {
       this.$emit('change', this.newYear, this.newMonth, day.number)
     },
     previousMonth () {
-      let month = this.newMonth - 1
-
-      if (month < 1) {
-        month = 12
-        this.newYear--
-      }
-
-      this.newMonth = month
+      this.newDate = this.newDate.minus({ months: 1 })
     },
     nextMonth () {
-      let month = this.newMonth + 1
-
-      if (month > 12) {
-        month = 1
-        this.newYear++
-      }
-
-      this.newMonth = month
+      this.newDate = this.newDate.plus({ months: 1 })
     }
   }
 }
