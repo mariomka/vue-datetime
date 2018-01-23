@@ -63,6 +63,9 @@ const bundleOptions = {
   banner,
   exports: 'named',
   format: 'umd',
+  globals: {
+    luxon: 'luxon'
+  },
   moduleName
 }
 
