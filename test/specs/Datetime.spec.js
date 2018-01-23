@@ -1,4 +1,4 @@
-import { DateTime as LuxonDateTime } from 'luxon'
+import { DateTime as LuxonDateTime, Settings as LuxonSettings } from 'luxon'
 import Datetime from 'src/Datetime.vue'
 import { createVM } from '../helpers/utils.js'
 
@@ -132,6 +132,21 @@ describe('Datetime.vue', function () {
 
       vm.$nextTick(() => {
         expect(vm.$findChild('.vdatetime-popup').auto).to.be.equal(true)
+        done()
+      })
+    })
+
+    it('should pass week start to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime :week-start="3"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').weekStart).to.be.equal(3)
         done()
       })
     })
@@ -368,6 +383,40 @@ describe('Datetime.vue', function () {
     })
   })
 
+  describe('week start', function () {
+    it('should be set number', function () {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" :week-start="4" ref="datetime"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: ''
+            }
+          }
+        })
+
+      expect(vm.$refs['datetime'].weekStart).to.be.equal(4)
+    })
+
+    it('should be auto from locale', function () {
+      LuxonSettings.defaultLocale = 'es-ES'
+
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" ref="datetime"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: ''
+            }
+          }
+        })
+
+      expect(vm.$refs['datetime'].weekStart).to.be.equal(1)
+    })
+  })
+
   describe('popup', function () {
     it('should open when clicking the input', function (done) {
       const vm = createVM(this,
@@ -452,7 +501,7 @@ describe('Datetime.vue', function () {
       vm.$('.vdatetime-input').click()
 
       vm.$nextTick(() => {
-        vm.$$('.vdatetime-calendar__month__day')[23].click()
+        vm.$$('.vdatetime-calendar__month__day')[24].click()
         vm.$('.vdatetime-popup__actions__button--confirm').click()
 
         vm.$nextTick(() => {
@@ -478,7 +527,7 @@ describe('Datetime.vue', function () {
       vm.$('.vdatetime-input').click()
 
       vm.$nextTick(() => {
-        vm.$$('.vdatetime-calendar__month__day')[23].click()
+        vm.$$('.vdatetime-calendar__month__day')[24].click()
         vm.$('.vdatetime-popup__actions__button--confirm').click()
 
         vm.$nextTick(() => {

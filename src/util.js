@@ -1,4 +1,4 @@
-import { DateTime, Info } from 'luxon'
+import { DateTime, Info, Settings } from 'luxon'
 import FlowManager from './FlowManager'
 
 export function capitalize (string) {
@@ -11,9 +11,13 @@ export function datetimeFromISO (string) {
   return datetime.isValid ? datetime : null
 }
 
-export function monthDays (year, month) {
+export function monthDays (year, month, weekStart) {
   const monthDate = DateTime.local(year, month, 1)
-  const firstDay = monthDate.weekday - 1
+  let firstDay = monthDate.weekday - weekStart
+
+  if (firstDay < 0) {
+    firstDay += 7
+  }
 
   return new Array(monthDate.daysInMonth + firstDay)
     .fill(null)
@@ -37,8 +41,16 @@ export function timeComponentIsDisabled (min, max, component) {
          (max && component > max)
 }
 
-export function weekdays () {
-  return Info.weekdays('short').map(weekday => capitalize(weekday))
+export function weekdays (weekStart) {
+  if (--weekStart < 0) {
+    weekStart = 6
+  }
+
+  let weekDays = Info.weekdays('short').map(weekday => capitalize(weekday))
+
+  weekDays = weekDays.concat(weekDays.splice(0, weekStart))
+
+  return weekDays
 }
 
 export function months () {
@@ -77,4 +89,18 @@ export function createFlowManagerFromType (type) {
   }
 
   return new FlowManager(flow, 'end')
+}
+
+export function weekStart () {
+  let weekstart
+
+  try {
+    weekstart = require('weekstart')
+  } catch (e) {
+    weekstart = window.weekstart
+  }
+
+  const firstDay = weekstart ? weekstart.getWeekStartByLocale(Settings.defaultLocale) : 1
+
+  return firstDay === 0 ? 7 : firstDay
 }

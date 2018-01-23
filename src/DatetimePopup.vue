@@ -17,6 +17,7 @@
           :day="day"
           :min-date="minDatetime"
           :max-date="maxDatetime"
+          :week-start="weekStart"
       ></datetime-calendar>
       <datetime-time-picker
           v-if="step === 'time'"
@@ -90,6 +91,10 @@ export default {
     auto: {
       type: Boolean,
       default: false
+    },
+    weekStart: {
+      type: Number,
+      default: 1
     }
   },
 

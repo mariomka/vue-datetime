@@ -114,11 +114,13 @@
     "webpack-dashboard": "^0.4.0",
     "webpack-dev-server": "^2.4.0",
     "webpack-merge": "^4.0.0",
+    "weekstart": "^1.0.0",
     "yarn-or-npm": "^2.0.0"
   },
   "peerDependencies": {
     "luxon": "^0.3.1",
-    "vue": "^2.3.0"
+    "vue": "^2.3.0",
+    "weekstart": "^1.0.0"
   },
   "dllPlugin": {
     "name": "vuePluginTemplateDeps",

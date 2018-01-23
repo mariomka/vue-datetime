@@ -23,28 +23,26 @@ v1.x currently support most of v0.x functionality but it's still behind.
 
 Old features not yet implemented:
 
-- First day of week
 - Disabled dates
 - Time picker (Not sure if it will be implemented)
 
-New features:
-
-- Auto-detect the first day of week
-
 ## Installation
 
-### Yarn
+### Bundler (Webpack, Rollup...)
 
 ```bash
-yarn add luxon vue-datetime
+yarn add luxon vue-datetime weekstart
 ```
-### npm
+
+Or
 
 ```bash
-npm install --save luxon vue-datetime
+npm install --save luxon vue-datetime weekstart
 ```
 
-### Bundler (Webpack, Rollup)
+**weekstart** is optional, is used to get the first day of the week.
+
+#### Register
 
 ```js
 import Vue from 'vue'
@@ -80,14 +78,17 @@ Vue.extend({
 
 ### Browser
 
-Download vue, luxon and vue-datetime or use a CDN like unpkg.
+Download vue, luxon, weekstart and vue-datetime or use a CDN like unpkg.
 
 ```html
 <link rel="stylesheet" href="vue-datetime.css"></link>
 <script src="vue.js"></script>
 <script src="luxon.js"></script>
+<script src="weekstart.js"></script>
 <script src="vue-datetime.js"></script>
 ```
+
+**weekstart** is optional, is used to get the first day of the week.
 
 ## Usage
 
@@ -115,6 +116,7 @@ minute-step | `Number` | `1` | Minute step.
 min-datetime | ISO 8601 `String` | `null` | Minimum datetime.
 max-datetime | ISO 8601 `String` | `null` | Maximum datetime.
 auto | `Boolean` | `false` | Auto continue/close on select.
+week-start | `Number` | auto from locale if _weekstart_ is available or `1` | First day of the week. 1 is Monday and 7 is Sunday.
 
 Input inherits all props not defined above but `style` and `class` will be inherited by root element.
 

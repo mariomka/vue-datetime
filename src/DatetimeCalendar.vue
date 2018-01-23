@@ -50,13 +50,17 @@ export default {
     maxDate: {
       type: DateTime,
       default: null
+    },
+    weekStart: {
+      type: Number,
+      default: 1
     }
   },
 
   data () {
     return {
       newDate: DateTime.fromObject({ year: this.year, month: this.month, timeZone: 'UTC' }),
-      weekdays: weekdays(),
+      weekdays: weekdays(this.weekStart),
       months: months()
     }
   },
@@ -72,7 +76,7 @@ export default {
       return this.months[this.newMonth - 1]
     },
     days () {
-      return monthDays(this.newYear, this.newMonth).map(day => ({
+      return monthDays(this.newYear, this.newMonth, this.weekStart).map(day => ({
         number: day,
         selected: day && this.year === this.newYear && this.month === this.newMonth && this.day === day,
         disabled: !day || monthDayIsDisabled(this.minDate, this.maxDate, this.newYear, this.newMonth, day)

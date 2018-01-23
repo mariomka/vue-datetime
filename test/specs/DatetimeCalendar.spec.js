@@ -36,6 +36,23 @@ describe('DatetimeCalendar.vue', function () {
       expect(weekdays).deep.equal(['Lun.', 'Mar.', 'Mié.', 'Jue.', 'Vie.', 'Sáb.', 'Dom.'])
     })
 
+    it('should render a calendar with other week start', function () {
+      LuxonSettings.defaultLocale = 'en'
+      const vm = createVM(this,
+        `<DatetimeCalendar :year="2017" :month="3" :week-start="4"></DatetimeCalendar>`,
+        {
+          components: { DatetimeCalendar }
+        })
+
+      expect(vm.$('.vdatetime-calendar')).to.exist
+
+      const weekdays = vm.$$('.vdatetime-calendar__month__weekday').map(el => el.textContent)
+      expect(weekdays).deep.equal(['Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed'])
+
+      const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
+      expect(days).deep.equal(['', '', '', '', '', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'])
+    })
+
     it('should select the current day', function () {
       const vm = createVM(this,
         `<DatetimeCalendar :year="2018" :month="7" :day="10"></DatetimeCalendar>`,

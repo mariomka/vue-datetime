@@ -248,6 +248,21 @@ describe('DatetimePopup.vue', function () {
         done()
       })
     })
+
+    it('should pass week start to calendar', function () {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" :week-start="3"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      expect(vm.$findChild('.vdatetime-calendar').weekStart).to.be.equal(3)
+    })
   })
 
   describe('events', function () {

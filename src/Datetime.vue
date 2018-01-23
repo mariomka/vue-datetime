@@ -22,7 +22,8 @@
           :max-datetime="popupMaxDatetime"
           @confirm="confirm"
           @cancel="cancel"
-          :auto="auto"></datetime-popup>
+          :auto="auto"
+          :week-start="weekStart"></datetime-popup>
     </transition-group>
   </div>
 </template>
@@ -30,7 +31,7 @@
 <script>
 import { DateTime } from 'luxon'
 import DatetimePopup from './DatetimePopup'
-import { datetimeFromISO, startOfDay } from './util'
+import { datetimeFromISO, startOfDay, weekStart } from './util'
 
 export default {
   components: {
@@ -89,6 +90,12 @@ export default {
     auto: {
       type: Boolean,
       default: false
+    },
+    weekStart: {
+      type: Number,
+      default () {
+        return weekStart()
+      }
     }
   },
 
