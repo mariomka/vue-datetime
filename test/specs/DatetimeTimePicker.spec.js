@@ -225,7 +225,7 @@ describe('DatetimeTimePicker.vue', function () {
       expect(vm.spy).to.have.not.been.called
     })
 
-    it('should emit change event on suffix change', function () {
+    it('should emit change event on suffix change am -> pm', function () {
       const vm = createVM(this,
         `<DatetimeTimePicker @change="onChange" :hour="3" :minute="45" :hour-format="12"></DatetimeTimePicker>`,
         {
@@ -244,6 +244,27 @@ describe('DatetimeTimePicker.vue', function () {
 
       vm.$$('.vdatetime-time-picker__list--suffix .vdatetime-time-picker__item')[1].click()
       expect(vm.hour).to.be.equal(15)
+    })
+
+    it('should emit change event on suffix change pm -> am', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker @change="onChange" :hour="13" :minute="45" :hour-format="12"></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker },
+          data () {
+            return {
+              hour: null
+            }
+          },
+          methods: {
+            onChange ({ hour }) {
+              this.hour = hour
+            }
+          }
+        })
+
+      vm.$$('.vdatetime-time-picker__list--suffix .vdatetime-time-picker__item')[0].click()
+      expect(vm.hour).to.be.equal(1)
     })
   })
 })
