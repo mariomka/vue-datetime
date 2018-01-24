@@ -49,6 +49,23 @@
     </div>
   </div>
 
+  <h2>12h Datetime</h2>
+
+  <div class="example">
+    <div class="example-inputs">
+      <datetime type="datetime" v-model="datetime12" :hour-format="12"></datetime>
+
+      <div class="values">
+        <p>
+          <strong>Value:</strong> {{ datetime12 }}
+        </p>
+      </div>
+    </div>
+    <div class="example-code">
+      <pre><code>&#x3C;datetime type=&#x22;datetime&#x22; v-model=&#x22;datetime12&#x22; :hour-format=&#x22;12&#x22;&#x3E;&#x3C;/datetime&#x3E;</code></pre>
+    </div>
+  </div>
+
   <h2>Complete demo</h2>
 
   <div class="example">
@@ -63,6 +80,7 @@
           zone="Asia/Shanghai"
           :format="{ year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }"
           :phrases="{ok: 'Continue', cancel: 'Exit'}"
+          :hour-format="12"
           :hour-step="2"
           :minute-step="15"
           :min-datetime="minDatetime"

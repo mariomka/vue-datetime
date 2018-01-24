@@ -24,6 +24,7 @@
           @change="onChangeTime"
           :hour="hour"
           :minute="minute"
+          :hour-format="hourFormat"
           :hour-step="hourStep"
           :minute-step="minuteStep"
           :min-time="minTime"
@@ -71,6 +72,10 @@ export default {
     type: {
       type: String,
       default: 'date'
+    },
+    hourFormat: {
+      type: Number,
+      default: 24
     },
     hourStep: {
       type: Number,
@@ -193,14 +198,14 @@ export default {
     onChangeTime ({ hour, minute }) {
       let goNext = false
 
-      if (hour) {
+      if (Number.isInteger(hour)) {
         this.newDatetime = this.newDatetime.set({ hour })
 
         goNext = this.timeTouched === 'minute'
         this.timeTouched = 'hour'
       }
 
-      if (minute) {
+      if (Number.isInteger(minute)) {
         this.newDatetime = this.newDatetime.set({ minute })
 
         goNext = this.timeTouched === 'hour'

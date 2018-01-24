@@ -16,6 +16,7 @@
           :type="type"
           :datetime="popupDate"
           :phrases="phrases"
+          :hour-format="hourFormat"
           :hour-step="hourStep"
           :minute-step="minuteStep"
           :min-datetime="popupMinDatetime"
@@ -70,6 +71,10 @@ export default {
           ok: 'Ok'
         }
       }
+    },
+    hourFormat: {
+      type: Number,
+      default: 24
     },
     hourStep: {
       type: Number,
