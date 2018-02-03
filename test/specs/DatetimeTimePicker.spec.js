@@ -232,18 +232,21 @@ describe('DatetimeTimePicker.vue', function () {
           components: { DatetimeTimePicker },
           data () {
             return {
-              hour: null
+              hour: null,
+              suffixTouched: false
             }
           },
           methods: {
-            onChange ({ hour }) {
+            onChange ({ hour, suffixTouched }) {
               this.hour = hour
+              this.suffixTouched = suffixTouched
             }
           }
         })
 
       vm.$$('.vdatetime-time-picker__list--suffix .vdatetime-time-picker__item')[1].click()
       expect(vm.hour).to.be.equal(15)
+      expect(vm.suffixTouched).to.be.equal(true)
     })
 
     it('should emit change event on suffix change pm -> am', function () {
@@ -253,18 +256,21 @@ describe('DatetimeTimePicker.vue', function () {
           components: { DatetimeTimePicker },
           data () {
             return {
-              hour: null
+              hour: null,
+              suffixTouched: false
             }
           },
           methods: {
-            onChange ({ hour }) {
+            onChange ({ hour, suffixTouched }) {
               this.hour = hour
+              this.suffixTouched = suffixTouched
             }
           }
         })
 
       vm.$$('.vdatetime-time-picker__list--suffix .vdatetime-time-picker__item')[0].click()
       expect(vm.hour).to.be.equal(1)
+      expect(vm.suffixTouched).to.be.equal(true)
     })
   })
 })

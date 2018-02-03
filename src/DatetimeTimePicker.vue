@@ -105,12 +105,12 @@ export default {
     selectSuffix (suffix) {
       if (suffix === 'am') {
         if (this.hour >= 12) {
-          this.$emit('change', { hour: parseInt(this.hour - 12) })
+          this.$emit('change', { hour: parseInt(this.hour - 12), suffixTouched: true })
         }
       }
       if (suffix === 'pm') {
         if (this.hour < 12) {
-          this.$emit('change', { hour: parseInt(this.hour + 12) })
+          this.$emit('change', { hour: parseInt(this.hour + 12), suffixTouched: true })
         }
       }
     },

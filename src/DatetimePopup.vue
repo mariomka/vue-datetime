@@ -110,7 +110,7 @@ export default {
       newDatetime: this.datetime,
       flow: flow,
       step: flow.first(),
-      timeTouched: false
+      timePartsTouched: []
     }
   },
 
@@ -165,7 +165,7 @@ export default {
   methods: {
     nextStep () {
       this.step = this.flow.next(this.step)
-      this.timeTouched = false
+      this.timePartsTouched = []
 
       if (this.step === 'end') {
         this.$emit('confirm', this.newDatetime)
@@ -195,24 +195,27 @@ export default {
         this.nextStep()
       }
     },
-    onChangeTime ({ hour, minute }) {
-      let goNext = false
+    onChangeTime ({ hour, minute, suffixTouched }) {
+      if (suffixTouched) {
+        this.timePartsTouched['suffix'] = true
+      }
 
       if (Number.isInteger(hour)) {
         this.newDatetime = this.newDatetime.set({ hour })
-
-        goNext = this.timeTouched === 'minute'
-        this.timeTouched = 'hour'
+        this.timePartsTouched['hour'] = true
       }
 
       if (Number.isInteger(minute)) {
         this.newDatetime = this.newDatetime.set({ minute })
-
-        goNext = this.timeTouched === 'hour'
-        this.timeTouched = 'minute'
+        this.timePartsTouched['minute'] = true
       }
 
-      if (this.auto && goNext) {
+      const goNext = this.auto && this.timePartsTouched['hour'] && this.timePartsTouched['minute'] && (
+        this.timePartsTouched['suffix'] ||
+        !this.use12Hour
+      )
+
+      if (goNext) {
         this.nextStep()
       }
     },

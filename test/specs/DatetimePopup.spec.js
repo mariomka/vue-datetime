@@ -510,5 +510,29 @@ describe('DatetimePopup.vue', function () {
         })
       })
     })
+
+    it('should close time picker on change time when auto is active (12 hour)', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" auto use12-hour></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      vm.$('.vdatetime-popup__year').click()
+      vm.$nextTick(() => {
+        vm.$findChild('.vdatetime-popup').onChangeTime({ hour: 14 }) // First select hour
+        vm.$findChild('.vdatetime-popup').onChangeTime({ minute: 30 }) // then minute
+        vm.$findChild('.vdatetime-popup').onChangeTime({ suffixTouched: true }) // then minute
+        vm.$nextTick(() => {
+          expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
+          done()
+        })
+      })
+    })
   })
 })
