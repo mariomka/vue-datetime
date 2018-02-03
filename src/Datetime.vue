@@ -16,7 +16,7 @@
           :type="type"
           :datetime="popupDate"
           :phrases="phrases"
-          :hour-format="hourFormat"
+          :use12-hour="use12Hour"
           :hour-step="hourStep"
           :minute-step="minuteStep"
           :min-datetime="popupMinDatetime"
@@ -72,9 +72,9 @@ export default {
         }
       }
     },
-    hourFormat: {
-      type: Number,
-      default: 24
+    use12Hour: {
+      type: Boolean,
+      default: false
     },
     hourStep: {
       type: Number,

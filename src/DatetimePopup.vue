@@ -24,7 +24,7 @@
           @change="onChangeTime"
           :hour="hour"
           :minute="minute"
-          :hour-format="hourFormat"
+          :use12-hour="use12Hour"
           :hour-step="hourStep"
           :minute-step="minuteStep"
           :min-time="minTime"
@@ -73,9 +73,9 @@ export default {
       type: String,
       default: 'date'
     },
-    hourFormat: {
-      type: Number,
-      default: 24
+    use12Hour: {
+      type: Boolean,
+      default: false
     },
     hourStep: {
       type: Number,

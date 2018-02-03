@@ -24,7 +24,7 @@ describe('DatetimeTimePicker.vue', function () {
 
     it('should render the time picker in 12 hour format', function () {
       const vm = createVM(this,
-        `<DatetimeTimePicker :hour="3" :minute="45" :hour-format="12"></DatetimeTimePicker>`,
+        `<DatetimeTimePicker :hour="3" :minute="45" use12-hour></DatetimeTimePicker>`,
         {
           components: { DatetimeTimePicker }
         })
@@ -43,7 +43,7 @@ describe('DatetimeTimePicker.vue', function () {
 
     it('should render the time picker in 12 hour format (pm)', function () {
       const vm = createVM(this,
-        `<DatetimeTimePicker :hour="13" :minute="45" :hour-format="12"></DatetimeTimePicker>`,
+        `<DatetimeTimePicker :hour="13" :minute="45" use12-hour></DatetimeTimePicker>`,
         {
           components: { DatetimeTimePicker }
         })
@@ -140,7 +140,7 @@ describe('DatetimeTimePicker.vue', function () {
 
     it('should render the time picker with am/pm suffixes', function () {
       const vm = createVM(this,
-        `<DatetimeTimePicker :hour="15" :minute="11" :hour-format="12"></DatetimeTimePicker>`,
+        `<DatetimeTimePicker :hour="15" :minute="11" use12-hour></DatetimeTimePicker>`,
         {
           components: { DatetimeTimePicker }
         })
@@ -227,7 +227,7 @@ describe('DatetimeTimePicker.vue', function () {
 
     it('should emit change event on suffix change am -> pm', function () {
       const vm = createVM(this,
-        `<DatetimeTimePicker @change="onChange" :hour="3" :minute="45" :hour-format="12"></DatetimeTimePicker>`,
+        `<DatetimeTimePicker @change="onChange" :hour="3" :minute="45" use12-hour></DatetimeTimePicker>`,
         {
           components: { DatetimeTimePicker },
           data () {
@@ -248,7 +248,7 @@ describe('DatetimeTimePicker.vue', function () {
 
     it('should emit change event on suffix change pm -> am', function () {
       const vm = createVM(this,
-        `<DatetimeTimePicker @change="onChange" :hour="13" :minute="45" :hour-format="12"></DatetimeTimePicker>`,
+        `<DatetimeTimePicker @change="onChange" :hour="13" :minute="45" use12-hour></DatetimeTimePicker>`,
         {
           components: { DatetimeTimePicker },
           data () {
