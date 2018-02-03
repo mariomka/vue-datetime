@@ -184,6 +184,26 @@ describe('DatetimePopup.vue', function () {
   })
 
   describe('pass props', function () {
+    it('should pass use 12 hour to time picker', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" type="datetime" use12-hour></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-time-picker').use12Hour).to.be.equal(true)
+        done()
+      })
+    })
+
     it('should pass time steps to time picker', function (done) {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime" type="datetime" :hour-step="2" :minute-step="15"></DatetimePopup>`,
@@ -484,6 +504,30 @@ describe('DatetimePopup.vue', function () {
       vm.$nextTick(() => {
         vm.$findChild('.vdatetime-popup').onChangeTime({ hour: 14 }) // First select hour
         vm.$findChild('.vdatetime-popup').onChangeTime({ minute: 30 }) // then minute
+        vm.$nextTick(() => {
+          expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
+          done()
+        })
+      })
+    })
+
+    it('should close time picker on change time when auto is active (12 hour)', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" auto use12-hour></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      vm.$('.vdatetime-popup__year').click()
+      vm.$nextTick(() => {
+        vm.$findChild('.vdatetime-popup').onChangeTime({ hour: 14 }) // First select hour
+        vm.$findChild('.vdatetime-popup').onChangeTime({ minute: 30 }) // then minute
+        vm.$findChild('.vdatetime-popup').onChangeTime({ suffixTouched: true }) // then minute
         vm.$nextTick(() => {
           expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
           done()

@@ -22,6 +22,44 @@ describe('DatetimeTimePicker.vue', function () {
       expect(selected).eql(['03', '45'])
     })
 
+    it('should render the time picker in 12 hour format', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker :hour="3" :minute="45" use12-hour></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker }
+        })
+
+      expect(vm.$('.vdatetime-time-picker')).to.exist
+
+      const hours = vm.$$('.vdatetime-time-picker__list--hours .vdatetime-time-picker__item').map(el => el.textContent)
+      expect(hours).eql(['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'])
+
+      const minutes = vm.$$('.vdatetime-time-picker__list--minutes .vdatetime-time-picker__item').map(el => el.textContent)
+      expect(minutes).eql(['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59'])
+
+      const selected = vm.$$('.vdatetime-time-picker__item--selected').map(el => el.textContent)
+      expect(selected).eql(['3', '45', 'am'])
+    })
+
+    it('should render the time picker in 12 hour format (pm)', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker :hour="13" :minute="45" use12-hour></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker }
+        })
+
+      expect(vm.$('.vdatetime-time-picker')).to.exist
+
+      const hours = vm.$$('.vdatetime-time-picker__list--hours .vdatetime-time-picker__item').map(el => el.textContent)
+      expect(hours).eql(['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'])
+
+      const minutes = vm.$$('.vdatetime-time-picker__list--minutes .vdatetime-time-picker__item').map(el => el.textContent)
+      expect(minutes).eql(['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59'])
+
+      const selected = vm.$$('.vdatetime-time-picker__item--selected').map(el => el.textContent)
+      expect(selected).eql(['1', '45', 'pm'])
+    })
+
     it('should render the time picker with custom steps', function () {
       const vm = createVM(this,
         `<DatetimeTimePicker :hour="3" :minute="45" :hour-step="2" :minute-step="15"></DatetimeTimePicker>`,
@@ -99,6 +137,17 @@ describe('DatetimeTimePicker.vue', function () {
         }
       })
     })
+
+    it('should render the time picker with am/pm suffixes', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker :hour="15" :minute="11" use12-hour></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker }
+        })
+
+      const suffixes = vm.$$('.vdatetime-time-picker__list--suffix .vdatetime-time-picker__item').map(el => el.textContent)
+      expect(suffixes).eql(['am', 'pm'])
+    })
   })
 
   describe('events', function () {
@@ -174,6 +223,54 @@ describe('DatetimeTimePicker.vue', function () {
 
       vm.$$('.vdatetime-time-picker__list--minutes .vdatetime-time-picker__item')[30].click()
       expect(vm.spy).to.have.not.been.called
+    })
+
+    it('should emit change event on suffix change am -> pm', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker @change="onChange" :hour="3" :minute="45" use12-hour></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker },
+          data () {
+            return {
+              hour: null,
+              suffixTouched: false
+            }
+          },
+          methods: {
+            onChange ({ hour, suffixTouched }) {
+              this.hour = hour
+              this.suffixTouched = suffixTouched
+            }
+          }
+        })
+
+      vm.$$('.vdatetime-time-picker__list--suffix .vdatetime-time-picker__item')[1].click()
+      expect(vm.hour).to.be.equal(15)
+      expect(vm.suffixTouched).to.be.equal(true)
+    })
+
+    it('should emit change event on suffix change pm -> am', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker @change="onChange" :hour="13" :minute="45" use12-hour></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker },
+          data () {
+            return {
+              hour: null,
+              suffixTouched: false
+            }
+          },
+          methods: {
+            onChange ({ hour, suffixTouched }) {
+              this.hour = hour
+              this.suffixTouched = suffixTouched
+            }
+          }
+        })
+
+      vm.$$('.vdatetime-time-picker__list--suffix .vdatetime-time-picker__item')[0].click()
+      expect(vm.hour).to.be.equal(1)
+      expect(vm.suffixTouched).to.be.equal(true)
     })
   })
 })

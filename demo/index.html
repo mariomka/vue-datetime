@@ -49,6 +49,23 @@
     </div>
   </div>
 
+  <h2>12h datetime</h2>
+
+  <div class="example">
+    <div class="example-inputs">
+      <datetime type="datetime" v-model="datetime12" use12-hour></datetime>
+
+      <div class="values">
+        <p>
+          <strong>Value:</strong> {{ datetime12 }}
+        </p>
+      </div>
+    </div>
+    <div class="example-code">
+      <pre><code>&#x3C;datetime type=&#x22;datetime&#x22; v-model=&#x22;datetime12&#x22; use12-hour&#x3E;&#x3C;/datetime&#x3E;</code></pre>
+    </div>
+  </div>
+
   <h2>Complete demo</h2>
 
   <div class="example">
@@ -68,6 +85,7 @@
           :min-datetime="minDatetime"
           :max-datetime="maxDatetime"
           :week-start="7"
+          use12-hour
           auto
       ></datetime>
 
@@ -91,6 +109,7 @@
   :min-datetime=&#x22;minDatetime&#x22;
   :max-datetime=&#x22;maxDatetime&#x22;
   :week-start=&#x22;7&#x22;
+  use12-hour
   auto
   &#x3E;&#x3C;/datetime&#x3E;</code></pre>
     </div>

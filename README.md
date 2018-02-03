@@ -111,6 +111,7 @@ value-zone | `String` | `UTC` | Time zone for the value.
 zone | `String` | `local` | Time zone for the picker.
 format | `String` | `DateTime.DATE_MED` or `DateTime.DATETIME_MED` | Input date format.
 phrases | `Object` | `{ok: 'Ok', cancel: 'Cancel'}` | Phrases.
+use12-hour | `Boolean` | `false` | Display 12 hour (AM/PM) mode
 hour-step | `Number` | `1` | Hour step.
 minute-step | `Number` | `1` | Minute step.
 min-datetime | ISO 8601 `String` | `null` | Minimum datetime.

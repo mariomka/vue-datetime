@@ -89,6 +89,21 @@ describe('Datetime.vue', function () {
       })
     })
 
+    it('should pass use 12 hour to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" use12-hour></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').use12Hour).to.be.equal(true)
+        done()
+      })
+    })
+
     it('should pass time steps to popup', function (done) {
       const vm = createVM(this,
         `<Datetime type="datetime" :hour-step="2" :minute-step="15"></Datetime>`,
