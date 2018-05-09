@@ -56,7 +56,7 @@ export default {
       default: 'local'
     },
     format: {
-      type: Object,
+      type: [Object,String],
       default: null
     },
     type: {
@@ -125,7 +125,11 @@ export default {
     inputValue () {
       const format = this.format || (this.type === 'date' ? DateTime.DATE_MED : DateTime.DATETIME_MED)
 
-      return this.datetime ? this.datetime.setZone(this.zone).toLocaleString(format) : ''
+      if (typeof format === 'string') {
+        return this.datetime ? DateTime.fromISO(this.datetime).toFormat(format) : ''
+      } else {
+        return this.datetime ? this.datetime.setZone(this.zone).toLocaleString(format) : ''
+      }
     },
     popupDate () {
       return this.datetime ? this.datetime.setZone(this.zone) : DateTime.utc().setZone(this.zone)
