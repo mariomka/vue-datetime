@@ -109,7 +109,7 @@ type | `String` | `date` | Picker type. date or datetime.
 input-class | `String` | `''` | Class for the input.
 value-zone | `String` | `UTC` | Time zone for the value.
 zone | `String` | `local` | Time zone for the picker.
-format | `String` | `DateTime.DATE_MED` or `DateTime.DATETIME_MED` | Input date format.
+format | `Object` or `String` | `DateTime.DATE_MED` or `DateTime.DATETIME_MED` or yyyy-MM-dd | Input date format.
 phrases | `Object` | `{ok: 'Ok', cancel: 'Cancel'}` | Phrases.
 use12-hour | `Boolean` | `false` | Display 12 hour (AM/PM) mode
 hour-step | `Number` | `1` | Hour step.
