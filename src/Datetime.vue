@@ -162,7 +162,9 @@ export default {
       this.close()
     },
     cancel () {
+      
       this.close()
+      this.$emit('cancel')
     }
   }
 }

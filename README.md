@@ -137,6 +137,8 @@ Settings.defaultLocale = 'es'
 
 Component emits the `input` event to work with `v-model`. [More info](https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events).
 
+Component also emits a `cancel` event, when the user dismisses the overlay.
+
 Also, input text inherits all component events.
 
 ## Theming
