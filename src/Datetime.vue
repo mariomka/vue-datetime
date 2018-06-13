@@ -63,6 +63,10 @@ export default {
       type: String,
       default: 'date'
     },
+    open: {
+      type: Boolean,
+      default: false
+    },
     phrases: {
       type: Object,
       default () {
@@ -114,6 +118,9 @@ export default {
   watch: {
     value (newValue) {
       this.datetime = datetimeFromISO(newValue)
+    },
+    open() {
+      this.isOpen = open;
     }
   },
 
