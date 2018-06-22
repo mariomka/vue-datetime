@@ -19,12 +19,13 @@ export function monthDays (year, month, weekStart) {
     firstDay += 7
   }
   let lastCount = (weekStart - monthDate.weekday - monthDate.daysInMonth) % 7
-  if (lastCount < 0)
+  if (lastCount < 0) {
     lastCount += 7
+  }
 
   return new Array(monthDate.daysInMonth + firstDay + lastCount)
     .fill(null)
-    .map((value, index) => {
+    .map((value, index) => 
       return (index + 1 <= firstDay || index >= firstDay + monthDate.daysInMonth) ? null : index + 1 - firstDay
     })
 }
