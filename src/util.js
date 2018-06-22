@@ -18,7 +18,9 @@ export function monthDays (year, month, weekStart) {
   if (firstDay < 0) {
     firstDay += 7
   }
-  const lastCount = (weekStart - monthDate.weekday - monthDate.daysInMonth) % 7 + 7
+  let lastCount = (weekStart - monthDate.weekday - monthDate.daysInMonth) % 7
+  if(lastCount < 0)
+    lastCount += 7
 
   return new Array(monthDate.daysInMonth + firstDay + lastCount)
     .fill(null)
