@@ -25,9 +25,9 @@ export function monthDays (year, month, weekStart) {
 
   return new Array(monthDate.daysInMonth + firstDay + lastCount)
     .fill(null)
-    .map((value, index) => 
-      return (index + 1 <= firstDay || index >= firstDay + monthDate.daysInMonth) ? null : ( index + 1 - firstDay )
-    })
+    .map((value, index) =>
+      (index + 1 <= firstDay) || (index >= firstDay + monthDate.daysInMonth) ? null : (index + 1 - firstDay)
+    )
 }
 
 export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
