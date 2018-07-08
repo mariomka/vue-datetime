@@ -401,12 +401,12 @@ describe('Datetime.vue', function () {
           data () {
             return {
               datetime: '2017-12-07T19:34:54.078+03:00',
-              format: LuxonDateTime.DATETIME_FULL_WITH_SECONDS
+              format: LuxonDateTime.DATE_HUGE
             }
           }
         })
 
-      expect(vm.$('.vdatetime-input').value).to.be.equal('December 7, 2017, 7:34:54 PM UTC')
+      expect(vm.$('.vdatetime-input').value).to.be.equal('Thursday, December 7, 2017')
     })
 
     it('should be formatted in the specified macro format', function () {
