@@ -60,6 +60,26 @@ describe('Datetime.vue', function () {
       vm.$('.vdatetime-input').click()
       expect(vm.spy).to.have.been.calledOnce
     })
+
+    it('should not create hidden input by default', function () {
+      const vm = createVM(this,
+        `<Datetime></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      expect(vm.$('.vdatetime input[type=hidden]')).to.not.exist
+    })
+
+    it('should create hidden input if name is passed', function () {
+      const vm = createVM(this,
+        `<Datetime name="dt"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      expect(vm.$('.vdatetime input[type=hidden]')).to.have.attr('name', 'dt')
+    })
   })
 
   describe('pass props', function () {
@@ -393,6 +413,76 @@ describe('Datetime.vue', function () {
 
       setTimeout(() => {
         expect(vm.$('.vdatetime-input').value).to.be.equal('Dec 7, 2017')
+        done()
+      }, 50)
+    })
+  })
+
+  describe('hidden input value', function () {
+    it('should be empty when value is empty', function () {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" name="dt"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: ''
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime input[name=dt]').value).to.be.empty
+    })
+
+    it('should be equal to value', function () {
+      const datetime = '2017-12-31T19:34:54.078Z'
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" name="dt"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return { datetime }
+          }
+        })
+
+      expect(vm.$('.vdatetime input[name=dt]').value).to.equal(datetime)
+    })
+
+    it('should be equal to value even when value is not valid', function () {
+      const datetime = '2017-12-32T19:34:54.078Z'
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" name="dt"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return { datetime }
+          }
+        })
+
+      expect(vm.$('.vdatetime input[name=dt]').value).to.equal(datetime)
+    })
+
+    it('should be updated if value is updated', function (done) {
+      const datetime1 = '2017-12-05T00:00:00.000Z'
+      const datetime2 = '2017-12-07T00:00:00.000Z'
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" name="dt"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: datetime1
+            }
+          },
+          mounted () {
+            setTimeout(() => {
+              this.datetime = datetime2
+            }, 50)
+          }
+        })
+
+      setTimeout(() => {
+        expect(vm.$('.vdatetime input[type=hidden]').value).to.be.equal(datetime2)
         done()
       }, 50)
     })
