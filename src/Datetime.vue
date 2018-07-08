@@ -130,7 +130,7 @@ export default {
       const format = this.format || (this.type === 'date' ? DateTime.DATE_MED : DateTime.DATETIME_MED)
 
       if (typeof format === 'string') {
-        return this.datetime ? DateTime.fromISO(this.datetime).toFormat(format) : ''
+        return this.datetime ? DateTime.fromISO(this.datetime).setZone(this.zone).toFormat(format) : ''
       } else {
         return this.datetime ? this.datetime.setZone(this.zone).toLocaleString(format) : ''
       }
