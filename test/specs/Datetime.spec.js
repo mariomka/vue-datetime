@@ -73,7 +73,7 @@ describe('Datetime.vue', function () {
 
     it('should create hidden input if name is passed', function () {
       const vm = createVM(this,
-        `<Datetime name="dt"></Datetime>`,
+        `<Datetime hidden-name="dt"></Datetime>`,
         {
           components: { Datetime }
         })
@@ -421,7 +421,7 @@ describe('Datetime.vue', function () {
   describe('hidden input value', function () {
     it('should be empty when value is empty', function () {
       const vm = createVM(this,
-        `<Datetime v-model="datetime" name="dt"></Datetime>`,
+        `<Datetime v-model="datetime" hidden-name="dt"></Datetime>`,
         {
           components: { Datetime },
           data () {
@@ -437,7 +437,7 @@ describe('Datetime.vue', function () {
     it('should be equal to value', function () {
       const datetime = '2017-12-31T19:34:54.078Z'
       const vm = createVM(this,
-        `<Datetime v-model="datetime" name="dt"></Datetime>`,
+        `<Datetime v-model="datetime" hidden-name="dt"></Datetime>`,
         {
           components: { Datetime },
           data () {
@@ -451,7 +451,7 @@ describe('Datetime.vue', function () {
     it('should be equal to value even when value is not valid', function () {
       const datetime = '2017-12-32T19:34:54.078Z'
       const vm = createVM(this,
-        `<Datetime v-model="datetime" name="dt"></Datetime>`,
+        `<Datetime v-model="datetime" hidden-name="dt"></Datetime>`,
         {
           components: { Datetime },
           data () {
@@ -466,7 +466,7 @@ describe('Datetime.vue', function () {
       const datetime1 = '2017-12-05T00:00:00.000Z'
       const datetime2 = '2017-12-07T00:00:00.000Z'
       const vm = createVM(this,
-        `<Datetime v-model="datetime" name="dt"></Datetime>`,
+        `<Datetime v-model="datetime" hidden-name="dt"></Datetime>`,
         {
           components: { Datetime },
           data () {
