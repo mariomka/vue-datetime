@@ -147,7 +147,7 @@ export default {
       let datetime = this.datetime ? this.datetime.setZone(this.valueZone) : null
 
       if (datetime && this.type === 'date') {
-        datetime = startOfDay(this.datetime)
+        datetime = startOfDay(datetime)
       }
 
       this.$emit('input', datetime ? datetime.toISO() : '')

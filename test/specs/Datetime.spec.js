@@ -312,6 +312,21 @@ describe('Datetime.vue', function () {
 
       expect(vm.datetime).to.be.equal('2017-12-07T00:00:00.000Z')
     })
+
+    it('should be a date with cleared time in the specified time zone when type is date', function () {
+      const vm = createVM(this,
+        `<Datetime type="date" v-model="datetime" value-zone="UTC+03:00"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T22:34:54.078Z'
+            }
+          }
+        })
+
+      expect(vm.datetime).to.be.equal('2017-12-08T00:00:00.000+03:00')
+    })
   })
 
   describe('input value', function () {
