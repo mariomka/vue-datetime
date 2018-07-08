@@ -395,18 +395,34 @@ describe('Datetime.vue', function () {
 
     it('should be formatted in the specified format', function () {
       const vm = createVM(this,
-        `<Datetime v-model="datetime" :format="format" zone="UTC"></Datetime>`,
+        `<Datetime v-model="datetime" type="datetime" :format="format" zone="UTC+03:00"></Datetime>`,
         {
           components: { Datetime },
           data () {
             return {
               datetime: '2017-12-07T19:34:54.078+03:00',
-              format: LuxonDateTime.DATE_HUGE
+              format: LuxonDateTime.DATETIME_FULL_WITH_SECONDS
             }
           }
         })
 
-      expect(vm.$('.vdatetime-input').value).to.be.equal('Thursday, December 7, 2017')
+      expect(vm.$('.vdatetime-input').value).to.be.equal('December 7, 2017, 7:34:54 PM UTC')
+    })
+
+    it('should be formatted in the specified macro format', function () {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" :format="format" zone="UTC+03:00"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T19:34:54.078+03:00',
+              format: 'yyyy-MM-dd HH:mm:ss'
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-input').value).to.be.equal('2017-12-07 19:34:54')
     })
 
     it('should be updated if value is updated', function (done) {
