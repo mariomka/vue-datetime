@@ -8,6 +8,7 @@
            v-on="$listeners"
            @click="open"
            @focus="open">
+    <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value">
     <transition-group name="vdatetime-fade" tag="div">
       <div key="overlay" v-if="isOpen" class="vdatetime-overlay" @click.self="cancel"></div>
       <datetime-popup
@@ -50,6 +51,9 @@ export default {
     inputClass: {
       type: String,
       default: ''
+    },
+    hiddenName: {
+      type: String
     },
     zone: {
       type: String,
