@@ -163,6 +163,7 @@ export default {
     },
     close () {
       this.isOpen = false
+      this.$emit('close')
     },
     confirm (datetime) {
       this.datetime = datetime.toUTC()

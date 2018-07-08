@@ -707,5 +707,30 @@ describe('Datetime.vue', function () {
         })
       })
     })
+
+    it('should emit close when popup closes', function (done) {
+      const vm = createVM(this,
+        `<Datetime @close="spy"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              spy: sinon.spy()
+            }
+          }
+        })
+
+      expect(vm.spy).to.have.not.been.called
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        vm.$('.vdatetime-popup__actions__button--cancel').click()
+
+        vm.$nextTick(() => {
+          expect(vm.spy).to.have.been.calledOnce
+          done()
+        })
+      })
+    })
   })
 })
