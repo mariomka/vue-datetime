@@ -110,7 +110,7 @@ input-class | `String` | `''` | Class for the input.
 hidden-name | `String` | `null` | Name for hidden input with raw value. See #51.
 value-zone | `String` | `UTC` | Time zone for the value.
 zone | `String` | `local` | Time zone for the picker.
-format | `Object` or `String` | `DateTime.DATE_MED` or `DateTime.DATETIME_MED` or `yyyy-MM-dd` | Input date format.
+format | `Object` or `String` | `DateTime.DATE_MED` or `DateTime.DATETIME_MED` | Input date format. Luxon [presents](https://moment.github.io/luxon/docs/manual/formatting.html#tolocalestring--strings-for-humans-) or [tokens](https://moment.github.io/luxon/docs/manual/formatting.html#formatting-with-tokens--strings-for-cthulhu-).
 phrases | `Object` | `{ok: 'Ok', cancel: 'Cancel'}` | Phrases.
 use12-hour | `Boolean` | `false` | Display 12 hour (AM/PM) mode
 hour-step | `Number` | `1` | Hour step.
