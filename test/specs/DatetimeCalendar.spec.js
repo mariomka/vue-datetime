@@ -50,7 +50,7 @@ describe('DatetimeCalendar.vue', function () {
       expect(weekdays).deep.equal(['Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed'])
 
       const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
-      expect(days).deep.equal(['', '', '', '', '', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'])
+      expect(days).deep.equal(['', '', '', '', '', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '', '', '', '', ''])
     })
 
     it('should select the current day', function () {
@@ -127,7 +127,7 @@ describe('DatetimeCalendar.vue', function () {
       vm.$nextTick(() => {
         expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('May 2017')
         const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
-        expect(days).deep.equal(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'])
+        expect(days).deep.equal(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '', '', '', ''])
         done()
       })
     })
@@ -144,7 +144,7 @@ describe('DatetimeCalendar.vue', function () {
       vm.$nextTick(() => {
         expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('January 2018')
         const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
-        expect(days).deep.equal(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'])
+        expect(days).deep.equal(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '', '', '', ''])
         done()
       })
     })
@@ -161,7 +161,7 @@ describe('DatetimeCalendar.vue', function () {
       vm.$nextTick(() => {
         expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('March 2017')
         const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
-        expect(days).deep.equal(['', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'])
+        expect(days).deep.equal(['', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '', ''])
         done()
       })
     })
@@ -178,7 +178,7 @@ describe('DatetimeCalendar.vue', function () {
       vm.$nextTick(() => {
         expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('December 2016')
         const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
-        expect(days).deep.equal(['', '', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'])
+        expect(days).deep.equal(['', '', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', ''])
         done()
       })
     })

@@ -18,12 +18,16 @@ export function monthDays (year, month, weekStart) {
   if (firstDay < 0) {
     firstDay += 7
   }
+  let lastDay = (weekStart - monthDate.weekday - monthDate.daysInMonth) % 7
+  if (lastDay < 0) {
+    lastDay += 7
+  }
 
-  return new Array(monthDate.daysInMonth + firstDay)
+  return new Array(monthDate.daysInMonth + firstDay + lastDay)
     .fill(null)
-    .map((value, index) => {
-      return index + 1 <= firstDay ? null : index + 1 - firstDay
-    })
+    .map((value, index) =>
+      (index + 1 <= firstDay || index >= firstDay + monthDate.daysInMonth) ? null : (index + 1 - firstDay)
+    )
 }
 
 export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
