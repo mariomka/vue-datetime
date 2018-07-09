@@ -141,7 +141,7 @@ export default {
       }
     },
     popupDate () {
-      return this.datetime ? this.datetime.setZone(this.zone) : DateTime.utc().setZone(this.zone)
+      return this.datetime ? this.datetime.setZone(this.zone) : this.roundMinute()
     },
     popupMinDatetime () {
       return this.minDatetime ? DateTime.fromISO(this.minDatetime) : null
@@ -177,6 +177,19 @@ export default {
     },
     cancel () {
       this.close()
+    },
+    roundMinute () {
+      if (this.minuteStep === 1) {
+        return DateTime.utc().setZone(this.zone)
+      }
+
+      const roundedMinute = Math.round(DateTime.utc().setZone(this.zone).minute / this.minuteStep) * this.minuteStep
+
+      if (roundedMinute === 60) {
+        return DateTime.utc().setZone(this.zone).plus({ hours: 1 }).set({ minute: 0 })
+      }
+
+      return DateTime.utc().setZone(this.zone).set({ minute: roundedMinute })
     }
   }
 }
