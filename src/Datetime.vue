@@ -141,7 +141,7 @@ export default {
       }
     },
     popupDate () {
-      return this.datetime ? this.datetime.setZone(this.zone) : this.roundMinute()
+      return this.datetime ? this.datetime.setZone(this.zone) : this.newPopupDatetime()
     },
     popupMinDatetime () {
       return this.minDatetime ? DateTime.fromISO(this.minDatetime) : null
@@ -178,8 +178,8 @@ export default {
     cancel () {
       this.close()
     },
-    roundMinute () {
-      const datetime = DateTime.utc().setZone(this.zone)
+    newPopupDatetime () {
+      const datetime = DateTime.utc().setZone(this.zone).set({ seconds: 0, milliseconds: 0 })
 
       if (this.minuteStep === 1) {
         return datetime
