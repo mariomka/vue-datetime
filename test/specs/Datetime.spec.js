@@ -195,6 +195,26 @@ describe('Datetime.vue', function () {
         done()
       })
     })
+
+    it('should pass datetime to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" v-model="datetime" zone="UTC+03:00"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T19:34:54.078+03:00'
+            }
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').datetime.toISO()).to.be.equal('2017-12-07T19:34:54.078+03:00')
+        done()
+      })
+    })
   })
 
   describe('types', function () {
