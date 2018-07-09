@@ -179,17 +179,19 @@ export default {
       this.close()
     },
     roundMinute () {
+      const datetime = DateTime.utc().setZone(this.zone)
+
       if (this.minuteStep === 1) {
-        return DateTime.utc().setZone(this.zone)
+        return datetime
       }
 
-      const roundedMinute = Math.round(DateTime.utc().setZone(this.zone).minute / this.minuteStep) * this.minuteStep
+      const roundedMinute = Math.round(datetime.minute / this.minuteStep) * this.minuteStep
 
       if (roundedMinute === 60) {
-        return DateTime.utc().setZone(this.zone).plus({ hours: 1 }).set({ minute: 0 })
+        return datetime.plus({ hours: 1 }).set({ minute: 0 })
       }
 
-      return DateTime.utc().setZone(this.zone).set({ minute: roundedMinute })
+      return datetime.set({ minute: roundedMinute })
     }
   }
 }
