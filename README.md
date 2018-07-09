@@ -106,6 +106,7 @@ Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
 v-model (*required*) | ISO 8601 `String` | - | Datetime.
 type | `String` | `date` | Picker type. date or datetime.
+input-id | `String` | `''` | Id for the input.
 input-class | `String` | `''` | Class for the input.
 hidden-name | `String` | `null` | Name for hidden input with raw value. See #51.
 value-zone | `String` | `UTC` | Time zone for the value.

@@ -2,6 +2,7 @@
   <div class="vdatetime">
     <input class="vdatetime-input"
            :class="inputClass"
+           :id="inputId"
            type="text"
            :value="inputValue"
            v-bind="$attrs"
@@ -47,6 +48,10 @@ export default {
     valueZone: {
       type: String,
       default: 'UTC'
+    },
+    inputId: {
+      type: String,
+      default: ''
     },
     inputClass: {
       type: String,

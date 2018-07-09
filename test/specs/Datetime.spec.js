@@ -34,6 +34,16 @@ describe('Datetime.vue', function () {
       expect(vm.$('.vdatetime-input')).to.have.class('class-name')
     })
 
+    it('should add id to input', function () {
+      const vm = createVM(this,
+        `<Datetime input-id="id-name"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      expect(vm.$('.vdatetime-input')).to.have.id('id-name')
+    })
+
     it('input should inherit attributes', function () {
       const vm = createVM(this,
         `<Datetime placeholder="Select date..."></Datetime>`,
