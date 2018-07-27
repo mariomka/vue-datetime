@@ -1,5 +1,6 @@
 <template>
   <div class="vdatetime">
+    <slot name="before"></slot>
     <input class="vdatetime-input"
            :class="inputClass"
            :id="inputId"
@@ -10,6 +11,7 @@
            @click="open"
            @focus="open">
     <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value">
+    <slot name="after"></slot>
     <transition-group name="vdatetime-fade" tag="div">
       <div key="overlay" v-if="isOpen" class="vdatetime-overlay" @click.self="cancel"></div>
       <datetime-popup
