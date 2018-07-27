@@ -134,7 +134,10 @@ export default {
     inputValue () {
       const format = this.format || (this.type === 'date' ? DateTime.DATE_MED : DateTime.DATETIME_MED)
 
-      if (typeof format === 'string') {
+      if (this.type === 'time' && this.datetime) {
+        const f = DateTime.TIME_24_SIMPLE
+        return this.datetime ? this.datetime.setZone(this.zone).toLocaleString(f) : ''
+      } else if (typeof format === 'string') {
         return this.datetime ? DateTime.fromISO(this.datetime).setZone(this.zone).toFormat(format) : ''
       } else {
         return this.datetime ? this.datetime.setZone(this.zone).toLocaleString(format) : ''
