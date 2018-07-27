@@ -265,9 +265,87 @@ describe('Datetime.vue', function () {
         })
       })
     })
+
+    it('should be a time type', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="time"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-time-picker')).to.exist
+        done()
+      })
+    })
   })
 
   describe('value', function () {
+    it('should be a time with the specified time zone', function (done) {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type='time' zone='UTC-03:00'></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-05T00:00:00.000Z'
+            }
+          },
+          mounted () {
+            setTimeout(() => {
+              this.datetime = '2017-12-07T09:00:00.000Z'
+            }, 50)
+          }
+        })
+
+      setTimeout(() => {
+        expect(vm.$('.vdatetime-input').value).to.be.equal('06:00')
+        done()
+      }, 50)
+    })
+
+    it('should be a time in the local time zone on default', function (done) {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type='time'></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-05T00:00:00.000Z'
+            }
+          },
+          mounted () {
+            setTimeout(() => {
+              this.datetime = '2017-12-07T09:00:00.000Z'
+            }, 50)
+          }
+        })
+
+      setTimeout(() => {
+        const f = LuxonDateTime.TIME_24_SIMPLE
+
+        expect(vm.$('.vdatetime-input').value).to.be.equal(LuxonDateTime.fromISO('2017-12-07T09:00:00.000Z').toUTC().setZone('local').toLocaleString(f))
+        done()
+      }, 50)
+    })
+
+    it('should be a time converted to utc', function () {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type='time' value-zone="UTC-05:00"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-05T00:00:00.000Z'
+            }
+          }
+        })
+
+      expect(vm.datetime).to.be.equal('2017-12-04T19:00:00.000-05:00')
+    })
+
     it('should be empty string when value is empty', function () {
       const vm = createVM(this,
         `<Datetime v-model="datetime"></Datetime>`,
