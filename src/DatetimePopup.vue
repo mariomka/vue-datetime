@@ -8,6 +8,8 @@
       <datetime-year-picker
           v-if="step === 'year'"
           @change="onChangeYear"
+          :min-date="minDatetime"
+          :max-date="maxDatetime"
           :year="year"></datetime-year-picker>
       <datetime-calendar
           v-if="step === 'date'"
