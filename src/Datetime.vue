@@ -144,10 +144,10 @@ export default {
       return this.datetime ? this.datetime.setZone(this.zone) : this.newPopupDatetime()
     },
     popupMinDatetime () {
-      return this.minDatetime ? DateTime.fromISO(this.minDatetime) : null
+      return this.minDatetime ? DateTime.fromISO(this.minDatetime).setZone(this.zone) : null
     },
     popupMaxDatetime () {
-      return this.maxDatetime ? DateTime.fromISO(this.maxDatetime) : null
+      return this.maxDatetime ? DateTime.fromISO(this.maxDatetime).setZone(this.zone) : null
     }
   },
 
