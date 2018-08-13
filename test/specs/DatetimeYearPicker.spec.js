@@ -81,8 +81,6 @@ describe('DatetimeYearPicker.vue', function () {
         const yearEl = years[i]
         if (yearEl.textContent === '2018') {
           expect(yearEl.className).to.have.string('vdatetime-year-picker__item--selected')
-          console.log(yearEl.textContent)
-          console.log(yearEl.className)
           continue
         }
         expect(yearEl.className).to.have.string('vdatetime-year-picker__item--disabled')
