@@ -762,5 +762,67 @@ describe('Datetime.vue', function () {
         })
       })
     })
+
+    it('should select min date if clicked through', function (done) {
+      const minDatetime = LuxonDateTime.utc().plus({ days: 3 }).set({ seconds: 0, millisecond: 0 }).toISO()
+
+      const vm = createVM(this,
+        `<Datetime type="datetime" v-model="datetime" :min-datetime="minDatetime"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: null,
+              minDatetime: minDatetime
+            }
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+        vm.$nextTick(() => {
+          vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+          vm.$nextTick(() => {
+            expect(vm.datetime).to.be.equal(minDatetime)
+            done()
+          })
+        })
+      })
+    })
+
+    it('should select max date if clicked through', function (done) {
+      const maxDatetime = LuxonDateTime.utc().minus({ days: 3 }).set({ seconds: 0, millisecond: 0 }).toISO()
+
+      const vm = createVM(this,
+        `<Datetime type="datetime" v-model="datetime" :max-datetime="maxDatetime"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: null,
+              maxDatetime: maxDatetime
+            }
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+        vm.$nextTick(() => {
+          vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+          vm.$nextTick(() => {
+            expect(vm.datetime).to.be.equal(maxDatetime)
+            done()
+          })
+        })
+      })
+    })
   })
 })
