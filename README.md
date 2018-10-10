@@ -1,44 +1,61 @@
-# vue-datetime 0.x
+# vue-datetime
+
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Latest Version on NPM](https://img.shields.io/npm/v/vue-datetime.svg?style=flat-square)](https://npmjs.com/package/vue-datetime)
+[![npm](https://img.shields.io/npm/dt/vue-datetime.svg?style=flat-square)](https://www.npmjs.com/package/vue-datetime)
+[![Vue 2.x](https://img.shields.io/badge/vue-2.x-brightgreen.svg?style=flat-square)](https://vuejs.org)
+[![Build](https://img.shields.io/travis/mariomka/vue-datetime/v1.x.svg?style=flat-square)](https://travis-ci.org/mariomka/vue-datetime)
+[![Coverage](https://img.shields.io/codecov/c/github/mariomka/vue-datetime/v1.x.svg?style=flat-square)](https://codecov.io/gh/mariomka/vue-datetime)
 
 > Mobile friendly datetime picker for Vue. Supports date, datetime and time modes, i18n and disabling dates.
 
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Latest Version on NPM](https://img.shields.io/npm/v/vue-datetime.svg?style=flat-square)](https://npmjs.com/package/vue-datetime)
-[![npm](https://img.shields.io/npm/dt/vue-datetime.svg?style=flat-square)](https://www.npmjs.com/package/vue-datetime)
-
-#### New version 1.x is under development, [more info](https://github.com/mariomka/vue-datetime/issues/28).
-
+**NOTICE:** This README is related to next version (1.x) of vue-datetime. For the old release 0.x, [see here](https://github.com/mariomka/vue-datetime/tree/v0.x).
+ 
 ## Demo
-
-[![demo](https://raw.githubusercontent.com/mariomka/vue-datetime/master/docs/demo.gif)](http://mariomka.github.io/vue-datetime)
 
 **[Go to demo](http://mariomka.github.io/vue-datetime)**.
 
-# Install
+[![demo](https://raw.githubusercontent.com/mariomka/vue-datetime/v1.x/demo/demo.gif)](http://mariomka.github.io/vue-datetime)
 
-yarn
+## TODO
+
+v1.x currently support most of v0.x functionality but it's still behind.
+
+Old features not yet implemented:
+
+- Disabled dates
+- Time picker (Not sure if it will be implemented)
+
+## Installation
+
+### Bundler (Webpack, Rollup...)
 
 ```bash
-yarn add vue-datetime@0.7.1
+yarn add luxon vue-datetime weekstart
 ```
 
-npm
+Or
 
 ```bash
-npm install vue-datetime@0.7.1 --save
+npm install --save luxon vue-datetime weekstart
 ```
 
-## Register the component
+**weekstart** is optional, is used to get the first day of the week.
+
+#### Register
 
 ```js
-import Datetime from 'vue-datetime';
+import Vue from 'vue'
+import Datetime from 'vue-datetime'
+// You need a specific loader for CSS files
+import 'vue-datetime/dist/vue-datetime.css'
 
-Vue.use(Datetime);
+Vue.use(Datetime)
 ```
 
-### Register manually
+#### Register manually
 
-#### Global
+##### Global
 
 ```js
 import { Datetime } from 'vue-datetime';
@@ -46,7 +63,7 @@ import { Datetime } from 'vue-datetime';
 Vue.component('datetime', Datetime);
 ```
 
-#### Local
+##### Local
 
 ```js
 import { Datetime } from 'vue-datetime';
@@ -59,6 +76,20 @@ Vue.extend({
 });
 ```
 
+### Browser
+
+Download vue, luxon, weekstart and vue-datetime or use a CDN like unpkg.
+
+```html
+<link rel="stylesheet" href="vue-datetime.css"></link>
+<script src="vue.js"></script>
+<script src="luxon.js"></script>
+<script src="weekstart.js"></script>
+<script src="vue-datetime.js"></script>
+```
+
+**weekstart** is optional, is used to get the first day of the week.
+
 ## Usage
 
 ### Minimal
@@ -67,72 +98,77 @@ Vue.extend({
 <datetime v-model="date"></datetime>
 ```
 
-### Complete
+## Setup
 
-```html
-<datetime v-model="date"
-          type="datetime"
-          input-format="DD-MM-YYYY HH:mm"
-          wrapper-class="my-wrapper-class"
-          input-class="my-input-class"
-          placeholder="Select date"
-          moment-locale="es"
-          :i18n="{ok:'De acuerdo', cancel:'Cancelar'}"
-          :disabled-dates="['2017-09-07', ['2017-09-25', '2017-10-05']]"
-          max-date="2017-12-10"
-          min-date="2017-07-10"
-          monday-first
-          auto-continue
-          auto-close
-          required></datetime>
+### Parameters
+
+Parameter | Type | Default | Description
+--------- | ---- | ------- | -----------
+v-model (*required*) | ISO 8601 `String` | - | Datetime.
+type | `String` | `date` | Picker type. date or datetime.
+input-id | `String` | `''` | Id for the input.
+input-class | `String` | `''` | Class for the input.
+hidden-name | `String` | `null` | Name for hidden input with raw value. See #51.
+value-zone | `String` | `UTC` | Time zone for the value.
+zone | `String` | `local` | Time zone for the picker.
+format | `Object` or `String` | `DateTime.DATE_MED` or `DateTime.DATETIME_MED` | Input date format. Luxon [presents](https://moment.github.io/luxon/docs/manual/formatting.html#tolocalestring--strings-for-humans-) or [tokens](https://moment.github.io/luxon/docs/manual/formatting.html#formatting-with-tokens--strings-for-cthulhu-).
+phrases | `Object` | `{ok: 'Ok', cancel: 'Cancel'}` | Phrases.
+use12-hour | `Boolean` | `false` | Display 12 hour (AM/PM) mode
+hour-step | `Number` | `1` | Hour step.
+minute-step | `Number` | `1` | Minute step.
+min-datetime | ISO 8601 `String` | `null` | Minimum datetime.
+max-datetime | ISO 8601 `String` | `null` | Maximum datetime.
+auto | `Boolean` | `false` | Auto continue/close on select.
+week-start | `Number` | auto from locale if _weekstart_ is available or `1` | First day of the week. 1 is Monday and 7 is Sunday.
+
+Input inherits all props not defined above but `style` and `class` will be inherited by root element.
+
+The component is based on [Luxon](https://github.com/moment/luxon), check out [documentation](https://moment.github.io/luxon/docs/index.html) to set [time zones](https://moment.github.io/luxon/docs/manual/zones.html) and [format](https://moment.github.io/luxon/docs/manual/formatting.html). 
+
+### Internationalization
+
+Date internationalization depends on luxon. [Set the default locale](https://moment.github.io/luxon/docs/manual/intl.html#setting-the-default).
+
+```js
+import { Settings } from 'luxon'
+
+Settings.defaultLocale = 'es'
 ```
 
-### Third-party libraries
-
-The component has a dependency, moment.js, and it behaves like an input text. It should work well with third-party libraries.
-
-How to use with other libraries:
-
-- [Use with Vue-Formly](https://gist.github.com/AndresCL/2e45360643a1858883616d349e0a9171) @AndresCL
-
-## Params
-
-Parameter | Type | Default
---------- | ---- | ------
-v-model (*required*) | Date `String` | -
-type | `String`: *date*, *datetime* or *time* | `date`
-input-format | `String` | `YYYY-MM-DD`, `YYYY-MM-DD HH:mm` or `HH:mm`
-wrapper-class | `String` | `null`
-input-class | `String` | `null`
-placeholder | `String` | `null`
-moment-locale | `String` | `null`
-i18n | `Object` | `{ok: 'Ok', cancel: 'Cancel'}`
-disabled-dates | `Array` of date `Strings` | `[]`
-min-date | Date `String` | `null`
-max-date | Date `String` | `null`
-monday-first | `Boolean` | `false`
-auto-continue | `Boolean` | `false`
-auto-close | `Boolean` | `false`
-required | `Boolean` | `false`
-
-The component is based on [Moment.js](https://momentjs.com), check out documentation to set dates (ISO 8601 recommended), `input-format` and `moment-locale`.
-
-## Time zone
-
-If a time zone offset is not present, the local time zone is used.
-
-The user selects in his local time but datetime returned is UTC.
-
-## Events
+### Events
 
 Component emits the `input` event to work with `v-model`. [More info](https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events).
 
+`close` event is emitted when the popup closes.
+
+Also, input text inherits all component events.
+
 ## Theming
 
-Theming is supported by overwriting CSS classes, you can see all CSS in [Datetime.vue](src/Datetime.vue).
+Theming is supported by overwriting CSS classes.
 
-Also there is an example in **[demo](http://mariomka.github.io/vue-datetime)**.
+## Development
 
-# License
+### Launch lint and tests
+
+```bash
+yarn test
+```
+
+### Launch visual tests
+
+```bash
+yarn dev
+```
+
+### Build
+
+Bundle the js and css to the `dist` folder:
+
+```bash
+yarn build
+```
+
+## License
 
 [The MIT License](http://opensource.org/licenses/MIT)

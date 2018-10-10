@@ -1,55 +1,110 @@
-import moment from 'moment'
+import { DateTime, Info, Settings } from 'luxon'
+import FlowManager from './FlowManager'
 
-export function weekdays (momentLocale, mondayFirst = false) {
-  const weekdays = moment.localeData(momentLocale).weekdaysMin()
-  if (mondayFirst) {
-    return weekdays.slice(1).concat(weekdays[0])
-  }
-  return weekdays
+export function capitalize (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-export function monthDays (month, year, mondayFirst = false) {
-  const monthDate = moment([year, month, 1])
-  let firstDay = monthDate.day() - (mondayFirst ? 1 : 0)
+export function datetimeFromISO (string) {
+  const datetime = DateTime.fromISO(string).toUTC()
 
-  if (firstDay === -1) {
-    firstDay = 6
-  }
-
-  let days = (new Array(monthDate.daysInMonth() + firstDay)).fill(null)
-
-  return days.map((value, index) => {
-    return index + 1 < firstDay ? null : index + 1 - firstDay
-  })
+  return datetime.isValid ? datetime : null
 }
 
-export function years () {
-  const currentYear = moment().year()
-  let years = []
+export function monthDays (year, month, weekStart) {
+  const monthDate = DateTime.local(year, month, 1)
+  let firstDay = monthDate.weekday - weekStart
 
-  for (let i = currentYear - 100; i < currentYear + 100; i++) {
-    years.push(i)
+  if (firstDay < 0) {
+    firstDay += 7
+  }
+  let lastDay = (weekStart - monthDate.weekday - monthDate.daysInMonth) % 7
+  if (lastDay < 0) {
+    lastDay += 7
   }
 
-  return years
+  return new Array(monthDate.daysInMonth + firstDay + lastDay)
+    .fill(null)
+    .map((value, index) =>
+      (index + 1 <= firstDay || index >= firstDay + monthDate.daysInMonth) ? null : (index + 1 - firstDay)
+    )
 }
 
-export function hours () {
-  let hours = []
+export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
+  const date = DateTime.fromObject({ year, month, day })
 
-  for (let i = 0; i < 24; i++) {
-    hours.push(i < 10 ? '0' + i : i)
-  }
+  minDate = minDate ? startOfDay(minDate) : null
+  maxDate = maxDate ? startOfDay(maxDate) : null
 
-  return hours
+  return (minDate && date < minDate) ||
+         (maxDate && date > maxDate)
 }
 
-export function minutes () {
-  let minutes = []
+export function timeComponentIsDisabled (min, max, component) {
+  return (min && component < min) ||
+         (max && component > max)
+}
 
-  for (let i = 0; i < 60; i++) {
-    minutes.push(i < 10 ? '0' + i : i)
+export function weekdays (weekStart) {
+  if (--weekStart < 0) {
+    weekStart = 6
   }
 
-  return minutes
+  let weekDays = Info.weekdays('short').map(weekday => capitalize(weekday))
+
+  weekDays = weekDays.concat(weekDays.splice(0, weekStart))
+
+  return weekDays
+}
+
+export function months () {
+  return Info.months().map(month => capitalize(month))
+}
+
+export function hours (step) {
+  return new Array(Math.ceil(24 / step)).fill(null).map((item, index) => index * step)
+}
+
+export function minutes (step) {
+  return new Array(Math.ceil(60 / step)).fill(null).map((item, index) => index * step)
+}
+
+export function years (current) {
+  return new Array(201).fill(null).map((item, index) => current - 100 + index)
+}
+
+export function pad (number) {
+  return number < 10 ? '0' + number : number
+}
+
+export function startOfDay (datetime) {
+  return datetime.startOf('day')
+}
+
+export function createFlowManagerFromType (type) {
+  let flow = []
+
+  switch (type) {
+    case 'datetime':
+      flow = ['date', 'time']
+      break
+    default:
+      flow = ['date']
+  }
+
+  return new FlowManager(flow, 'end')
+}
+
+export function weekStart () {
+  let weekstart
+
+  try {
+    weekstart = require('weekstart')
+  } catch (e) {
+    weekstart = window.weekstart
+  }
+
+  const firstDay = weekstart ? weekstart.getWeekStartByLocale(Settings.defaultLocale) : 1
+
+  return firstDay === 0 ? 7 : firstDay
 }
