@@ -26,7 +26,8 @@
           @confirm="confirm"
           @cancel="cancel"
           :auto="auto"
-          :week-start="weekStart"></datetime-popup>
+          :week-start="weekStart"
+          :starting-view="startingView"></datetime-popup>
     </transition-group>
   </div>
 </template>
@@ -71,6 +72,9 @@ export default {
     type: {
       type: String,
       default: 'date'
+    },
+    startingView: {
+      type: String
     },
     phrases: {
       type: Object,

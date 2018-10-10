@@ -100,6 +100,9 @@ export default {
     weekStart: {
       type: Number,
       default: 1
+    },
+    startingView: {
+      type: String
     }
   },
 
@@ -116,6 +119,22 @@ export default {
 
   created () {
     document.addEventListener('keydown', this.onKeyDown)
+
+    // Set the starting view
+    if (this.startingView) {
+      switch (this.startingView) {
+        case 'year':
+          this.showYear()
+          break
+
+        case 'date':
+          break
+
+        default:
+          console.error(`Unsupported startingView: ${this.startingView}`)
+          break
+      }
+    }
   },
 
   beforeDestroy () {
