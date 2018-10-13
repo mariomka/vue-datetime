@@ -134,7 +134,22 @@ export default {
 
   computed: {
     inputValue () {
-      const format = this.format || (this.type === 'date' ? DateTime.DATE_MED : DateTime.DATETIME_MED)
+      let format = this.format
+
+      if (!format) {
+        switch (this.type) {
+          case 'date':
+            format = DateTime.DATE_MED
+            break
+          case 'time':
+            format = DateTime.TIME_24_SIMPLE
+            break
+          case 'datetime':
+          case 'default':
+            format = DateTime.DATETIME_MED
+            break
+        }
+      }
 
       if (typeof format === 'string') {
         return this.datetime ? DateTime.fromISO(this.datetime).setZone(this.zone).toFormat(format) : ''
