@@ -10,7 +10,7 @@
 > Mobile friendly datetime picker for Vue. Supports date, datetime and time modes, i18n and disabling dates.
 
 **NOTICE:** This README is related to next version (1.x) of vue-datetime. For the old release 0.x, [see here](https://github.com/mariomka/vue-datetime/tree/v0.x).
- 
+
 ## Demo
 
 **[Go to demo](http://mariomka.github.io/vue-datetime)**.
@@ -98,6 +98,17 @@ Download vue, luxon, weekstart and vue-datetime or use a CDN like unpkg.
 <datetime v-model="date"></datetime>
 ```
 
+### Custom
+
+You can customize the component output using named slots and component props.
+
+```html
+<datetime v-model="date" input-id="startDate">
+  <label for="startDate" slot="before">Field Label</label>
+  <span class="description" slot="after">The field description</span>
+</datetime>
+```
+
 ## Setup
 
 ### Parameters
@@ -123,7 +134,7 @@ week-start | `Number` | auto from locale if _weekstart_ is available or `1` | Fi
 
 Input inherits all props not defined above but `style` and `class` will be inherited by root element.
 
-The component is based on [Luxon](https://github.com/moment/luxon), check out [documentation](https://moment.github.io/luxon/docs/index.html) to set [time zones](https://moment.github.io/luxon/docs/manual/zones.html) and [format](https://moment.github.io/luxon/docs/manual/formatting.html). 
+The component is based on [Luxon](https://github.com/moment/luxon), check out [documentation](https://moment.github.io/luxon/docs/index.html) to set [time zones](https://moment.github.io/luxon/docs/manual/zones.html) and [format](https://moment.github.io/luxon/docs/manual/formatting.html).
 
 ### Internationalization
 

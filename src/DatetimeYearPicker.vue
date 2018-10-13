@@ -1,19 +1,29 @@
 <template>
   <div class="vdatetime-year-picker">
     <div class="vdatetime-year-picker__list vdatetime-year-picker__list" ref="yearList">
-      <div class="vdatetime-year-picker__item" v-for="year in years" @click="select(year.number)" :class="{'vdatetime-year-picker__item--selected': year.selected}">{{ year.number }}</div>
+      <div class="vdatetime-year-picker__item" v-for="year in years" @click="select(year)" :class="{'vdatetime-year-picker__item--selected': year.selected, 'vdatetime-year-picker__item--disabled': year.disabled}">{{ year.number }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { years } from './util'
+import { DateTime } from 'luxon'
+import { yearIsDisabled, years } from './util'
 
 export default {
   props: {
     year: {
       type: Number,
       required: true
+    },
+    minDate: {
+      type: DateTime,
+      default: null
+    },
+    maxDate: {
+      type: DateTime,
+      default: null
     }
   },
 
@@ -21,14 +31,19 @@ export default {
     years () {
       return years(this.year).map(year => ({
         number: year,
-        selected: year === this.year
+        selected: year === this.year,
+        disabled: !year || yearIsDisabled(this.minDate, this.maxDate, year)
       }))
     }
   },
 
   methods: {
     select (year) {
-      this.$emit('change', parseInt(year))
+      if (year.disabled) {
+        return
+      }
+
+      this.$emit('change', parseInt(year.number))
     },
 
     scrollToCurrent () {
@@ -96,5 +111,15 @@ export default {
 .vdatetime-year-picker__item--selected {
   color: #3f51b5;
   font-size: 32px;
+}
+
+.vdatetime-year-picker__item--disabled {
+  opacity: 0.4;
+  cursor: default;
+
+  &:hover {
+    color: inherit;
+    background: transparent;
+  }
 }
 </style>

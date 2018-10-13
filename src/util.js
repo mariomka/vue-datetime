@@ -31,13 +31,21 @@ export function monthDays (year, month, weekStart) {
 }
 
 export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
-  const date = DateTime.fromObject({ year, month, day })
+  const date = DateTime.fromObject({ year, month, day, zone: 'UTC' })
 
   minDate = minDate ? startOfDay(minDate) : null
   maxDate = maxDate ? startOfDay(maxDate) : null
 
   return (minDate && date < minDate) ||
          (maxDate && date > maxDate)
+}
+
+export function yearIsDisabled (minDate, maxDate, year) {
+  const minYear = minDate ? minDate.year : null
+  const maxYear = maxDate ? maxDate.year : null
+
+  return (minYear && year < minYear) ||
+         (maxYear && year > maxYear)
 }
 
 export function timeComponentIsDisabled (min, max, component) {
@@ -87,6 +95,9 @@ export function createFlowManagerFromType (type) {
   switch (type) {
     case 'datetime':
       flow = ['date', 'time']
+      break
+    case 'time':
+      flow = ['time']
       break
     default:
       flow = ['date']

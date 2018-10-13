@@ -1,5 +1,6 @@
 <template>
   <div class="vdatetime">
+    <slot name="before"></slot>
     <input class="vdatetime-input"
            :class="inputClass"
            :id="inputId"
@@ -10,6 +11,7 @@
            @click="open"
            @focus="open">
     <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value" @input="setValue">
+    <slot name="after"></slot>
     <transition-group name="vdatetime-fade" tag="div">
       <div key="overlay" v-if="isOpen" class="vdatetime-overlay" @click.self="cancel"></div>
       <datetime-popup
@@ -132,7 +134,22 @@ export default {
 
   computed: {
     inputValue () {
-      const format = this.format || (this.type === 'date' ? DateTime.DATE_MED : DateTime.DATETIME_MED)
+      let format = this.format
+
+      if (!format) {
+        switch (this.type) {
+          case 'date':
+            format = DateTime.DATE_MED
+            break
+          case 'time':
+            format = DateTime.TIME_24_SIMPLE
+            break
+          case 'datetime':
+          case 'default':
+            format = DateTime.DATETIME_MED
+            break
+        }
+      }
 
       if (typeof format === 'string') {
         return this.datetime ? DateTime.fromISO(this.datetime).setZone(this.zone).toFormat(format) : ''
@@ -144,10 +161,10 @@ export default {
       return this.datetime ? this.datetime.setZone(this.zone) : this.newPopupDatetime()
     },
     popupMinDatetime () {
-      return this.minDatetime ? DateTime.fromISO(this.minDatetime) : null
+      return this.minDatetime ? DateTime.fromISO(this.minDatetime).setZone(this.zone) : null
     },
     popupMaxDatetime () {
-      return this.maxDatetime ? DateTime.fromISO(this.maxDatetime) : null
+      return this.maxDatetime ? DateTime.fromISO(this.maxDatetime).setZone(this.zone) : null
     }
   },
 

@@ -90,6 +90,22 @@ describe('Datetime.vue', function () {
 
       expect(vm.$('.vdatetime input[type=hidden]')).to.have.attr('name', 'dt')
     })
+
+    it('should support named slots', function () {
+      const vm = createVM(this,
+        `<Datetime>
+          <label slot="before">Start Date</label>
+          <span slot="after" class="error">Invalid date</span>
+        </Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      const children = vm.$('.vdatetime').children
+      expect(children[0].nodeName).to.equal('LABEL')
+      expect(children[1].nodeName).to.equal('INPUT')
+      expect(children[2].nodeName).to.equal('SPAN')
+    })
   })
 
   describe('pass props', function () {
@@ -265,6 +281,21 @@ describe('Datetime.vue', function () {
         })
       })
     })
+
+    it('should be a time type', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="time"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-time-picker')).to.exist
+        done()
+      })
+    })
   })
 
   describe('value', function () {
@@ -356,6 +387,59 @@ describe('Datetime.vue', function () {
         })
 
       expect(vm.datetime).to.be.equal('2017-12-08T00:00:00.000+03:00')
+    })
+
+    it('should be a time with the specified time zone', function (done) {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type='time' zone='UTC-03:00'></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T09:00:00.000Z'
+            }
+          }
+        })
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-input').value).to.be.equal('06:00')
+        done()
+      })
+    })
+
+    it('should be a time in the local time zone on default', function (done) {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type='time'></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T09:00:00.000Z'
+            }
+          }
+        })
+
+      vm.$nextTick(() => {
+        const time = LuxonDateTime.fromISO('2017-12-07T09:00:00.000Z').toUTC().setZone('local').toLocaleString(LuxonDateTime.TIME_24_SIMPLE)
+
+        expect(vm.$('.vdatetime-input').value).to.be.equal(time)
+        done()
+      })
+    })
+
+    it('should be a time converted to utc', function () {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type='time' value-zone="UTC-05:00"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-05T00:00:00.000Z'
+            }
+          }
+        })
+
+      expect(vm.datetime).to.be.equal('2017-12-04T19:00:00.000-05:00')
     })
   })
 
@@ -453,6 +537,38 @@ describe('Datetime.vue', function () {
         })
 
       expect(vm.$('.vdatetime-input').value).to.be.equal('2017-12-07 19:34:54')
+    })
+
+    it('should be formatted in the specified format (time)', function () {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type="time" :format="format" zone="UTC+03:00"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T19:34:54.078+03:00',
+              format: LuxonDateTime.TIME_24_WITH_SECONDS
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-input').value).to.be.equal('19:34:54')
+    })
+
+    it('should be formatted in the specified macro format (time)', function () {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type="time" :format="format" zone="UTC+03:00"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T19:34:54.078+03:00',
+              format: 'HH:mm:ss'
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-input').value).to.be.equal('19:34:54')
     })
 
     it('should be updated if value is updated', function (done) {
