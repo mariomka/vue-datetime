@@ -891,14 +891,15 @@ describe('Datetime.vue', function () {
           }
         })
 
-      const newDate = '2020-06-08T00:00:00.00'
+      const newDate = '2020-06-08T00:00:00.000Z'
       const hiddenInput = vm.$('.vdatetime input[name=dt]')
-      hiddenInput.value = newDate + 'Z'
+
+      hiddenInput.value = newDate
       hiddenInput.dispatchEvent(new window.Event('input'))
 
       vm.$nextTick(() => {
-        expect(vm.datetime).to.be.equal(newDate + '0Z')
-        expect(hiddenInput.value).to.be.equal(newDate + '0Z')
+        expect(vm.datetime).to.be.equal(newDate)
+        expect(hiddenInput.value).to.be.equal(newDate)
         done()
       })
     })
