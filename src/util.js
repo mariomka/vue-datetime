@@ -40,6 +40,13 @@ export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
          (maxDate && date > maxDate)
 }
 
+export function yearIsDisabled (minDate, maxDate, year) {
+  minDate = minDate ? minDate.year : null
+  maxDate = maxDate ? maxDate.year : null
+  return (minDate && year < minDate) ||
+         (maxDate && year > maxDate)
+}
+
 export function timeComponentIsDisabled (min, max, component) {
   return (min && component < min) ||
          (max && component > max)
