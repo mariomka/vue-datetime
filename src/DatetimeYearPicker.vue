@@ -1,10 +1,8 @@
 <template>
   <div class="vdatetime-year-picker">
     <div class="vdatetime-year-picker__list vdatetime-year-picker__list" ref="yearList">
-      <div class="vdatetime-year-picker__item" v-for="year in years" @click="select(year)" :class="{
-        'vdatetime-year-picker__item--selected': year.selected,
-        'vdatetime-year-picker__item--disabled': year.disabled
-      }">{{ year.number }}</div>
+      <div class="vdatetime-year-picker__item" v-for="year in years" @click="select(year)" :class="{'vdatetime-year-picker__item--selected': year.selected, 'vdatetime-year-picker__item--disabled': year.disabled}">{{ year.number }}
+      </div>
     </div>
   </div>
 </template>
@@ -41,7 +39,10 @@ export default {
 
   methods: {
     select (year) {
-      if (year.disabled) return
+      if (year.disabled) {
+        return
+      }
+
       this.$emit('change', parseInt(year.number))
     },
 

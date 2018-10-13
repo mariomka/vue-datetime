@@ -41,10 +41,11 @@ export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
 }
 
 export function yearIsDisabled (minDate, maxDate, year) {
-  minDate = minDate ? minDate.year : null
-  maxDate = maxDate ? maxDate.year : null
-  return (minDate && year < minDate) ||
-         (maxDate && year > maxDate)
+  const minYear = minDate ? minDate.year : null
+  const maxYear = maxDate ? maxDate.year : null
+
+  return (minYear && year < minYear) ||
+         (maxYear && year > maxYear)
 }
 
 export function timeComponentIsDisabled (min, max, component) {
