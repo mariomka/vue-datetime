@@ -59,7 +59,7 @@ export default {
 
   data () {
     return {
-      newDate: DateTime.fromObject({ year: this.year, month: this.month, timeZone: 'UTC' }),
+      newDate: DateTime.fromObject({ year: this.year, month: this.month, zone: 'UTC' }),
       weekdays: weekdays(this.weekStart),
       months: months()
     }

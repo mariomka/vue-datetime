@@ -70,7 +70,7 @@ describe('DatetimeCalendar.vue', function () {
           components: { DatetimeCalendar },
           data () {
             return {
-              minDate: LuxonDatetime.fromISO('2018-07-06T12:00:00')
+              minDate: LuxonDatetime.fromISO('2018-07-06T12:00:00.000Z').toUTC()
             }
           }
         })
@@ -95,7 +95,7 @@ describe('DatetimeCalendar.vue', function () {
           components: { DatetimeCalendar },
           data () {
             return {
-              maxDate: LuxonDatetime.fromISO('2018-07-12T00:00:00')
+              maxDate: LuxonDatetime.fromISO('2018-07-12T00:00:00.000Z').toUTC()
             }
           }
         })
