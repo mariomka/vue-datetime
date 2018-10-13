@@ -90,6 +90,22 @@ describe('Datetime.vue', function () {
 
       expect(vm.$('.vdatetime input[type=hidden]')).to.have.attr('name', 'dt')
     })
+
+    it('should support named slots', function () {
+      const vm = createVM(this,
+        `<Datetime>
+          <label slot="before">Start Date</label>
+          <span slot="after" class="error">Invalid date</span>
+        </Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      const children = vm.$('.vdatetime').children
+      expect(children[0].nodeName).to.equal('LABEL')
+      expect(children[1].nodeName).to.equal('INPUT')
+      expect(children[2].nodeName).to.equal('SPAN')
+    })
   })
 
   describe('pass props', function () {
