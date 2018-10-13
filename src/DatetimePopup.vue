@@ -261,7 +261,6 @@ export default {
   background: #3f51b5;
   color: #fff;
   font-size: 32px;
-  min-height: 5px;
 }
 
 .vdatetime-popup__year {
