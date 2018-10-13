@@ -878,5 +878,30 @@ describe('Datetime.vue', function () {
         })
       })
     })
+
+    it('should update datetime when hidden input changes', function (done) {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" hidden-name="dt"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2020-05-07T00:00:00.000Z'
+            }
+          }
+        })
+
+      const newDate = '2020-06-08T00:00:00.000Z'
+      const hiddenInput = vm.$('.vdatetime input[name=dt]')
+
+      hiddenInput.value = newDate
+      hiddenInput.dispatchEvent(new window.Event('input'))
+
+      vm.$nextTick(() => {
+        expect(vm.datetime).to.be.equal(newDate)
+        expect(hiddenInput.value).to.be.equal(newDate)
+        done()
+      })
+    })
   })
 })

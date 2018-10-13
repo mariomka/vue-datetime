@@ -10,7 +10,7 @@
            v-on="$listeners"
            @click="open"
            @focus="open">
-    <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value">
+    <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value" @input="setValue">
     <slot name="after"></slot>
     <transition-group name="vdatetime-fade" tag="div">
       <div key="overlay" v-if="isOpen" class="vdatetime-overlay" @click.self="cancel"></div>
@@ -209,6 +209,10 @@ export default {
       }
 
       return datetime.set({ minute: roundedMinute })
+    },
+    setValue (event) {
+      this.datetime = datetimeFromISO(event.target.value)
+      this.emitInput()
     }
   }
 }
