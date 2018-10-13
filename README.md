@@ -17,15 +17,6 @@
 
 [![demo](https://raw.githubusercontent.com/mariomka/vue-datetime/v1.x/demo/demo.gif)](http://mariomka.github.io/vue-datetime)
 
-## TODO
-
-v1.x currently support most of v0.x functionality but it's still behind.
-
-Old features not yet implemented:
-
-- Disabled dates
-- Time picker (Not sure if it will be implemented)
-
 ## Installation
 
 ### Bundler (Webpack, Rollup...)
@@ -116,13 +107,13 @@ You can customize the component output using named slots and component props.
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
 v-model (*required*) | ISO 8601 `String` | - | Datetime.
-type | `String` | `date` | Picker type. date or datetime.
+type | `String` | `date` | Picker type: date, datetime or time.
 input-id | `String` | `''` | Id for the input.
 input-class | `String` | `''` | Class for the input.
 hidden-name | `String` | `null` | Name for hidden input with raw value. See #51.
 value-zone | `String` | `UTC` | Time zone for the value.
 zone | `String` | `local` | Time zone for the picker.
-format | `Object` or `String` | `DateTime.DATE_MED` or `DateTime.DATETIME_MED` | Input date format. Luxon [presents](https://moment.github.io/luxon/docs/manual/formatting.html#tolocalestring--strings-for-humans-) or [tokens](https://moment.github.io/luxon/docs/manual/formatting.html#formatting-with-tokens--strings-for-cthulhu-).
+format | `Object` or `String` | `DateTime.DATE_MED`, `DateTime.DATETIME_MED` or `DateTime.TIME_24_SIMPLE` | Input date format. Luxon [presents](https://moment.github.io/luxon/docs/manual/formatting.html#tolocalestring--strings-for-humans-) or [tokens](https://moment.github.io/luxon/docs/manual/formatting.html#formatting-with-tokens--strings-for-cthulhu-).
 phrases | `Object` | `{ok: 'Ok', cancel: 'Cancel'}` | Phrases.
 use12-hour | `Boolean` | `false` | Display 12 hour (AM/PM) mode
 hour-step | `Number` | `1` | Hour step.
