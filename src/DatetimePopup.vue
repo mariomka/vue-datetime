@@ -1,8 +1,6 @@
 <template>
   <div class="vdatetime-popup">
     <div class="vdatetime-popup__header">
-      <div class="vdatetime-popup__year" @click="showYear">{{ year }}</div>
-      <div class="vdatetime-popup__date">{{ dateFormatted }}</div>
       <div class="vdatetime-popup__year" @click="showYear" v-if="type !== 'time'">{{ year }}</div>
       <div class="vdatetime-popup__date" v-if="type !== 'time'">{{ dateFormatted }}</div>
     </div>

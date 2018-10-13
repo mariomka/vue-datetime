@@ -294,16 +294,14 @@ describe('Datetime.vue', function () {
             }
           },
           mounted () {
-            setTimeout(() => {
-              this.datetime = '2017-12-07T09:00:00.000Z'
-            }, 50)
+            this.datetime = '2017-12-07T09:00:00.000Z'
           }
         })
 
-      setTimeout(() => {
+      vm.$nextTick(() => {
         expect(vm.$('.vdatetime-input').value).to.be.equal('06:00')
         done()
-      }, 50)
+      })
     })
 
     it('should be a time in the local time zone on default', function (done) {
@@ -317,18 +315,16 @@ describe('Datetime.vue', function () {
             }
           },
           mounted () {
-            setTimeout(() => {
-              this.datetime = '2017-12-07T09:00:00.000Z'
-            }, 50)
+            this.datetime = '2017-12-07T09:00:00.000Z'
           }
         })
 
-      setTimeout(() => {
+      vm.$nextTick(() => {
         const f = LuxonDateTime.TIME_24_SIMPLE
 
         expect(vm.$('.vdatetime-input').value).to.be.equal(LuxonDateTime.fromISO('2017-12-07T09:00:00.000Z').toUTC().setZone('local').toLocaleString(f))
         done()
-      }, 50)
+      })
     })
 
     it('should be a time converted to utc', function () {
