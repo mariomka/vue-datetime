@@ -391,7 +391,7 @@ describe('Datetime.vue', function () {
 
     it('should be a time with the specified time zone', function (done) {
       const vm = createVM(this,
-        `<Datetime v-model="datetime" type='time' zone='UTC-03:00'></Datetime>`,
+        `<Datetime v-model="datetime" type="time" zone="UTC-03:00"></Datetime>`,
         {
           components: { Datetime },
           data () {
@@ -409,7 +409,7 @@ describe('Datetime.vue', function () {
 
     it('should be a time in the local time zone on default', function (done) {
       const vm = createVM(this,
-        `<Datetime v-model="datetime" type='time'></Datetime>`,
+        `<Datetime v-model="datetime" type="time"></Datetime>`,
         {
           components: { Datetime },
           data () {
@@ -429,7 +429,7 @@ describe('Datetime.vue', function () {
 
     it('should be a time converted to utc', function () {
       const vm = createVM(this,
-        `<Datetime v-model="datetime" type='time' value-zone="UTC-05:00"></Datetime>`,
+        `<Datetime v-model="datetime" type="time" value-zone="UTC-05:00"></Datetime>`,
         {
           components: { Datetime },
           data () {
