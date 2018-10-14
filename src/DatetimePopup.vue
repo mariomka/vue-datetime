@@ -147,10 +147,10 @@ export default {
       })
     },
     minDatetimeUTC () {
-      return this.minDatetime.toUTC()
+      return this.minDatetime ? this.minDatetime.toUTC() : null
     },
     maxDatetimeUTC () {
-      return this.maxDatetime.toUTC()
+      return this.maxDatetime ? this.maxDatetime.toUTC() : null
     },
     minTime () {
       return (
