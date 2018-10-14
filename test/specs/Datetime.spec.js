@@ -663,6 +663,26 @@ describe('Datetime.vue', function () {
         done()
       }, 50)
     })
+
+    it('should set datetime to min if min is bigger than datetime', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" :min-datetime="minDatetime"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              minDatetime: LuxonDateTime.utc().plus({ years: 5 })
+            }
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').datetime.toUTC().toISO()).to.be.equal(vm.$findChild('.vdatetime-popup').minDatetime.toUTC().toISO())
+        done()
+      })
+    })
   })
 
   describe('week start', function () {

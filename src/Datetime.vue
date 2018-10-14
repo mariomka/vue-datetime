@@ -196,7 +196,11 @@ export default {
       this.close()
     },
     newPopupDatetime () {
-      const datetime = DateTime.utc().setZone(this.zone).set({ seconds: 0, milliseconds: 0 })
+      let datetime = DateTime.utc().setZone(this.zone).set({ seconds: 0, milliseconds: 0 })
+
+      if (this.popupMinDatetime && datetime < this.popupMinDatetime) {
+        datetime = this.popupMinDatetime
+      }
 
       if (this.minuteStep === 1) {
         return datetime
