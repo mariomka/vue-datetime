@@ -8,8 +8,8 @@
       <datetime-year-picker
           v-if="step === 'year'"
           @change="onChangeYear"
-          :min-date="minDatetime"
-          :max-date="maxDatetime"
+          :min-date="minDatetimeUTC"
+          :max-date="maxDatetimeUTC"
           :year="year"></datetime-year-picker>
       <datetime-calendar
           v-if="step === 'date'"
@@ -17,8 +17,8 @@
           :year="year"
           :month="month"
           :day="day"
-          :min-date="minDatetime"
-          :max-date="maxDatetime"
+          :min-date="minDatetimeUTC"
+          :max-date="maxDatetimeUTC"
           :week-start="weekStart"
       ></datetime-calendar>
       <datetime-time-picker
@@ -145,6 +145,12 @@ export default {
         month: 'long',
         day: 'numeric'
       })
+    },
+    minDatetimeUTC () {
+      return this.minDatetime.toUTC()
+    },
+    maxDatetimeUTC () {
+      return this.maxDatetime.toUTC()
     },
     minTime () {
       return (
