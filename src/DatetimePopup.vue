@@ -31,6 +31,7 @@
           :max-time="maxTime"></datetime-time-picker>
     </div>
     <div class="vdatetime-popup__actions">
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--clear" @click="clear">{{ phrases.clear }}</div>
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">{{ phrases.cancel }}</div>
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" @click="confirm">{{ phrases.ok }}</div>
     </div>
@@ -64,6 +65,7 @@ export default {
       type: Object,
       default () {
         return {
+          clear: 'Clear',
           cancel: 'Cancel',
           ok: 'Ok'
         }
@@ -180,6 +182,9 @@ export default {
     },
     cancel () {
       this.$emit('cancel')
+    },
+    clear () {
+      this.$emit('clear')
     },
     onChangeYear (year) {
       this.newDatetime = this.newDatetime.set({ year })
