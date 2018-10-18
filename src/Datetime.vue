@@ -28,7 +28,14 @@
           @confirm="confirm"
           @cancel="cancel"
           :auto="auto"
-          :week-start="weekStart"></datetime-popup>
+          :week-start="weekStart">
+        <template slot="button-cancel__internal">
+          <slot name="button-cancel">{{ phrases.cancel }}</slot>
+        </template>
+        <template slot="button-confirm__internal">
+          <slot name="button-confirm">{{ phrases.ok }}</slot>
+        </template>
+      </datetime-popup>
     </transition-group>
   </div>
 </template>

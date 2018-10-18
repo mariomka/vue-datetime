@@ -33,8 +33,12 @@
           :max-time="maxTime"></datetime-time-picker>
     </div>
     <div class="vdatetime-popup__actions">
-      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">{{ phrases.cancel }}</div>
-      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" @click="confirm">{{ phrases.ok }}</div>
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">
+        <slot name="button-cancel__internal">{{ phrases.cancel }}</slot>
+      </div>
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" @click="confirm">
+        <slot name="button-confirm__internal">{{ phrases.ok }}</slot>
+      </div>
     </div>
   </div>
 </template>
