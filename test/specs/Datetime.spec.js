@@ -1,6 +1,7 @@
 import { DateTime as LuxonDateTime, Settings as LuxonSettings } from 'luxon'
 import Datetime from 'src/Datetime.vue'
 import { createVM } from '../helpers/utils.js'
+import { DateTime as LuxonDatetime } from 'luxon'
 
 describe('Datetime.vue', function () {
   describe('render', function () {
@@ -131,6 +132,27 @@ describe('Datetime.vue', function () {
           cancel: 'Cancelar',
           ok: 'Confirmar'
         })
+        done()
+      })
+    })
+
+    it('should render the action buttons with custom slots', function () {
+      const vm = createVM(this,
+        `<Datetime>
+           <template slot="button-cancel"><i>Abort</i></template>
+           <template slot="button-confirm"><strong>Confirm</strong></template>
+         </Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {}
+          }
+        })
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-popup__actions')).to.exist
+        expect(vm.$$('.vdatetime-popup__actions__button')[0]).to.have.html('<i>Abort</i>')
+        expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.html('<strong>Confirm</strong>')
         done()
       })
     })

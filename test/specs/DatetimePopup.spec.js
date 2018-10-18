@@ -72,6 +72,26 @@ describe('DatetimePopup.vue', function () {
       expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.text('Ok')
     })
 
+    it('should render the action buttons with custom slots', function () {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime">
+           <template slot="button-cancel__internal"><i>Abort</i></template>
+           <template slot="button-confirm__internal"><strong>Confirm</strong></template>
+         </DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-popup__actions')).to.exist
+      expect(vm.$$('.vdatetime-popup__actions__button')[0]).to.have.html('<i>Abort</i>')
+      expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.html('<strong>Confirm</strong>')
+    })
+
     it('should render the calendar by default', function () {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
