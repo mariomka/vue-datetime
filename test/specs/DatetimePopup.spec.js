@@ -184,11 +184,8 @@ describe('DatetimePopup.vue', function () {
 
       vm.$('.vdatetime-popup__actions__button--next').click()
       vm.$nextTick(() => {
-        vm.$('.vdatetime-popup__actions__button--next').click()
-        vm.$nextTick(() => {
-          expect(vm.$('.vdatetime-popup__actions__button--confirm').innerText).to.be.equal('Confirmar')
-          done()
-        })
+        expect(vm.$('.vdatetime-popup__actions__button--confirm').innerText).to.be.equal('Confirmar')
+        done()
       })
     })
   })
