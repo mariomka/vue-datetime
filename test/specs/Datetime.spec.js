@@ -274,7 +274,7 @@ describe('Datetime.vue', function () {
       vm.$('.vdatetime-input').click()
 
       vm.$nextTick(() => {
-        vm.$('.vdatetime-popup__actions__button--confirm').click()
+        vm.$('.vdatetime-popup__actions__button--next').click()
         vm.$nextTick(() => {
           expect(vm.$('.vdatetime-time-picker')).to.exist
           done()
@@ -784,7 +784,7 @@ describe('Datetime.vue', function () {
 
       vm.$nextTick(() => {
         vm.$$('.vdatetime-calendar__month__day')[24].click()
-        vm.$('.vdatetime-popup__actions__button--confirm').click()
+        vm.$('.vdatetime-popup__actions__button--next').click()
 
         vm.$nextTick(() => {
           expect(vm.datetime).to.be.equal('2020-05-20T00:00:00.000Z')
@@ -810,7 +810,7 @@ describe('Datetime.vue', function () {
 
       vm.$nextTick(() => {
         vm.$$('.vdatetime-calendar__month__day')[24].click()
-        vm.$('.vdatetime-popup__actions__button--confirm').click()
+        vm.$('.vdatetime-popup__actions__button--next').click()
 
         vm.$nextTick(() => {
           vm.$$('.vdatetime-time-picker__list--hours .vdatetime-time-picker__item')[12].click()
@@ -922,7 +922,7 @@ describe('Datetime.vue', function () {
       vm.$('.vdatetime-input').click()
 
       vm.$nextTick(() => {
-        vm.$('.vdatetime-popup__actions__button--confirm').click()
+        vm.$('.vdatetime-popup__actions__button--next').click()
 
         vm.$nextTick(() => {
           vm.$('.vdatetime-popup__actions__button--confirm').click()
@@ -953,7 +953,7 @@ describe('Datetime.vue', function () {
       vm.$('.vdatetime-input').click()
 
       vm.$nextTick(() => {
-        vm.$('.vdatetime-popup__actions__button--confirm').click()
+        vm.$('.vdatetime-popup__actions__button--next').click()
 
         vm.$nextTick(() => {
           vm.$('.vdatetime-popup__actions__button--confirm').click()

@@ -34,7 +34,8 @@
     </div>
     <div class="vdatetime-popup__actions">
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">{{ phrases.cancel }}</div>
-      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" @click="confirm">{{ phrases.ok }}</div>
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" v-if="step === 'time'" @click="confirm">{{ phrases.ok }}</div>
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--next" v-else @click="confirm">{{ phrases.next }}</div>
     </div>
   </div>
 </template>
@@ -67,6 +68,7 @@ export default {
       default () {
         return {
           cancel: 'Cancel',
+          next: 'Next',
           ok: 'Ok'
         }
       }
