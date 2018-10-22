@@ -34,10 +34,10 @@
     </div>
     <div class="vdatetime-popup__actions">
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">
-        <slot name="button-cancel__internal">{{ phrases.cancel }}</slot>
+        <slot name="button-cancel__internal" v-bind:step="step">{{ phrases.cancel }}</slot>
       </div>
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" @click="confirm">
-        <slot name="button-confirm__internal">{{ phrases.ok }}</slot>
+        <slot name="button-confirm__internal" v-bind:step="step">{{ phrases.ok }}</slot>
       </div>
     </div>
   </div>
