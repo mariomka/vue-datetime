@@ -108,6 +108,15 @@ You can customize the component output using named slots and component props.
 </datetime>
 ```
 
+You can also add `slot-scope` to determine which view is currently active:
+
+```html
+<template slot="button-confirm" slot-scope="scope">
+    <span v-if='scope.step === "date"'>Next <i class='fas fa-arrow-right' /></span>
+    <span v-else><i class='fas fa-check-circle' /> Publish</span>
+</template>
+```
+
 ## Setup
 
 ### Parameters
