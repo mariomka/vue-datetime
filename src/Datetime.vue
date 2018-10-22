@@ -29,11 +29,11 @@
           @cancel="cancel"
           :auto="auto"
           :week-start="weekStart">
-        <template slot="button-cancel__internal">
-          <slot name="button-cancel">{{ phrases.cancel }}</slot>
+        <template slot="button-cancel__internal" slot-scope="scope">
+          <slot name="button-cancel" v-bind:step="scope.step">{{ phrases.cancel }}</slot>
         </template>
-        <template slot="button-confirm__internal">
-          <slot name="button-confirm">{{ phrases.ok }}</slot>
+        <template slot="button-confirm__internal" slot-scope="scope">
+          <slot name="button-confirm" v-bind:step="scope.step">{{ phrases.ok }}</slot>
         </template>
       </datetime-popup>
     </transition-group>
