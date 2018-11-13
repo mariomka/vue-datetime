@@ -40,6 +40,12 @@ export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
          (maxDate && date > maxDate)
 }
 
+export function monthIsDisabled (minDate, maxDate, year, month) {
+  return (
+    monthDayIsDisabled(minDate, maxDate, year, month, 1) && monthDayIsDisabled(minDate, maxDate, year, month, DateTime.local(year, month).daysInMonth)
+  )
+}
+
 export function yearIsDisabled (minDate, maxDate, year) {
   const minYear = minDate ? minDate.year : null
   const maxYear = maxDate ? maxDate.year : null
