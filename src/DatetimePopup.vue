@@ -156,8 +156,9 @@ export default {
     },
     dateFormattedMonth () {
       return this.newDatetime.toLocaleString({
-        month: 'long'
-      })
+        month: 'long',
+        day: 'numeric'
+      }).substr(new String(this.day).length + 1)
     },
     minDatetimeUTC () {
       return this.minDatetime ? this.minDatetime.toUTC() : null
