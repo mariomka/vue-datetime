@@ -156,7 +156,7 @@ export default {
     },
     dateFormattedMonth () {
       return this.newDatetime.toLocaleString({
-        month: 'long',
+        month: 'long'
       })
     },
     minDatetimeUTC () {
