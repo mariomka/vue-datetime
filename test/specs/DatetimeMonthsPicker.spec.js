@@ -38,7 +38,7 @@ describe('DatetimeMonthPicker.vue', function () {
       months.forEach(month => {
         const monthName = month.textContent.trim()
 
-        if (!(['July', 'August', 'September', 'October', 'November', 'December'].indexOf(monthName) === 1)) {
+        if (!(['July', 'August', 'September', 'October', 'November', 'December'].indexOf(monthName) === -1)) {
           expect(month).to.have.not.class('vdatetime-month-picker__item--disabled')
         } else {
           expect(month).to.have.class('vdatetime-month-picker__item--disabled')
