@@ -33,7 +33,7 @@ export default {
 
   computed: {
     months () {
-      return months(this.month).map((month,index) => ({
+      return months(this.month).map((month, index) => ({
         number: ++index,
         label: month,
         selected: index === this.month,
