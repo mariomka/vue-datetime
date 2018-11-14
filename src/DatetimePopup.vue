@@ -158,7 +158,7 @@ export default {
       return this.newDatetime.toLocaleString({
         month: 'long',
         day: 'numeric'
-      }).substr(new String(this.day).length + 1)
+      }).substr(('' + this.day).length + 1)
     },
     minDatetimeUTC () {
       return this.minDatetime ? this.minDatetime.toUTC() : null
