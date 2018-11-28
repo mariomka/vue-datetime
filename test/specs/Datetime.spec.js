@@ -177,9 +177,8 @@ describe('Datetime.vue', function () {
       vm.$('.vdatetime-input').click()
 
       vm.$nextTick(() => {
-
-        let btnCancel  = vm.$$('.vdatetime-popup__actions__button')[0]
-        let btnConfirm = vm.$$('.vdatetime-popup__actions__button')[1]
+        const btnCancel = vm.$$('.vdatetime-popup__actions__button')[0]
+        const btnConfirm = vm.$$('.vdatetime-popup__actions__button')[1]
 
         expect(vm.$('.vdatetime-popup__actions')).to.exist
         expect(btnCancel).to.exist
