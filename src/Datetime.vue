@@ -9,7 +9,8 @@
            v-bind="$attrs"
            v-on="$listeners"
            @click="open"
-           @focus="open">
+           @focus="open"
+           :placeholder="help ? help : title">
     <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value" @input="setValue">
     <slot name="after"></slot>
     <transition-group name="vdatetime-fade" tag="div">
@@ -28,7 +29,9 @@
           @confirm="confirm"
           @cancel="cancel"
           :auto="auto"
-          :week-start="weekStart"></datetime-popup>
+          :week-start="weekStart"
+          :title="title">
+          </datetime-popup>
     </transition-group>
   </div>
 </template>
@@ -112,6 +115,14 @@ export default {
       default () {
         return weekStart()
       }
+    },
+    title: {
+      type: String,
+      default: null
+    },
+    help: {
+      type: String,
+      default: null
     }
   },
 
