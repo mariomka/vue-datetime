@@ -45,7 +45,7 @@
 
 <script>
 import { DateTime } from 'luxon'
-import { createFlowManagerFromType } from './util'
+import { createFlowManager, createFlowManagerFromType } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeTimePicker from './DatetimeTimePicker'
 import DatetimeYearPicker from './DatetimeYearPicker'
@@ -106,16 +106,21 @@ export default {
     weekStart: {
       type: Number,
       default: 1
+    },
+    flow: {
+      type: Array
     }
   },
 
   data () {
-    const flow = createFlowManagerFromType(this.type)
+    const flowManager = this.flow
+      ? createFlowManager(this.flow)
+      : createFlowManagerFromType(this.type)
 
     return {
       newDatetime: this.datetime,
-      flow: flow,
-      step: flow.first(),
+      flowManager,
+      step: flowManager.first(),
       timePartsTouched: []
     }
   },
@@ -176,7 +181,7 @@ export default {
 
   methods: {
     nextStep () {
-      this.step = this.flow.next(this.step)
+      this.step = this.flowManager.next(this.step)
       this.timePartsTouched = []
 
       if (this.step === 'end') {
@@ -185,7 +190,7 @@ export default {
     },
     showYear () {
       this.step = 'year'
-      this.flow.diversion('date')
+      this.flowManager.diversion('date')
     },
     confirm () {
       this.nextStep()

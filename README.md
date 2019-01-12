@@ -130,7 +130,7 @@ input-class | `String` | `''` | Class for the input.
 hidden-name | `String` | `null` | Name for hidden input with raw value. See #51.
 value-zone | `String` | `UTC` | Time zone for the value.
 zone | `String` | `local` | Time zone for the picker.
-format | `Object` or `String` | `DateTime.DATE_MED`, `DateTime.DATETIME_MED` or `DateTime.TIME_24_SIMPLE` | Input date format. Luxon [presents](https://moment.github.io/luxon/docs/manual/formatting.html#tolocalestring--strings-for-humans-) or [tokens](https://moment.github.io/luxon/docs/manual/formatting.html#formatting-with-tokens--strings-for-cthulhu-).
+format | `Object` or `String` | `DateTime.DATE_MED`, `DateTime.DATETIME_MED` or `DateTime.TIME_24_SIMPLE` | Input date format. Luxon [presets](https://moment.github.io/luxon/docs/manual/formatting.html#tolocalestring--strings-for-humans-) or [tokens](https://moment.github.io/luxon/docs/manual/formatting.html#formatting-with-tokens--strings-for-cthulhu-).
 phrases | `Object` | `{ok: 'Ok', cancel: 'Cancel'}` | Phrases.
 use12-hour | `Boolean` | `false` | Display 12 hour (AM/PM) mode
 hour-step | `Number` | `1` | Hour step.
@@ -139,6 +139,7 @@ min-datetime | ISO 8601 `String` | `null` | Minimum datetime.
 max-datetime | ISO 8601 `String` | `null` | Maximum datetime.
 auto | `Boolean` | `false` | Auto continue/close on select.
 week-start | `Number` | auto from locale if _weekstart_ is available or `1` | First day of the week. 1 is Monday and 7 is Sunday.
+flow | `Array` | Depends of *type* | Customize steps flow, steps available: date, time, year. Example: ['year', 'date', 'time']
 
 Input inherits all props not defined above but `style` and `class` will be inherited by root element.
 

@@ -28,7 +28,8 @@
           @confirm="confirm"
           @cancel="cancel"
           :auto="auto"
-          :week-start="weekStart">
+          :week-start="weekStart"
+          :flow="flow">
         <template slot="button-cancel__internal" slot-scope="scope">
           <slot name="button-cancel" v-bind:step="scope.step">{{ phrases.cancel }}</slot>
         </template>
@@ -119,6 +120,9 @@ export default {
       default () {
         return weekStart()
       }
+    },
+    flow: {
+      type: Array
     }
   },
 
