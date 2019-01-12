@@ -89,34 +89,6 @@ Download vue, luxon, weekstart and vue-datetime or use a CDN like unpkg.
 <datetime v-model="date"></datetime>
 ```
 
-### Customize with Slots
-
-You can customize the component output using named slots and component props.
-
-```html
-<datetime v-model="date" input-id="startDate">
-  <label for="startDate" slot="before">Field Label</label>
-  <span class="description" slot="after">The field description</span>
-  <template slot="button-cancel">
-    <fa :icon="['far', 'times']"></fa>
-    {{ $t('datetime.cancel') }}
-  </template>
-  <template slot="button-confirm">
-    <fa :icon="['fas', 'check-circle']"></fa>
-    {{ $t('datetime.ok') }}
-  </template>
-</datetime>
-```
-
-You can also add `slot-scope` to determine which view is currently active:
-
-```html
-<template slot="button-confirm" slot-scope="scope">
-    <span v-if='scope.step === "date"'>Next <i class='fas fa-arrow-right' /></span>
-    <span v-else><i class='fas fa-check-circle' /> Publish</span>
-</template>
-```
-
 ## Setup
 
 ### Parameters
@@ -126,8 +98,8 @@ Parameter | Type | Default | Description
 v-model (*required*) | ISO 8601 `String` | - | Datetime.
 type | `String` | `date` | Picker type: date, datetime or time.
 input-id | `String` | `''` | Id for the input.
-input-class | `String` | `Array` | `Object` | `''` | Class for the input.
-input-style | `String` | `Array` | `Object` | `''` | Style for the input.
+input-class | `String`, `Array` or `Object` | `''` | Class for the input.
+input-style | `String`, `Array` or `Object` | `''` | Style for the input.
 hidden-name | `String` | `null` | Name for hidden input with raw value. See #51.
 value-zone | `String` | `UTC` | Time zone for the value.
 zone | `String` | `local` | Time zone for the picker.
@@ -163,6 +135,37 @@ Component emits the `input` event to work with `v-model`. [More info](https://vu
 `close` event is emitted when the popup closes.
 
 Also, input text inherits all component events.
+
+### Slots
+
+You can customize the component using named slots.
+Slots available: `before`, `after`, `button-cancel` and `button-confirm`
+
+#### Button customization example:
+
+```html
+<datetime v-model="date" input-id="startDate">
+  <label for="startDate" slot="before">Field Label</label>
+  <span class="description" slot="after">The field description</span>
+  <template slot="button-cancel">
+    <fa :icon="['far', 'times']"></fa>
+    {{ $t('datetime.cancel') }}
+  </template>
+  <template slot="button-confirm">
+    <fa :icon="['fas', 'check-circle']"></fa>
+    {{ $t('datetime.ok') }}
+  </template>
+</datetime>
+```
+
+You can also use `slot-scope` to determine which view is currently active:
+
+```html
+<template slot="button-confirm" slot-scope="scope">
+    <span v-if='scope.step === "date"'>Next <i class='fas fa-arrow-right' /></span>
+    <span v-else><i class='fas fa-check-circle' /> Publish</span>
+</template>
+```
 
 ## Theming
 
