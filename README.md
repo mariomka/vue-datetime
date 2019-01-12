@@ -89,7 +89,7 @@ Download vue, luxon, weekstart and vue-datetime or use a CDN like unpkg.
 <datetime v-model="date"></datetime>
 ```
 
-### Custom
+### Customize with Slots
 
 You can customize the component output using named slots and component props.
 
@@ -97,7 +97,24 @@ You can customize the component output using named slots and component props.
 <datetime v-model="date" input-id="startDate">
   <label for="startDate" slot="before">Field Label</label>
   <span class="description" slot="after">The field description</span>
+  <template slot="button-cancel">
+    <fa :icon="['far', 'times']"></fa>
+    {{ $t('datetime.cancel') }}
+  </template>
+  <template slot="button-confirm">
+    <fa :icon="['fas', 'check-circle']"></fa>
+    {{ $t('datetime.ok') }}
+  </template>
 </datetime>
+```
+
+You can also add `slot-scope` to determine which view is currently active:
+
+```html
+<template slot="button-confirm" slot-scope="scope">
+    <span v-if='scope.step === "date"'>Next <i class='fas fa-arrow-right' /></span>
+    <span v-else><i class='fas fa-check-circle' /> Publish</span>
+</template>
 ```
 
 ## Setup

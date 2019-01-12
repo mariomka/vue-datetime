@@ -135,6 +135,66 @@ describe('Datetime.vue', function () {
       })
     })
 
+    it('should render the action buttons with custom slots', function (done) {
+      const vm = createVM(this,
+        `<Datetime>
+           <template slot="button-cancel"><i>Abort</i></template>
+           <template slot="button-confirm"><strong>Confirm</strong></template>
+         </Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {}
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-popup__actions')).to.exist
+        expect(vm.$$('.vdatetime-popup__actions__button')[0]).to.have.html('<i>Abort</i>')
+        expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.html('<strong>Confirm</strong>')
+        done()
+      })
+    })
+
+    it('should render the action buttons with custom slots and scoped slot for using the local scope', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime">
+           <template slot="button-cancel"><i>Abort</i></template>
+           <template slot="button-confirm" slot-scope="scope">
+             <span v-if="scope.step === 'date'">Next</span>
+             <span v-else>Publish</span>
+           </template>
+         </Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {}
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        const btnCancel = vm.$$('.vdatetime-popup__actions__button')[0]
+        const btnConfirm = vm.$$('.vdatetime-popup__actions__button')[1]
+
+        expect(vm.$('.vdatetime-popup__actions')).to.exist
+        expect(btnCancel).to.exist
+        expect(btnCancel).to.have.html('<i>Abort</i>')
+        expect(btnConfirm).to.exist
+        expect(btnConfirm).to.have.text('Next')
+
+        btnConfirm.click()
+
+        vm.$nextTick(() => {
+          expect(btnConfirm).to.have.text('Publish')
+          done()
+        })
+      })
+    })
+
     it('should pass use 12 hour to popup', function (done) {
       const vm = createVM(this,
         `<Datetime type="datetime" use12-hour></Datetime>`,
