@@ -2,7 +2,7 @@
   <div class="vdatetime-popup">
     <div class="vdatetime-popup__header">
       <div class="vdatetime-popup__year" @click="showYear" v-if="type !== 'time'">{{ year }}</div>
-      <div class="vdatetime-popup__date" v-if="type !== 'time'">{{ dateFormattedDay }} <span @click="showMonth" class="vdatetime-popup__month">{{ dateFormattedMonth }}</span></div>
+      <div class="vdatetime-popup__date" @click="showMonth" v-if="type !== 'time'">{{ dateFormatted }}</div>
     </div>
     <div class="vdatetime-popup__body">
       <datetime-year-picker
@@ -158,16 +158,11 @@ export default {
     minute () {
       return this.newDatetime.minute
     },
-    dateFormattedDay () {
-      return this.newDatetime.toLocaleString({
-        day: 'numeric'
-      })
-    },
-    dateFormattedMonth () {
+    dateFormatted () {
       return this.newDatetime.toLocaleString({
         month: 'long',
         day: 'numeric'
-      }).substr(('' + this.day).length + 1)
+      })
     },
     minDatetimeUTC () {
       return this.minDatetime ? this.minDatetime.toUTC() : null
@@ -208,7 +203,7 @@ export default {
     },
     showMonth () {
       this.step = 'month'
-      this.flow.diversion('date')
+      this.flowManager.diversion('date')
     },
     confirm () {
       this.nextStep()
@@ -336,9 +331,5 @@ export default {
   &:hover {
     color: #444;
   }
-}
-
-.vdatetime-popup__month {
-  cursor: pointer;
 }
 </style>

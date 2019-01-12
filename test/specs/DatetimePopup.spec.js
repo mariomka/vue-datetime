@@ -160,6 +160,25 @@ describe('DatetimePopup.vue', function () {
       })
     })
 
+    it('should render the month picker', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      vm.$('.vdatetime-popup__date').click()
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-popup__body .vdatetime-month-picker')).to.exist
+        done()
+      })
+    })
+
     it('should render the calendar on confirm in year picker', function (done) {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
