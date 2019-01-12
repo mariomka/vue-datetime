@@ -139,7 +139,8 @@ Also, input text inherits all component events.
 ### Slots
 
 You can customize the component using named slots.
-Slots available: `before`, `after`, `button-cancel` and `button-confirm`
+
+Available slots: `before`, `after`, `button-cancel` and `button-confirm`
 
 #### Button customization example:
 
@@ -149,11 +150,11 @@ Slots available: `before`, `after`, `button-cancel` and `button-confirm`
   <span class="description" slot="after">The field description</span>
   <template slot="button-cancel">
     <fa :icon="['far', 'times']"></fa>
-    {{ $t('datetime.cancel') }}
+    Cancel
   </template>
   <template slot="button-confirm">
     <fa :icon="['fas', 'check-circle']"></fa>
-    {{ $t('datetime.ok') }}
+    Confirm
   </template>
 </datetime>
 ```
@@ -162,8 +163,8 @@ You can also use `slot-scope` to determine which view is currently active:
 
 ```html
 <template slot="button-confirm" slot-scope="scope">
-    <span v-if='scope.step === "date"'>Next <i class='fas fa-arrow-right' /></span>
-    <span v-else><i class='fas fa-check-circle' /> Publish</span>
+  <span v-if='scope.step === "date"'>Next <i class='fas fa-arrow-right' /></span>
+  <span v-else><i class='fas fa-check-circle' /> Publish</span>
 </template>
 ```
 
