@@ -313,6 +313,10 @@ export default {
   }
 }
 
+.vdatetime-popup__date {
+  cursor: pointer;
+}
+
 .vdatetime-popup__actions {
   padding: 0 20px 10px 30px;
   text-align: right;
