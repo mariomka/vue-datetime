@@ -41,8 +41,8 @@ export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
 }
 
 export function monthIsDisabled (minDate, maxDate, year, month) {
-  return monthDayIsDisabled(minDate, maxDate, year, month, 1) &&
-    monthDayIsDisabled(minDate, maxDate, year, month, DateTime.utc(year, month).daysInMonth)
+  return (minDate && minDate > DateTime.utc(year, month, DateTime.utc(year, month).daysInMonth)) ||
+         (maxDate && maxDate < DateTime.utc(year, month, 1))
 }
 
 export function yearIsDisabled (minDate, maxDate, year) {
