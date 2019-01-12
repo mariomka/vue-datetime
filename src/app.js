@@ -17,7 +17,7 @@ new Vue({
       datetime12: '2018-05-12T17:19:06.151Z',
       datetime13: '2018-05-12T17:19:06.151Z',
       datetimeEmpty: '',
-      minDatetime: LuxonDateTime.local().minus({ days: 3 }).toISO(),
+      minDatetime: LuxonDateTime.local().minus({ month: 1, days: 3 }).toISO(),
       maxDatetime: LuxonDateTime.local().plus({ days: 3 }).toISO(),
       datetimeTheming: LuxonDateTime.local().toISO()
     }
