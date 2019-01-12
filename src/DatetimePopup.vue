@@ -2,7 +2,7 @@
   <div class="vdatetime-popup">
     <div class="vdatetime-popup__header">
       <div class="vdatetime-popup__year" @click="showYear" v-if="type !== 'time'">{{ year }}</div>
-      <div class="vdatetime-popup__date" v-if="type !== 'time'">{{ dateFormatted }}</div>
+      <div class="vdatetime-popup__date" v-if="type !== 'time'">{{ dateFormattedDay }} <span @click="showMonth" class="vdatetime-popup__month">{{ dateFormattedMonth }}</span></div>
     </div>
     <div class="vdatetime-popup__body">
       <datetime-year-picker
@@ -11,6 +11,13 @@
           :min-date="minDatetimeUTC"
           :max-date="maxDatetimeUTC"
           :year="year"></datetime-year-picker>
+      <datetime-month-picker
+          v-if="step === 'month'"
+          @change="onChangeMonth"
+          :min-date="minDatetimeUTC"
+          :max-date="maxDatetimeUTC"
+          :year="year"
+          :month="month"></datetime-month-picker>
       <datetime-calendar
           v-if="step === 'date'"
           @change="onChangeDate"
@@ -49,6 +56,7 @@ import { createFlowManager, createFlowManagerFromType } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeTimePicker from './DatetimeTimePicker'
 import DatetimeYearPicker from './DatetimeYearPicker'
+import DatetimeMonthPicker from './DatetimeMonthPicker'
 
 const KEY_TAB = 9
 const KEY_ENTER = 13
@@ -58,7 +66,8 @@ export default {
   components: {
     DatetimeCalendar,
     DatetimeTimePicker,
-    DatetimeYearPicker
+    DatetimeYearPicker,
+    DatetimeMonthPicker
   },
 
   props: {
@@ -149,11 +158,16 @@ export default {
     minute () {
       return this.newDatetime.minute
     },
-    dateFormatted () {
+    dateFormattedDay () {
+      return this.newDatetime.toLocaleString({
+        day: 'numeric'
+      })
+    },
+    dateFormattedMonth () {
       return this.newDatetime.toLocaleString({
         month: 'long',
         day: 'numeric'
-      })
+      }).substr(('' + this.day).length + 1)
     },
     minDatetimeUTC () {
       return this.minDatetime ? this.minDatetime.toUTC() : null
@@ -192,6 +206,10 @@ export default {
       this.step = 'year'
       this.flowManager.diversion('date')
     },
+    showMonth () {
+      this.step = 'month'
+      this.flow.diversion('date')
+    },
     confirm () {
       this.nextStep()
     },
@@ -200,6 +218,13 @@ export default {
     },
     onChangeYear (year) {
       this.newDatetime = this.newDatetime.set({ year })
+
+      if (this.auto) {
+        this.nextStep()
+      }
+    },
+    onChangeMonth (month) {
+      this.newDatetime = this.newDatetime.set({ month })
 
       if (this.auto) {
         this.nextStep()
@@ -311,5 +336,9 @@ export default {
   &:hover {
     color: #444;
   }
+}
+
+.vdatetime-popup__month {
+  cursor: pointer;
 }
 </style>
