@@ -44,6 +44,16 @@ describe('Datetime.vue', function () {
       expect(vm.$('.vdatetime-input')).to.have.id('id-name')
     })
 
+    it('should add style to input', function () {
+      const vm = createVM(this,
+        `<Datetime :input-style="{backgroundColor: 'cyan'}"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      expect(vm.$('.vdatetime-input')).to.have.attr('style', 'background-color: cyan;')
+    })
+
     it('input should inherit attributes', function () {
       const vm = createVM(this,
         `<Datetime placeholder="Select date..."></Datetime>`,

@@ -3,6 +3,7 @@
     <slot name="before"></slot>
     <input class="vdatetime-input"
            :class="inputClass"
+           :style="inputStyle"
            :id="inputId"
            type="text"
            :value="inputValue"
@@ -66,7 +67,11 @@ export default {
       default: ''
     },
     inputClass: {
-      type: String,
+      type: [Object, Array, String],
+      default: ''
+    },
+    inputStyle: {
+      type: [Object, Array, String],
       default: ''
     },
     hiddenName: {
