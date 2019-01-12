@@ -89,6 +89,10 @@ export function startOfDay (datetime) {
   return datetime.startOf('day')
 }
 
+export function createFlowManager (flow) {
+  return new FlowManager(flow, 'end')
+}
+
 export function createFlowManagerFromType (type) {
   let flow = []
 

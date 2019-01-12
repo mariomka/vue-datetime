@@ -28,7 +28,8 @@
           @confirm="confirm"
           @cancel="cancel"
           :auto="auto"
-          :week-start="weekStart"></datetime-popup>
+          :week-start="weekStart"
+          :flow="flow"></datetime-popup>
     </transition-group>
   </div>
 </template>
@@ -112,6 +113,9 @@ export default {
       default () {
         return weekStart()
       }
+    },
+    flow: {
+      type: Array
     }
   },
 

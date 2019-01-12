@@ -181,6 +181,32 @@ describe('DatetimePopup.vue', function () {
       expect(vm.$('.vdatetime-popup__actions__button--confirm').innerText).to.be.equal('Confirmar')
       expect(vm.$('.vdatetime-popup__actions__button--cancel').innerText).to.be.equal('Cancelar')
     })
+
+    it('should render custom flow', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" :flow="['year', 'date', 'time']"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-popup__body .vdatetime-year-picker')).to.exist
+      vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
+        vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+        vm.$nextTick(() => {
+          expect(vm.$('.vdatetime-popup__body .vdatetime-time-picker')).to.exist
+          done()
+        })
+      })
+    })
   })
 
   describe('pass props', function () {
