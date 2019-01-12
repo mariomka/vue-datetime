@@ -294,7 +294,7 @@ describe('Datetime.vue', function () {
 
     it('should pass flow to popup', function (done) {
       const vm = createVM(this,
-        `<Datetime :flow="['year', 'date']"></Datetime>`,
+        `<Datetime type="datetime" :flow="['year', 'month', 'date', 'time']"></Datetime>`,
         {
           components: { Datetime }
         })
@@ -302,7 +302,7 @@ describe('Datetime.vue', function () {
       vm.$('.vdatetime-input').click()
 
       vm.$nextTick(() => {
-        expect(vm.$findChild('.vdatetime-popup').flow).to.be.deep.equal(['year', 'date'])
+        expect(vm.$findChild('.vdatetime-popup').flow).to.be.deep.equal(['year', 'month', 'date', 'time'])
         done()
       })
     })
