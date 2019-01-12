@@ -141,7 +141,7 @@ auto | `Boolean` | `false` | Auto continue/close on select.
 week-start | `Number` | auto from locale if _weekstart_ is available or `1` | First day of the week. 1 is Monday and 7 is Sunday.
 flow | `Array` | Depends of *type* | Customize steps flow, steps available: time, date, month, year. Example: ['year', 'date', 'time']
 
-Input inherits all props not defined above but `style` and `class` will be inherited by root element.
+Input inherits all props not defined above but `style` and `class` will be inherited by root element. [See inheritAttrs option](https://vuejs.org/v2/api/#inheritAttrs)
 
 The component is based on [Luxon](https://github.com/moment/luxon), check out [documentation](https://moment.github.io/luxon/docs/index.html) to set [time zones](https://moment.github.io/luxon/docs/manual/zones.html) and [format](https://moment.github.io/luxon/docs/manual/formatting.html).
 

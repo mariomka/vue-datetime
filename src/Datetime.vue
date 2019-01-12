@@ -51,6 +51,8 @@ export default {
     DatetimePopup
   },
 
+  inheritAttrs: false,
+
   props: {
     value: {
       type: String
