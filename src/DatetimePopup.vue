@@ -285,6 +285,7 @@ export default {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
   color: #444;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.18;
   background: #fff;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
@@ -294,14 +295,13 @@ export default {
 }
 
 .vdatetime-popup__header {
-  padding: 15px 30px;
+  padding: 18px 30px;
   background: #3f51b5;
   color: #fff;
   font-size: 32px;
 }
 
 .vdatetime-popup__year {
-  display: block;
   font-weight: 300;
   font-size: 14px;
   opacity: 0.7;
@@ -314,6 +314,7 @@ export default {
 }
 
 .vdatetime-popup__date {
+  line-height: 1;
   cursor: pointer;
 }
 
