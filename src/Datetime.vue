@@ -30,7 +30,8 @@
           @cancel="cancel"
           :auto="auto"
           :week-start="weekStart"
-          :flow="flow">
+          :flow="flow"
+          :title="title">
         <template slot="button-cancel__internal" slot-scope="scope">
           <slot name="button-cancel" v-bind:step="scope.step">{{ phrases.cancel }}</slot>
         </template>
@@ -130,6 +131,9 @@ export default {
     },
     flow: {
       type: Array
+    },
+    title: {
+      type: String
     }
   },
 

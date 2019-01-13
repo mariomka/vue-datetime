@@ -246,6 +246,21 @@ describe('DatetimePopup.vue', function () {
         })
       })
     })
+
+    it('should render the title', function () {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" title="Select your birthday"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-popup__title')).to.have.text('Select your birthday')
+    })
   })
 
   describe('pass props', function () {

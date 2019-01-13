@@ -316,6 +316,21 @@ describe('Datetime.vue', function () {
         done()
       })
     })
+
+    it('should pass title to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" title="Select your birthday"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').title).to.be.equal('Select your birthday')
+        done()
+      })
+    })
   })
 
   describe('types', function () {

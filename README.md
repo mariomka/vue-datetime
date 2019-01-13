@@ -113,6 +113,7 @@ max-datetime | ISO 8601 `String` | `null` | Maximum datetime.
 auto | `Boolean` | `false` | Auto continue/close on select.
 week-start | `Number` | auto from locale if _weekstart_ is available or `1` | First day of the week. 1 is Monday and 7 is Sunday.
 flow | `Array` | Depends of *type* | Customize steps flow, steps available: time, date, month, year. Example: ['year', 'date', 'time']
+title | `String` | `''` | Popup title.
 
 Input inherits all props not defined above but `style` and `class` will be inherited by root element. [See inheritAttrs option](https://vuejs.org/v2/api/#inheritAttrs)
 

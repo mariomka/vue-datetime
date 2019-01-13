@@ -1,6 +1,7 @@
 <template>
   <div class="vdatetime-popup">
     <div class="vdatetime-popup__header">
+      <div class="vdatetime-popup__title" v-if="title">{{ title }}</div>
       <div class="vdatetime-popup__year" @click="showYear" v-if="type !== 'time'">{{ year }}</div>
       <div class="vdatetime-popup__date" @click="showMonth" v-if="type !== 'time'">{{ dateFormatted }}</div>
     </div>
@@ -118,6 +119,9 @@ export default {
     },
     flow: {
       type: Array
+    },
+    title: {
+      type: String
     }
   },
 
@@ -299,6 +303,12 @@ export default {
   background: #3f51b5;
   color: #fff;
   font-size: 32px;
+}
+
+.vdatetime-popup__title {
+  margin-bottom: 8px;
+  font-size: 21px;
+  font-weight: 300;
 }
 
 .vdatetime-popup__year {
