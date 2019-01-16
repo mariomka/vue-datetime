@@ -381,6 +381,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        user-select: none;
         width: 340px;
         max-width: calc(100% - 30px);
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
