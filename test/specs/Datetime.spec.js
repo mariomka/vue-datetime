@@ -113,8 +113,7 @@ describe('Datetime.vue', function () {
 
       const children = vm.$('.vdatetime').children
       expect(children[0].nodeName).to.equal('LABEL')
-      expect(children[1].nodeName).to.equal('INPUT')
-      expect(children[2].nodeName).to.equal('SPAN')
+      expect(children[1].nodeName).to.equal('SPAN')
     })
   })
 
