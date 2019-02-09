@@ -41,7 +41,7 @@ export default {
       default: null
     },
     disabledDays: {
-      type: Array
+      type: [Array, Function]
     },
     minDate: {
       type: DateTime,

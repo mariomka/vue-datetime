@@ -48,7 +48,8 @@ export function monthDayIsDisabled (minDate, maxDate, year, month, day, disabled
 
   return (minDate && date < minDate) ||
          (maxDate && date > maxDate) ||
-         (Array.isArray(disabled) && dateInArray(date, disabled))
+         (Array.isArray(disabled) && dateInArray(date, disabled)) ||
+         (typeof disabled === 'function' && disabled(`${year}-${month}-${day}`))
 }
 
 export function monthIsDisabled (minDate, maxDate, year, month) {

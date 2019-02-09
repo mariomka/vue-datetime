@@ -104,7 +104,7 @@ export default {
       default: 1
     },
     disabledDays: {
-      type: Array
+      type: [Array, Function]
     },
     minDatetime: {
       type: DateTime,

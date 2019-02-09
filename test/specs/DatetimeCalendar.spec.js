@@ -137,6 +137,33 @@ describe('DatetimeCalendar.vue', function () {
         }
       })
     })
+
+    it('should disable days with a callback function', function () {
+      const vm = createVM(this,
+        `<DatetimeCalendar :year="2018" :month="7" :day="10" :disabled-days="disabledDays"></DatetimeCalendar>`,
+        {
+          components: { DatetimeCalendar },
+          data () {
+            return {
+              disabledDays: function (date) {
+                return date === '2018-7-15'
+              }
+            }
+          }
+        })
+
+      const monthDays = vm.$$('.vdatetime-calendar__month__day')
+
+      monthDays.forEach(monthDay => {
+        const dayNumber = parseInt(monthDay.textContent)
+
+        if (isNaN(dayNumber) || dayNumber === 15) {
+          expect(monthDay).to.have.class('vdatetime-calendar__month__day--disabled')
+        } else {
+          expect(monthDay).to.have.not.class('vdatetime-calendar__month__day--disabled')
+        }
+      })
+    })
   })
 
   describe('navigation', function () {

@@ -114,7 +114,7 @@ export default {
       default: 1
     },
     disabledDays: {
-      type: Array
+      type: [Array, Function]
     },
     minDatetime: {
       type: String,
@@ -188,9 +188,12 @@ export default {
       return this.datetime ? this.datetime.setZone(this.zone) : this.newPopupDatetime()
     },
     popupDisabledDays () {
-      return this.disabledDays ? this.disabledDays.map((datetime) => {
-        return DateTime.fromISO(datetime).setZone(this.zone)
-      }) : []
+      if (this.disabledDays) {
+        return Array.isArray(this.disabledDays) ? this.disabledDays.map((datetime) => {
+          return DateTime.fromISO(datetime).setZone(this.zone)
+        }) : this.disabledDays
+      }
+      return []
     },
     popupMinDatetime () {
       return this.minDatetime ? DateTime.fromISO(this.minDatetime).setZone(this.zone) : null
