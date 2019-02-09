@@ -3,6 +3,7 @@
     <slot name="before"></slot>
     <input class="vdatetime-input"
            :class="inputClass"
+           :style="inputStyle"
            :id="inputId"
            type="text"
            :value="inputValue"
@@ -23,12 +24,22 @@
           :use12-hour="use12Hour"
           :hour-step="hourStep"
           :minute-step="minuteStep"
+          :disabled-days="popupDisabledDays"
           :min-datetime="popupMinDatetime"
           :max-datetime="popupMaxDatetime"
           @confirm="confirm"
           @cancel="cancel"
           :auto="auto"
-          :week-start="weekStart"></datetime-popup>
+          :week-start="weekStart"
+          :flow="flow"
+          :title="title">
+        <template slot="button-cancel__internal" slot-scope="scope">
+          <slot name="button-cancel" v-bind:step="scope.step">{{ phrases.cancel }}</slot>
+        </template>
+        <template slot="button-confirm__internal" slot-scope="scope">
+          <slot name="button-confirm" v-bind:step="scope.step">{{ phrases.ok }}</slot>
+        </template>
+      </datetime-popup>
     </transition-group>
   </div>
 </template>
@@ -43,6 +54,8 @@ export default {
     DatetimePopup
   },
 
+  inheritAttrs: false,
+
   props: {
     value: {
       type: String
@@ -56,7 +69,11 @@ export default {
       default: ''
     },
     inputClass: {
-      type: String,
+      type: [Object, Array, String],
+      default: ''
+    },
+    inputStyle: {
+      type: [Object, Array, String],
       default: ''
     },
     hiddenName: {
@@ -96,6 +113,9 @@ export default {
       type: Number,
       default: 1
     },
+    disabledDays: {
+      type: Array
+    },
     minDatetime: {
       type: String,
       default: null
@@ -113,6 +133,12 @@ export default {
       default () {
         return weekStart()
       }
+    },
+    flow: {
+      type: Array
+    },
+    title: {
+      type: String
     }
   },
 
@@ -160,6 +186,11 @@ export default {
     },
     popupDate () {
       return this.datetime ? this.datetime.setZone(this.zone) : this.newPopupDatetime()
+    },
+    popupDisabledDays () {
+      return this.disabledDays ? this.disabledDays.map((datetime) => {
+        return DateTime.fromISO(datetime).setZone(this.zone)
+      }) : []
     },
     popupMinDatetime () {
       return this.minDatetime ? DateTime.fromISO(this.minDatetime).setZone(this.zone) : null

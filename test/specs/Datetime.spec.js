@@ -44,6 +44,16 @@ describe('Datetime.vue', function () {
       expect(vm.$('.vdatetime-input')).to.have.id('id-name')
     })
 
+    it('should add style to input', function () {
+      const vm = createVM(this,
+        `<Datetime :input-style="{backgroundColor: 'cyan'}"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      expect(vm.$('.vdatetime-input')).to.have.attr('style', 'background-color: cyan;')
+    })
+
     it('input should inherit attributes', function () {
       const vm = createVM(this,
         `<Datetime placeholder="Select date..."></Datetime>`,
@@ -135,6 +145,66 @@ describe('Datetime.vue', function () {
       })
     })
 
+    it('should render the action buttons with custom slots', function (done) {
+      const vm = createVM(this,
+        `<Datetime>
+           <template slot="button-cancel"><i>Abort</i></template>
+           <template slot="button-confirm"><strong>Confirm</strong></template>
+         </Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {}
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-popup__actions')).to.exist
+        expect(vm.$$('.vdatetime-popup__actions__button')[0]).to.have.html('<i>Abort</i>')
+        expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.html('<strong>Confirm</strong>')
+        done()
+      })
+    })
+
+    it('should render the action buttons with custom slots and scoped slot for using the local scope', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime">
+           <template slot="button-cancel"><i>Abort</i></template>
+           <template slot="button-confirm" slot-scope="scope">
+             <span v-if="scope.step === 'date'">Next</span>
+             <span v-else>Publish</span>
+           </template>
+         </Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {}
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        const btnCancel = vm.$$('.vdatetime-popup__actions__button')[0]
+        const btnConfirm = vm.$$('.vdatetime-popup__actions__button')[1]
+
+        expect(vm.$('.vdatetime-popup__actions')).to.exist
+        expect(btnCancel).to.exist
+        expect(btnCancel).to.have.html('<i>Abort</i>')
+        expect(btnConfirm).to.exist
+        expect(btnConfirm).to.have.text('Next')
+
+        btnConfirm.click()
+
+        vm.$nextTick(() => {
+          expect(btnConfirm).to.have.text('Publish')
+          done()
+        })
+      })
+    })
+
     it('should pass use 12 hour to popup', function (done) {
       const vm = createVM(this,
         `<Datetime type="datetime" use12-hour></Datetime>`,
@@ -162,6 +232,21 @@ describe('Datetime.vue', function () {
       vm.$nextTick(() => {
         expect(vm.$findChild('.vdatetime-popup').hourStep).to.be.equal(2)
         expect(vm.$findChild('.vdatetime-popup').minuteStep).to.be.equal(15)
+        done()
+      })
+    })
+
+    it('should pass disabled days to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" :disabled-days="['2018-01-01T12:35:22.000Z']"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').disabledDays[0].toISODate()).to.be.equal('2018-01-01')
         done()
       })
     })
@@ -228,6 +313,36 @@ describe('Datetime.vue', function () {
 
       vm.$nextTick(() => {
         expect(vm.$findChild('.vdatetime-popup').datetime.toISO()).to.be.equal('2017-12-07T19:34:54.078+03:00')
+        done()
+      })
+    })
+
+    it('should pass flow to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" :flow="['year', 'month', 'date', 'time']"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').flow).to.be.deep.equal(['year', 'month', 'date', 'time'])
+        done()
+      })
+    })
+
+    it('should pass title to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" title="Select your birthday"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').title).to.be.equal('Select your birthday')
         done()
       })
     })

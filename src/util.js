@@ -30,14 +30,30 @@ export function monthDays (year, month, weekStart) {
     )
 }
 
-export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
+export function dateInArray (date, array) {
+  date = startOfDay(date)
+  for (var idx = 0; idx < array.length; idx++) {
+    var check = startOfDay(array[idx])
+    if (check.hasSame(date, 'day')) {
+      return true
+    }
+  }
+}
+
+export function monthDayIsDisabled (minDate, maxDate, year, month, day, disabled) {
   const date = DateTime.fromObject({ year, month, day, zone: 'UTC' })
 
   minDate = minDate ? startOfDay(minDate) : null
   maxDate = maxDate ? startOfDay(maxDate) : null
 
   return (minDate && date < minDate) ||
-         (maxDate && date > maxDate)
+         (maxDate && date > maxDate) ||
+         (Array.isArray(disabled) && dateInArray(date, disabled))
+}
+
+export function monthIsDisabled (minDate, maxDate, year, month) {
+  return (minDate && minDate > DateTime.utc(year, month, DateTime.utc(year, month).daysInMonth)) ||
+         (maxDate && maxDate < DateTime.utc(year, month, 1))
 }
 
 export function yearIsDisabled (minDate, maxDate, year) {
@@ -87,6 +103,10 @@ export function pad (number) {
 
 export function startOfDay (datetime) {
   return datetime.startOf('day')
+}
+
+export function createFlowManager (flow) {
+  return new FlowManager(flow, 'end')
 }
 
 export function createFlowManagerFromType (type) {

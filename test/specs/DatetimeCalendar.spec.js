@@ -112,6 +112,31 @@ describe('DatetimeCalendar.vue', function () {
         }
       })
     })
+
+    it('should disable days that are manually set', function () {
+      const vm = createVM(this,
+        `<DatetimeCalendar :year="2018" :month="7" :day="10" :disabled-days="disabledDays"></DatetimeCalendar>`,
+        {
+          components: { DatetimeCalendar },
+          data () {
+            return {
+              disabledDays: [LuxonDatetime.fromISO('2018-07-15T12:00:00.000Z').toUTC()]
+            }
+          }
+        })
+
+      const monthDays = vm.$$('.vdatetime-calendar__month__day')
+
+      monthDays.forEach(monthDay => {
+        const dayNumber = parseInt(monthDay.textContent)
+
+        if (isNaN(dayNumber) || dayNumber === 15) {
+          expect(monthDay).to.have.class('vdatetime-calendar__month__day--disabled')
+        } else {
+          expect(monthDay).to.have.not.class('vdatetime-calendar__month__day--disabled')
+        }
+      })
+    })
   })
 
   describe('navigation', function () {

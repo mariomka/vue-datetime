@@ -36,7 +36,7 @@
 
   <div class="example">
     <div class="example-inputs">
-      <datetime type="datetime" v-model="datetimeEmpty" :min-datetime="minDatetime" :max-datetime="maxDatetime"></datetime>
+      <datetime type="datetime" v-model="datetime"></datetime>
 
       <div class="values">
         <p>
@@ -113,6 +113,7 @@
           :phrases="{next: 'Continue', ok: 'Finish', cancel: 'Exit'}"
           :hour-step="2"
           :minute-step="15"
+          :disabled-days="disabledDays"
           :min-datetime="minDatetime"
           :max-datetime="maxDatetime"
           :week-start="7"
@@ -137,6 +138,7 @@
   :phrases=&#x22;{next: &#x27;Continue&#x27;, ok: &#x27;Finish&#x27;, cancel: &#x27;Exit&#x27;}&#x22;
   :hour-step=&#x22;2&#x22;
   :minute-step=&#x22;15&#x22;
+  :disabled-days=&#x22;disabledDays&#x22;
   :min-datetime=&#x22;minDatetime&#x22;
   :max-datetime=&#x22;maxDatetime&#x22;
   :week-start=&#x22;7&#x22;

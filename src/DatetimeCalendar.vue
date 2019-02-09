@@ -40,7 +40,7 @@ export default {
       type: Number,
       default: null
     },
-    disabled: {
+    disabledDays: {
       type: Array
     },
     minDate: {
@@ -79,7 +79,7 @@ export default {
       return monthDays(this.newYear, this.newMonth, this.weekStart).map(day => ({
         number: day,
         selected: day && this.year === this.newYear && this.month === this.newMonth && this.day === day,
-        disabled: !day || monthDayIsDisabled(this.minDate, this.maxDate, this.newYear, this.newMonth, day)
+        disabled: !day || this.isDisabled(day)
       }))
     }
   },
@@ -97,6 +97,9 @@ export default {
     },
     nextMonth () {
       this.newDate = this.newDate.plus({ months: 1 })
+    },
+    isDisabled (day) {
+      return monthDayIsDisabled(this.minDate, this.maxDate, this.newYear, this.newMonth, day, this.disabledDays)
     }
   }
 }
