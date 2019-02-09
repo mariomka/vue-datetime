@@ -82,7 +82,6 @@ export default {
       default () {
         return {
           cancel: 'Cancel',
-          next: 'Next',
           ok: 'Ok'
         }
       }

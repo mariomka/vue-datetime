@@ -134,7 +134,7 @@ describe('DatetimePopup.vue', function () {
           }
         })
 
-      vm.$('.vdatetime-popup__actions__button--next').click()
+      vm.$('.vdatetime-popup__actions__button--confirm').click()
       vm.$nextTick(() => {
         expect(vm.$('.vdatetime-popup__body .vdatetime-time-picker')).to.exist
         done()
@@ -193,7 +193,7 @@ describe('DatetimePopup.vue', function () {
 
       vm.$('.vdatetime-popup__year').click()
       vm.$nextTick(() => {
-        vm.$('.vdatetime-popup__actions__button--next').click()
+        vm.$('.vdatetime-popup__actions__button--confirm').click()
         vm.$nextTick(() => {
           expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
           done()
@@ -218,14 +218,8 @@ describe('DatetimePopup.vue', function () {
           }
         })
 
+      expect(vm.$('.vdatetime-popup__actions__button--confirm').innerText).to.be.equal('Confirmar')
       expect(vm.$('.vdatetime-popup__actions__button--cancel').innerText).to.be.equal('Cancelar')
-      expect(vm.$('.vdatetime-popup__actions__button--next').innerText).to.be.equal('Nextar')
-
-      vm.$('.vdatetime-popup__actions__button--next').click()
-      vm.$nextTick(() => {
-        expect(vm.$('.vdatetime-popup__actions__button--confirm').innerText).to.be.equal('Confirmar')
-        done()
-      })
     })
 
     it('should render custom flow', function (done) {
@@ -283,7 +277,7 @@ describe('DatetimePopup.vue', function () {
           }
         })
 
-      vm.$('.vdatetime-popup__actions__button--next').click()
+      vm.$('.vdatetime-popup__actions__button--confirm').click()
 
       vm.$nextTick(() => {
         expect(vm.$findChild('.vdatetime-time-picker').use12Hour).to.be.equal(true)
@@ -303,7 +297,7 @@ describe('DatetimePopup.vue', function () {
           }
         })
 
-      vm.$('.vdatetime-popup__actions__button--next').click()
+      vm.$('.vdatetime-popup__actions__button--confirm').click()
 
       vm.$nextTick(() => {
         expect(vm.$findChild('.vdatetime-time-picker').hourStep).to.be.equal(2)
@@ -363,7 +357,7 @@ describe('DatetimePopup.vue', function () {
           }
         })
 
-      vm.$('.vdatetime-popup__actions__button--next').click()
+      vm.$('.vdatetime-popup__actions__button--confirm').click()
 
       vm.$nextTick(() => {
         expect(vm.$findChild('.vdatetime-time-picker').minTime).to.be.equal(minDatetime.toFormat('HH:mm'))
@@ -413,7 +407,7 @@ describe('DatetimePopup.vue', function () {
         })
 
       vm.$$('.vdatetime-calendar__month__day')[22].click()
-      vm.$('.vdatetime-popup__actions__button--next').click()
+      vm.$('.vdatetime-popup__actions__button--confirm').click()
       expect(vm.newDatetime).to.be.equal('2017-07-18T00:00:00.000+02:00')
     })
 
@@ -441,7 +435,7 @@ describe('DatetimePopup.vue', function () {
         })
 
       vm.$$('.vdatetime-calendar__month__day')[15].click()
-      vm.$('.vdatetime-popup__actions__button--next').click()
+      vm.$('.vdatetime-popup__actions__button--confirm').click()
       vm.$nextTick(() => {
         vm.$$('.vdatetime-time-picker__list--hours .vdatetime-time-picker__item')[4].click()
         vm.$nextTick(() => {
