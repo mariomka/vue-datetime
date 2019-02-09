@@ -279,25 +279,30 @@ export default {
   background: rgba(0, 0, 0, 0.5);
   transition: opacity .5s;
 }
-.clearable{
+
+.clearable {
   position: relative;
   display: inline-block;
 }
-.clearable input[type=text]{
+
+.clearable input[type=text] {
   padding-right: 24px;
   width: 100%;
   box-sizing: border-box;
 }
-.clearable__clear{
+
+.clearable__clear {
   display: block;
   position: absolute;
-  right:0; top:0;
+  right: 0;
+  top: 0;
   padding: 0 8px;
   font-style: normal;
   font-size: 1.2em;
   user-select: none;
   cursor: pointer;
 }
+
 .clearable input::-ms-clear {  /* Remove IE default X */
   display: none;
 }
