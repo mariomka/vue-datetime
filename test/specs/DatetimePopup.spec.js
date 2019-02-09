@@ -69,7 +69,7 @@ describe('DatetimePopup.vue', function () {
 
       expect(vm.$('.vdatetime-popup__actions')).to.exist
       expect(vm.$$('.vdatetime-popup__actions__button')[0]).to.have.text('Cancel')
-      expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.text('Next')
+      expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.text('Ok')
     })
 
     it('should render the action buttons with custom slots', function () {
@@ -201,7 +201,7 @@ describe('DatetimePopup.vue', function () {
       })
     })
 
-    it('should render custom phrases', function (done) {
+    it('should render custom phrases', function () {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime" :phrases="phrases"></DatetimePopup>`,
         {
