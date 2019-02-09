@@ -1,16 +1,19 @@
 <template>
   <div class="vdatetime">
     <slot name="before"></slot>
-    <input class="vdatetime-input"
-           :class="inputClass"
-           :style="inputStyle"
-           :id="inputId"
-           type="text"
-           :value="inputValue"
-           v-bind="$attrs"
-           v-on="$listeners"
-           @click="open"
-           @focus="open">
+    <span class="clearable">
+      <input class="vdatetime-input"
+            :class="inputClass"
+            :style="inputStyle"
+            :id="inputId"
+            type="text"
+            :value="inputValue"
+            v-bind="$attrs"
+            v-on="$listeners"
+            @click="open"
+            @focus="open">
+      <i v-show="clearButton" @click="clearInput" class="clearable__clear">&times;</i>
+    </span>
     <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value" @input="setValue">
     <slot name="after"></slot>
     <transition-group name="vdatetime-fade" tag="div">
@@ -134,6 +137,10 @@ export default {
     },
     title: {
       type: String
+    },
+    clearButton: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -243,6 +250,9 @@ export default {
     setValue (event) {
       this.datetime = datetimeFromISO(event.target.value)
       this.emitInput()
+    },
+    clearInput () {
+      this.datetime = null
     }
   }
 }
@@ -268,5 +278,27 @@ export default {
   left: 0;
   background: rgba(0, 0, 0, 0.5);
   transition: opacity .5s;
+}
+.clearable{
+  position: relative;
+  display: inline-block;
+}
+.clearable input[type=text]{
+  padding-right: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.clearable__clear{
+  display: block;
+  position: absolute;
+  right:0; top:0;
+  padding: 0 8px;
+  font-style: normal;
+  font-size: 1.2em;
+  user-select: none;
+  cursor: pointer;
+}
+.clearable input::-ms-clear {  /* Remove IE default X */
+  display: none;
 }
 </style>
