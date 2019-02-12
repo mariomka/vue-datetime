@@ -23,8 +23,7 @@ export function monthDays (year, month, weekStart) {
     lastDay += 7
   }
 
-  return new Array(monthDate.daysInMonth + firstDay + lastDay)
-    .fill(null)
+  return Array.apply(null, Array(monthDate.daysInMonth + firstDay + lastDay))
     .map((value, index) =>
       (index + 1 <= firstDay || index >= firstDay + monthDate.daysInMonth) ? null : (index + 1 - firstDay)
     )
@@ -75,15 +74,15 @@ export function months () {
 }
 
 export function hours (step) {
-  return new Array(Math.ceil(24 / step)).fill(null).map((item, index) => index * step)
+  return Array.apply(null, Array(Math.ceil(24 / step))).map((item, index) => index * step)
 }
 
 export function minutes (step) {
-  return new Array(Math.ceil(60 / step)).fill(null).map((item, index) => index * step)
+  return Array.apply(null, Array(Math.ceil(60 / step))).map((item, index) => index * step)
 }
 
 export function years (current) {
-  return new Array(201).fill(null).map((item, index) => current - 100 + index)
+  return Array.apply(null, Array(201)).map((item, index) => current - 100 + index)
 }
 
 export function pad (number) {
