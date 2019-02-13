@@ -124,6 +124,7 @@ export default {
   cursor: pointer;
 
   & svg {
+    height: 8px;
     width: 8px;
 
     & path {
