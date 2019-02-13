@@ -47,8 +47,10 @@ export default {
     },
 
     scrollToCurrent () {
-      const selectedYear = this.$refs.yearList.querySelector('.vdatetime-year-picker__item--selected')
-      this.$refs.yearList.scrollTop = selectedYear ? selectedYear.offsetTop - 250 : 0
+      if (this.$refs.yearList) {
+        const selectedYear = this.$refs.yearList.querySelector('.vdatetime-year-picker__item--selected')
+        this.$refs.yearList.scrollTop = selectedYear ? selectedYear.offsetTop - 250 : 0
+      }
     }
   },
 
