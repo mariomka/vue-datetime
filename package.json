@@ -1,6 +1,6 @@
 {
   "name": "@escofieldpublic/vue-datetime",
-  "version": "1.0.0-es-beta.11",
+  "version": "1.0.0-es-beta.12",
   "description": "Mobile friendly datetime picker for Vue. Supports date, datetime and time modes, i18n and disabling dates.",
   "keywords": [
     "datetime",
