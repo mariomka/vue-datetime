@@ -1,5 +1,5 @@
 import Datetime from './Datetime.vue'
-
+import DatetimePopup from './DatetimePopup.vue'
 function plugin (Vue) {
   Vue.component('datetime', Datetime)
 }
@@ -14,6 +14,7 @@ const version = '__VERSION__'
 
 // Export all components too
 export {
+  DatetimePopup,
   Datetime,
   version
 }
