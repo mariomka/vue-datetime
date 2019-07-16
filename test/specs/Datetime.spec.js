@@ -331,6 +331,26 @@ describe('Datetime.vue', function () {
         done()
       })
     })
+
+    it('should pass value format to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" :value-format="format"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              format: 'yyyy-MM-dd HH:mm:ss'
+            }
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').valueFormat).to.be.equal('yyyy-MM-dd HH:mm:ss')
+        done()
+      })
+    })
   })
 
   describe('types', function () {
@@ -442,6 +462,22 @@ describe('Datetime.vue', function () {
         })
 
       expect(vm.datetime).to.be.equal('2017-12-07T16:34:54.078Z')
+    })
+
+    it('should be a formatted string when provided', function () {
+      const vm = createVM(this,
+        `<Datetime type="datetime" :value-format="format" v-model="datetime"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2019 July 01 12:00:00',
+              format: 'yyyy LLLL dd HH:mm:ss'
+            }
+          }
+        })
+
+      expect(vm.datetime).to.be.equal('2019 July 01 12:00:00')
     })
 
     it('should be a date in the specified time zone', function () {
