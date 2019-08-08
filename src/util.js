@@ -119,7 +119,7 @@ export function weekStart () {
   let weekstart
 
   try {
-    weekstart = require('weekstart')
+    weekstart = require('weekstart/package.json').version ? require('weekstart') : null
   } catch (e) {
     weekstart = window.weekstart
   }
