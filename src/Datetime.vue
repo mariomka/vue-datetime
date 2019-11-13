@@ -28,6 +28,7 @@
           :max-datetime="popupMaxDatetime"
           @confirm="confirm"
           @cancel="cancel"
+          @clear="clear"
           :auto="auto"
           :week-start="weekStart"
           :flow="flow"
@@ -94,6 +95,7 @@ export default {
       type: Object,
       default () {
         return {
+          clear: 'Clear',
           cancel: 'Cancel',
           ok: 'Ok'
         }
@@ -216,6 +218,11 @@ export default {
     },
     cancel () {
       this.close()
+    },
+    clear () {
+      this.datetime = null
+      this.emitInput()
+      this.close();
     },
     newPopupDatetime () {
       let datetime = DateTime.utc().setZone(this.zone).set({ seconds: 0, milliseconds: 0 })
