@@ -44,6 +44,16 @@ describe('Datetime.vue', function () {
       expect(vm.$('.vdatetime-input')).to.have.id('id-name')
     })
 
+    it('should add style to input', function () {
+      const vm = createVM(this,
+        `<Datetime :input-style="{backgroundColor: 'cyan'}"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      expect(vm.$('.vdatetime-input')).to.have.attr('style', 'background-color: cyan;')
+    })
+
     it('input should inherit attributes', function () {
       const vm = createVM(this,
         `<Datetime placeholder="Select date..."></Datetime>`,
@@ -90,6 +100,22 @@ describe('Datetime.vue', function () {
 
       expect(vm.$('.vdatetime input[type=hidden]')).to.have.attr('name', 'dt')
     })
+
+    it('should support named slots', function () {
+      const vm = createVM(this,
+        `<Datetime>
+          <label slot="before">Start Date</label>
+          <span slot="after" class="error">Invalid date</span>
+        </Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      const children = vm.$('.vdatetime').children
+      expect(children[0].nodeName).to.equal('LABEL')
+      expect(children[1].nodeName).to.equal('INPUT')
+      expect(children[2].nodeName).to.equal('SPAN')
+    })
   })
 
   describe('pass props', function () {
@@ -116,6 +142,66 @@ describe('Datetime.vue', function () {
           ok: 'Confirmar'
         })
         done()
+      })
+    })
+
+    it('should render the action buttons with custom slots', function (done) {
+      const vm = createVM(this,
+        `<Datetime>
+           <template slot="button-cancel"><i>Abort</i></template>
+           <template slot="button-confirm"><strong>Confirm</strong></template>
+         </Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {}
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-popup__actions')).to.exist
+        expect(vm.$$('.vdatetime-popup__actions__button')[0]).to.have.html('<i>Abort</i>')
+        expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.html('<strong>Confirm</strong>')
+        done()
+      })
+    })
+
+    it('should render the action buttons with custom slots and scoped slot for using the local scope', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime">
+           <template slot="button-cancel"><i>Abort</i></template>
+           <template slot="button-confirm" slot-scope="scope">
+             <span v-if="scope.step === 'date'">Next</span>
+             <span v-else>Publish</span>
+           </template>
+         </Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {}
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        const btnCancel = vm.$$('.vdatetime-popup__actions__button')[0]
+        const btnConfirm = vm.$$('.vdatetime-popup__actions__button')[1]
+
+        expect(vm.$('.vdatetime-popup__actions')).to.exist
+        expect(btnCancel).to.exist
+        expect(btnCancel).to.have.html('<i>Abort</i>')
+        expect(btnConfirm).to.exist
+        expect(btnConfirm).to.have.text('Next')
+
+        btnConfirm.click()
+
+        vm.$nextTick(() => {
+          expect(btnConfirm).to.have.text('Publish')
+          done()
+        })
       })
     })
 
@@ -215,6 +301,36 @@ describe('Datetime.vue', function () {
         done()
       })
     })
+
+    it('should pass flow to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" :flow="['year', 'month', 'date', 'time']"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').flow).to.be.deep.equal(['year', 'month', 'date', 'time'])
+        done()
+      })
+    })
+
+    it('should pass title to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" title="Select your birthday"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').title).to.be.equal('Select your birthday')
+        done()
+      })
+    })
   })
 
   describe('types', function () {
@@ -263,6 +379,21 @@ describe('Datetime.vue', function () {
           expect(vm.$('.vdatetime-time-picker')).to.exist
           done()
         })
+      })
+    })
+
+    it('should be a time type', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="time"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-time-picker')).to.exist
+        done()
       })
     })
   })
@@ -356,6 +487,59 @@ describe('Datetime.vue', function () {
         })
 
       expect(vm.datetime).to.be.equal('2017-12-08T00:00:00.000+03:00')
+    })
+
+    it('should be a time with the specified time zone', function (done) {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type="time" zone="UTC-03:00"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T09:00:00.000Z'
+            }
+          }
+        })
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-input').value).to.be.equal('06:00')
+        done()
+      })
+    })
+
+    it('should be a time in the local time zone on default', function (done) {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type="time"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T09:00:00.000Z'
+            }
+          }
+        })
+
+      vm.$nextTick(() => {
+        const time = LuxonDateTime.fromISO('2017-12-07T09:00:00.000Z').toUTC().setZone('local').toLocaleString(LuxonDateTime.TIME_24_SIMPLE)
+
+        expect(vm.$('.vdatetime-input').value).to.be.equal(time)
+        done()
+      })
+    })
+
+    it('should be a time converted to utc', function () {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type="time" value-zone="UTC-05:00"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-05T00:00:00.000Z'
+            }
+          }
+        })
+
+      expect(vm.datetime).to.be.equal('2017-12-04T19:00:00.000-05:00')
     })
   })
 
@@ -453,6 +637,38 @@ describe('Datetime.vue', function () {
         })
 
       expect(vm.$('.vdatetime-input').value).to.be.equal('2017-12-07 19:34:54')
+    })
+
+    it('should be formatted in the specified format (time)', function () {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type="time" :format="format" zone="UTC+03:00"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T19:34:54.078+03:00',
+              format: LuxonDateTime.TIME_24_WITH_SECONDS
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-input').value).to.be.equal('19:34:54')
+    })
+
+    it('should be formatted in the specified macro format (time)', function () {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" type="time" :format="format" zone="UTC+03:00"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2017-12-07T19:34:54.078+03:00',
+              format: 'HH:mm:ss'
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-input').value).to.be.equal('19:34:54')
     })
 
     it('should be updated if value is updated', function (done) {
@@ -759,6 +975,93 @@ describe('Datetime.vue', function () {
         vm.$nextTick(() => {
           expect(vm.spy).to.have.been.calledOnce
           done()
+        })
+      })
+    })
+
+    it('should update datetime when hidden input changes', function (done) {
+      const vm = createVM(this,
+        `<Datetime v-model="datetime" hidden-name="dt"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: '2020-05-07T00:00:00.000Z'
+            }
+          }
+        })
+
+      const newDate = '2020-06-08T00:00:00.000Z'
+      const hiddenInput = vm.$('.vdatetime input[name=dt]')
+
+      hiddenInput.value = newDate
+      hiddenInput.dispatchEvent(new window.Event('input'))
+
+      vm.$nextTick(() => {
+        expect(vm.datetime).to.be.equal(newDate)
+        expect(hiddenInput.value).to.be.equal(newDate)
+        done()
+      })
+    })
+
+    it('should select min date if clicked through', function (done) {
+      const minDatetime = LuxonDateTime.utc().plus({ days: 3 }).set({ seconds: 0, millisecond: 0 }).toISO()
+
+      const vm = createVM(this,
+        `<Datetime type="datetime" v-model="datetime" :min-datetime="minDatetime"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: null,
+              minDatetime: minDatetime
+            }
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+        vm.$nextTick(() => {
+          vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+          vm.$nextTick(() => {
+            expect(vm.datetime).to.be.equal(minDatetime)
+            done()
+          })
+        })
+      })
+    })
+
+    it('should select max date if clicked through', function (done) {
+      const maxDatetime = LuxonDateTime.utc().minus({ days: 3 }).set({ seconds: 0, millisecond: 0 }).toISO()
+
+      const vm = createVM(this,
+        `<Datetime type="datetime" v-model="datetime" :max-datetime="maxDatetime"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetime: null,
+              maxDatetime: maxDatetime
+            }
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+        vm.$nextTick(() => {
+          vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+          vm.$nextTick(() => {
+            expect(vm.datetime).to.be.equal(maxDatetime)
+            done()
+          })
         })
       })
     })

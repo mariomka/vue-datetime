@@ -1,22 +1,32 @@
 <template>
   <div class="vdatetime-popup">
     <div class="vdatetime-popup__header">
-      <div class="vdatetime-popup__year" @click="showYear">{{ year }}</div>
-      <div class="vdatetime-popup__date">{{ dateFormatted }}</div>
+      <div class="vdatetime-popup__title" v-if="title">{{ title }}</div>
+      <div class="vdatetime-popup__year" @click="showYear" v-if="type !== 'time'">{{ year }}</div>
+      <div class="vdatetime-popup__date" @click="showMonth" v-if="type !== 'time'">{{ dateFormatted }}</div>
     </div>
     <div class="vdatetime-popup__body">
       <datetime-year-picker
           v-if="step === 'year'"
           @change="onChangeYear"
+          :min-date="minDatetimeUTC"
+          :max-date="maxDatetimeUTC"
           :year="year"></datetime-year-picker>
+      <datetime-month-picker
+          v-if="step === 'month'"
+          @change="onChangeMonth"
+          :min-date="minDatetimeUTC"
+          :max-date="maxDatetimeUTC"
+          :year="year"
+          :month="month"></datetime-month-picker>
       <datetime-calendar
           v-if="step === 'date'"
           @change="onChangeDate"
           :year="year"
           :month="month"
           :day="day"
-          :min-date="minDatetime"
-          :max-date="maxDatetime"
+          :min-date="minDatetimeUTC"
+          :max-date="maxDatetimeUTC"
           :week-start="weekStart"
       ></datetime-calendar>
       <datetime-time-picker
@@ -31,19 +41,26 @@
           :max-time="maxTime"></datetime-time-picker>
     </div>
     <div class="vdatetime-popup__actions">
-      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--clear" @click="clear">{{ phrases.clear }}</div>
-      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">{{ phrases.cancel }}</div>
-      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" @click="confirm">{{ phrases.ok }}</div>
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="clear">
+        <slot name="button-clear__internal" v-bind:step="step">{{ phrases.clear }}</slot>
+      </div>
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">
+        <slot name="button-cancel__internal" v-bind:step="step">{{ phrases.cancel }}</slot>
+      </div>
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" @click="confirm">
+        <slot name="button-confirm__internal" v-bind:step="step">{{ phrases.ok }}</slot>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { DateTime } from 'luxon'
-import { createFlowManagerFromType } from './util'
+import { createFlowManager, createFlowManagerFromType } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeTimePicker from './DatetimeTimePicker'
 import DatetimeYearPicker from './DatetimeYearPicker'
+import DatetimeMonthPicker from './DatetimeMonthPicker'
 
 const KEY_TAB = 9
 const KEY_ENTER = 13
@@ -53,7 +70,8 @@ export default {
   components: {
     DatetimeCalendar,
     DatetimeTimePicker,
-    DatetimeYearPicker
+    DatetimeYearPicker,
+    DatetimeMonthPicker
   },
 
   props: {
@@ -102,16 +120,24 @@ export default {
     weekStart: {
       type: Number,
       default: 1
+    },
+    flow: {
+      type: Array
+    },
+    title: {
+      type: String
     }
   },
 
   data () {
-    const flow = createFlowManagerFromType(this.type)
+    const flowManager = this.flow
+      ? createFlowManager(this.flow)
+      : createFlowManagerFromType(this.type)
 
     return {
       newDatetime: this.datetime,
-      flow: flow,
-      step: flow.first(),
+      flowManager,
+      step: flowManager.first(),
       timePartsTouched: []
     }
   },
@@ -146,6 +172,12 @@ export default {
         day: 'numeric'
       })
     },
+    minDatetimeUTC () {
+      return this.minDatetime ? this.minDatetime.toUTC() : null
+    },
+    maxDatetimeUTC () {
+      return this.maxDatetime ? this.maxDatetime.toUTC() : null
+    },
     minTime () {
       return (
         this.minDatetime &&
@@ -166,7 +198,7 @@ export default {
 
   methods: {
     nextStep () {
-      this.step = this.flow.next(this.step)
+      this.step = this.flowManager.next(this.step)
       this.timePartsTouched = []
 
       if (this.step === 'end') {
@@ -175,7 +207,11 @@ export default {
     },
     showYear () {
       this.step = 'year'
-      this.flow.diversion('date')
+      this.flowManager.diversion('date')
+    },
+    showMonth () {
+      this.step = 'month'
+      this.flowManager.diversion('date')
     },
     confirm () {
       this.nextStep()
@@ -188,6 +224,13 @@ export default {
     },
     onChangeYear (year) {
       this.newDatetime = this.newDatetime.set({ year })
+
+      if (this.auto) {
+        this.nextStep()
+      }
+    },
+    onChangeMonth (month) {
+      this.newDatetime = this.newDatetime.set({ month })
 
       if (this.auto) {
         this.nextStep()
@@ -253,6 +296,7 @@ export default {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
   color: #444;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.18;
   background: #fff;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
@@ -262,14 +306,19 @@ export default {
 }
 
 .vdatetime-popup__header {
-  padding: 15px 30px;
+  padding: 18px 30px;
   background: #3f51b5;
   color: #fff;
   font-size: 32px;
 }
 
+.vdatetime-popup__title {
+  margin-bottom: 8px;
+  font-size: 21px;
+  font-weight: 300;
+}
+
 .vdatetime-popup__year {
-  display: block;
   font-weight: 300;
   font-size: 14px;
   opacity: 0.7;
@@ -279,6 +328,11 @@ export default {
   &:hover {
     opacity: 1;
   }
+}
+
+.vdatetime-popup__date {
+  line-height: 1;
+  cursor: pointer;
 }
 
 .vdatetime-popup__actions {
