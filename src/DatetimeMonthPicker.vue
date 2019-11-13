@@ -87,6 +87,7 @@ export default {
   width: 100%;
   height: 305px;
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
     width: 3px;
