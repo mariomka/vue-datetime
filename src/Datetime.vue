@@ -222,7 +222,7 @@ export default {
     clear () {
       this.datetime = null
       this.emitInput()
-      this.close();
+      this.close()
     },
     newPopupDatetime () {
       let datetime = DateTime.utc().setZone(this.zone).set({ seconds: 0, milliseconds: 0 })
