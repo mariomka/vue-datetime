@@ -2,10 +2,12 @@ sudo: required
 language: node_js
 node_js:
   - '8'
+dist: trusty
 cache: yarn
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
   - yarn build:dll
 after_success:
   - bash <(curl -s https://codecov.io/bash)
