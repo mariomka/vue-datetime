@@ -1,7 +1,7 @@
 <template>
-  <div class="vdatetime-year-picker">
-    <div class="vdatetime-year-picker__list vdatetime-year-picker__list" ref="yearList">
-      <div class="vdatetime-year-picker__item" v-for="year in years" @click="select(year)" :class="{'vdatetime-year-picker__item--selected': year.selected, 'vdatetime-year-picker__item--disabled': year.disabled}">{{ year.number }}
+  <div class="vdatetime-month-picker">
+    <div class="vdatetime-month-picker__list vdatetime-month-picker__list" ref="monthList">
+      <div class="vdatetime-month-picker__item" v-for="month in months" @click="select(month)" :class="{'vdatetime-month-picker__item--selected': month.selected, 'vdatetime-month-picker__item--disabled': month.disabled}">{{ month.label }}
       </div>
     </div>
   </div>
@@ -9,11 +9,15 @@
 
 <script>
 import { DateTime } from 'luxon'
-import { yearIsDisabled, years } from './util'
+import { monthIsDisabled, months } from './util'
 
 export default {
   props: {
     year: {
+      type: Number,
+      required: true
+    },
+    month: {
       type: Number,
       required: true
     },
@@ -28,29 +32,28 @@ export default {
   },
 
   computed: {
-    years () {
-      return years(this.year).map(year => ({
-        number: year,
-        selected: year === this.year,
-        disabled: !year || yearIsDisabled(this.minDate, this.maxDate, year)
+    months () {
+      return months(this.month).map((month, index) => ({
+        number: ++index,
+        label: month,
+        selected: index === this.month,
+        disabled: !index || monthIsDisabled(this.minDate, this.maxDate, this.year, index)
       }))
     }
   },
 
   methods: {
-    select (year) {
-      if (year.disabled) {
+    select (month) {
+      if (month.disabled) {
         return
       }
 
-      this.$emit('change', parseInt(year.number))
+      this.$emit('change', parseInt(month.number))
     },
 
     scrollToCurrent () {
-      if (this.$refs.yearList) {
-        const selectedYear = this.$refs.yearList.querySelector('.vdatetime-year-picker__item--selected')
-        this.$refs.yearList.scrollTop = selectedYear ? selectedYear.offsetTop - 250 : 0
-      }
+      const selectedMonth = this.$refs.monthList.querySelector('.vdatetime-month-picker__item--selected')
+      this.$refs.monthList.scrollTop = selectedMonth ? selectedMonth.offsetTop - 250 : 0
     }
   },
 
@@ -65,7 +68,7 @@ export default {
 </script>
 
 <style>
-.vdatetime-year-picker {
+.vdatetime-month-picker {
   box-sizing: border-box;
 
   &::after {
@@ -79,7 +82,7 @@ export default {
   }
 }
 
-.vdatetime-year-picker__list {
+.vdatetime-month-picker__list {
   float: left;
   width: 100%;
   height: 305px;
@@ -99,7 +102,7 @@ export default {
   }
 }
 
-.vdatetime-year-picker__item {
+.vdatetime-month-picker__item {
   padding: 10px 0;
   font-size: 20px;
   text-align: center;
@@ -107,16 +110,16 @@ export default {
   transition: font-size .3s;
 }
 
-.vdatetime-year-picker__item:hover {
+.vdatetime-month-picker__item:hover {
   font-size: 32px;
 }
 
-.vdatetime-year-picker__item--selected {
+.vdatetime-month-picker__item--selected {
   color: #3f51b5;
   font-size: 32px;
 }
 
-.vdatetime-year-picker__item--disabled {
+.vdatetime-month-picker__item--disabled {
   opacity: 0.4;
   cursor: default;
 

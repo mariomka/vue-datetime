@@ -1,7 +1,9 @@
 <template>
   <div class="vdatetime">
+    <slot name="before"></slot>
     <input class="vdatetime-input"
            :class="inputClass"
+           :style="inputStyle"
            :id="inputId"
            type="text"
            :value="inputValue"
@@ -9,7 +11,8 @@
            v-on="$listeners"
            @click="open"
            @focus="open">
-    <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value">
+    <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value" @input="setValue">
+    <slot name="after"></slot>
     <transition-group name="vdatetime-fade" tag="div">
       <div key="overlay" v-if="isOpen" class="vdatetime-overlay" @click.self="cancel"></div>
       <datetime-popup
@@ -27,7 +30,16 @@
           @cancel="cancel"
           @clear="clear"
           :auto="auto"
-          :week-start="weekStart"></datetime-popup>
+          :week-start="weekStart"
+          :flow="flow"
+          :title="title">
+        <template slot="button-cancel__internal" slot-scope="scope">
+          <slot name="button-cancel" v-bind:step="scope.step">{{ phrases.cancel }}</slot>
+        </template>
+        <template slot="button-confirm__internal" slot-scope="scope">
+          <slot name="button-confirm" v-bind:step="scope.step">{{ phrases.ok }}</slot>
+        </template>
+      </datetime-popup>
     </transition-group>
   </div>
 </template>
@@ -42,6 +54,8 @@ export default {
     DatetimePopup
   },
 
+  inheritAttrs: false,
+
   props: {
     value: {
       type: String
@@ -55,7 +69,11 @@ export default {
       default: ''
     },
     inputClass: {
-      type: String,
+      type: [Object, Array, String],
+      default: ''
+    },
+    inputStyle: {
+      type: [Object, Array, String],
       default: ''
     },
     hiddenName: {
@@ -112,6 +130,12 @@ export default {
       default () {
         return weekStart()
       }
+    },
+    flow: {
+      type: Array
+    },
+    title: {
+      type: String
     }
   },
 
@@ -134,7 +158,22 @@ export default {
 
   computed: {
     inputValue () {
-      const format = this.format || (this.type === 'date' ? DateTime.DATE_MED : DateTime.DATETIME_MED)
+      let format = this.format
+
+      if (!format) {
+        switch (this.type) {
+          case 'date':
+            format = DateTime.DATE_MED
+            break
+          case 'time':
+            format = DateTime.TIME_24_SIMPLE
+            break
+          case 'datetime':
+          case 'default':
+            format = DateTime.DATETIME_MED
+            break
+        }
+      }
 
       if (typeof format === 'string') {
         return this.datetime ? DateTime.fromISO(this.datetime).setZone(this.zone).toFormat(format) : ''
@@ -146,10 +185,10 @@ export default {
       return this.datetime ? this.datetime.setZone(this.zone) : this.newPopupDatetime()
     },
     popupMinDatetime () {
-      return this.minDatetime ? DateTime.fromISO(this.minDatetime) : null
+      return this.minDatetime ? DateTime.fromISO(this.minDatetime).setZone(this.zone) : null
     },
     popupMaxDatetime () {
-      return this.maxDatetime ? DateTime.fromISO(this.maxDatetime) : null
+      return this.maxDatetime ? DateTime.fromISO(this.maxDatetime).setZone(this.zone) : null
     }
   },
 
@@ -186,7 +225,15 @@ export default {
       this.close();
     },
     newPopupDatetime () {
-      const datetime = DateTime.utc().setZone(this.zone).set({ seconds: 0, milliseconds: 0 })
+      let datetime = DateTime.utc().setZone(this.zone).set({ seconds: 0, milliseconds: 0 })
+
+      if (this.popupMinDatetime && datetime < this.popupMinDatetime) {
+        datetime = this.popupMinDatetime.set({ seconds: 0, milliseconds: 0 })
+      }
+
+      if (this.popupMaxDatetime && datetime > this.popupMaxDatetime) {
+        datetime = this.popupMaxDatetime.set({ seconds: 0, milliseconds: 0 })
+      }
 
       if (this.minuteStep === 1) {
         return datetime
@@ -199,6 +246,10 @@ export default {
       }
 
       return datetime.set({ minute: roundedMinute })
+    },
+    setValue (event) {
+      this.datetime = datetimeFromISO(event.target.value)
+      this.emitInput()
     }
   }
 }

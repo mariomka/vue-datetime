@@ -73,6 +73,26 @@ describe('DatetimePopup.vue', function () {
       expect(vm.$$('.vdatetime-popup__actions__button')[2]).to.have.text('Ok')
     })
 
+    it('should render the action buttons with custom slots', function () {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime">
+           <template slot="button-cancel__internal"><i>Abort</i></template>
+           <template slot="button-confirm__internal"><strong>Confirm</strong></template>
+         </DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-popup__actions')).to.exist
+      expect(vm.$$('.vdatetime-popup__actions__button')[0]).to.have.html('<i>Abort</i>')
+      expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.html('<strong>Confirm</strong>')
+    })
+
     it('should render the calendar by default', function () {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
@@ -141,6 +161,25 @@ describe('DatetimePopup.vue', function () {
       })
     })
 
+    it('should render the month picker', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      vm.$('.vdatetime-popup__date').click()
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-popup__body .vdatetime-month-picker')).to.exist
+        done()
+      })
+    })
+
     it('should render the calendar on confirm in year picker', function (done) {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime"></DatetimePopup>`,
@@ -181,6 +220,47 @@ describe('DatetimePopup.vue', function () {
 
       expect(vm.$('.vdatetime-popup__actions__button--confirm').innerText).to.be.equal('Confirmar')
       expect(vm.$('.vdatetime-popup__actions__button--cancel').innerText).to.be.equal('Cancelar')
+    })
+
+    it('should render custom flow', function (done) {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" :flow="['year', 'date', 'time']"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-popup__body .vdatetime-year-picker')).to.exist
+      vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-popup__body .vdatetime-calendar')).to.exist
+        vm.$('.vdatetime-popup__actions__button--confirm').click()
+
+        vm.$nextTick(() => {
+          expect(vm.$('.vdatetime-popup__body .vdatetime-time-picker')).to.exist
+          done()
+        })
+      })
+    })
+
+    it('should render the title', function () {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" title="Select your birthday"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local()
+            }
+          }
+        })
+
+      expect(vm.$('.vdatetime-popup__title')).to.have.text('Select your birthday')
     })
   })
 
