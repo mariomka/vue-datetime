@@ -112,7 +112,7 @@
     "webpack": "^2.5.0",
     "webpack-bundle-analyzer": "^2.4.0",
     "webpack-dashboard": "^0.4.0",
-    "webpack-dev-server": "^2.4.0",
+    "webpack-dev-server": "^3.1.11",
     "webpack-merge": "^4.0.0",
     "weekstart": "^1.0.0",
     "yarn-or-npm": "^2.0.0"
