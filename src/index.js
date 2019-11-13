@@ -1,7 +1,9 @@
 import Datetime from './Datetime.vue'
+import DatetimePopup from './DatetimePopup.vue'
 
 function plugin (Vue) {
   Vue.component('datetime', Datetime)
+  Vue.component('datetime-popup', DatetimePopup)
 }
 
 // Install by default if using the script tag
@@ -15,5 +17,6 @@ const version = '__VERSION__'
 // Export all components too
 export {
   Datetime,
+  DatetimePopup,
   version
 }
