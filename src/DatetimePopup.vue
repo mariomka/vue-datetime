@@ -2,7 +2,7 @@
   <div class="vdatetime-popup">
     <div class="vdatetime-popup__header">
       <div class="vdatetime-popup__title" v-if="title">{{ title }}</div>
-      <div class="vdatetime-popup__year" @click="showYear" v-if="type !== 'time'">{{ year }}</div>
+      <div class="vdatetime-popup__year" @click="showYear" v-if="type !== 'time'">{{ yearLocal }}</div>
       <div class="vdatetime-popup__date" @click="showMonth" v-if="type !== 'time'">{{ dateFormatted }}</div>
     </div>
     <div class="vdatetime-popup__body">
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { DateTime } from 'luxon'
+import { DateTime, Settings } from 'luxon'
 import { createFlowManager, createFlowManagerFromType } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeTimePicker from './DatetimeTimePicker'
@@ -149,6 +149,12 @@ export default {
   computed: {
     year () {
       return this.newDatetime.year
+    },
+    yearLocal() {
+      let yearString = this.newDatetime
+        .reconfigure({ outputCalendar: Settings.defaultOuputCalendar })
+        .toFormat("yyyy");
+      return parseInt(yearString);
     },
     month () {
       return this.newDatetime.month
