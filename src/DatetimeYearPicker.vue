@@ -53,12 +53,12 @@ export default {
       }
     },
 
-    yearLocal(year) {
-      const current = DateTime.fromFormat(`${year}`, "yyyy");
-      let yearString = current
+    yearLocal (year) {
+      const current = DateTime.fromFormat(year.toString(), 'yyyy')
+      const yearString = current
         .reconfigure({ outputCalendar: Settings.defaultOuputCalendar })
-        .toFormat("yyyy");
-      return parseInt(yearString);
+        .toFormat('yyyy')
+      return parseInt(yearString)
     }
   },
 

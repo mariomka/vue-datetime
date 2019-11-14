@@ -150,11 +150,11 @@ export default {
     year () {
       return this.newDatetime.year
     },
-    yearLocal() {
-      let yearString = this.newDatetime
+    yearLocal () {
+      const yearString = this.newDatetime
         .reconfigure({ outputCalendar: Settings.defaultOuputCalendar })
-        .toFormat("yyyy");
-      return parseInt(yearString);
+        .toFormat('yyyy')
+      return parseInt(yearString)
     },
     month () {
       return this.newDatetime.month
