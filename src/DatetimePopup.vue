@@ -34,7 +34,9 @@
           @change="onChangeTime"
           :hour="hour"
           :minute="minute"
+          :second="second"
           :use12-hour="use12Hour"
+          :use-second="useSecond"
           :hour-step="hourStep"
           :minute-step="minuteStep"
           :min-time="minTime"
@@ -90,6 +92,10 @@ export default {
       default: 'date'
     },
     use12Hour: {
+      type: Boolean,
+      default: false
+    },
+    useSecond: {
       type: Boolean,
       default: false
     },
@@ -162,6 +168,9 @@ export default {
     minute () {
       return this.newDatetime.minute
     },
+    second () {
+      return this.newDatetime.second
+    },
     dateFormatted () {
       return this.newDatetime.toLocaleString({
         month: 'long',
@@ -230,7 +239,7 @@ export default {
         this.nextStep()
       }
     },
-    onChangeTime ({ hour, minute, suffixTouched }) {
+    onChangeTime ({ hour, minute, second, suffixTouched }) {
       if (suffixTouched) {
         this.timePartsTouched['suffix'] = true
       }
@@ -245,7 +254,12 @@ export default {
         this.timePartsTouched['minute'] = true
       }
 
-      const goNext = this.auto && this.timePartsTouched['hour'] && this.timePartsTouched['minute'] && (
+      if (Number.isInteger(second)) {
+        this.newDatetime = this.newDatetime.set({ second })
+        this.timePartsTouched['second'] = true
+      }
+
+      const goNext = this.auto && this.timePartsTouched['hour'] && this.timePartsTouched['minute'] && this.timePartsTouched['second'] && (
         this.timePartsTouched['suffix'] ||
         !this.use12Hour
       )
