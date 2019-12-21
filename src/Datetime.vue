@@ -22,6 +22,7 @@
           :datetime="popupDate"
           :phrases="phrases"
           :use12-hour="use12Hour"
+          :use-second="useSecond"
           :hour-step="hourStep"
           :minute-step="minuteStep"
           :min-datetime="popupMinDatetime"
@@ -103,6 +104,10 @@ export default {
       type: Boolean,
       default: false
     },
+    useSecond: {
+      type: Boolean,
+      default: false
+    },
     hourStep: {
       type: Number,
       default: 1
@@ -168,7 +173,7 @@ export default {
             break
           case 'datetime':
           case 'default':
-            format = DateTime.DATETIME_MED
+            format = this.useSecond ? DateTime.DATETIME_MED_WITH_SECONDS : DateTime.DATETIME_MED
             break
         }
       }
