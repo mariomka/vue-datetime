@@ -77,6 +77,11 @@ Download vue, luxon, weekstart and vue-datetime or use a CDN like unpkg.
 <script src="vue-datetime.js"></script>
 ```
 
+```js
+Vue.component('datetime', window.VueDatetime.Datetime);
+```
+
+
 **weekstart** is optional, is used to get the first day of the week.
 
 ## Usage
