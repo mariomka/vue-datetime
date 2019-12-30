@@ -77,8 +77,10 @@ Download vue, luxon, weekstart and vue-datetime or use a CDN like unpkg.
 <script src="vue-datetime.js"></script>
 ```
 
+The component registers itself automatically as `<datetime>`. If you want to use a different name then register it explicitly:
+
 ```js
-Vue.component('datetime', window.VueDatetime.Datetime);
+Vue.component('vue-datetime', window.VueDatetime.Datetime);
 ```
 
 
