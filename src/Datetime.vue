@@ -151,7 +151,7 @@ export default {
   },
 
   created () {
-    this.emitInput()
+    this.emitInput(true)
   },
 
   computed: {
@@ -191,14 +191,19 @@ export default {
   },
 
   methods: {
-    emitInput () {
+    emitInput (init) {
       let datetime = this.datetime ? this.datetime.setZone(this.valueZone) : null
 
       if (datetime && this.type === 'date') {
         datetime = startOfDay(datetime)
       }
-
-      this.$emit('input', datetime ? datetime.toISO() : '')
+      if (init) {
+        if (datetime) {
+          this.$emit('input', datetime.toISO());
+        }
+      } else {
+        this.$emit('input', datetime ? datetime.toISO() : '');
+      }
     },
     open (event) {
       event.target.blur()
