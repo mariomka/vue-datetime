@@ -44,6 +44,16 @@ describe('Datetime.vue', function () {
       expect(vm.$('.vdatetime-input')).to.have.id('id-name')
     })
 
+    it('should not add empty id to input', function () {
+      const vm = createVM(this,
+        `<Datetime></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      expect(vm.$('.vdatetime-input')).to.not.have.attribute('id')
+    })
+
     it('should add style to input', function () {
       const vm = createVM(this,
         `<Datetime :input-style="{backgroundColor: 'cyan'}"></Datetime>`,

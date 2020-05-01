@@ -65,7 +65,7 @@ export default {
     },
     inputId: {
       type: String,
-      default: ''
+      default: null
     },
     inputClass: {
       type: [Object, Array, String],
