@@ -7,7 +7,7 @@
 [![Build](https://img.shields.io/travis/mariomka/vue-datetime/v1.x.svg?style=flat-square)](https://travis-ci.org/mariomka/vue-datetime)
 [![Coverage](https://img.shields.io/codecov/c/github/mariomka/vue-datetime/v1.x.svg?style=flat-square)](https://codecov.io/gh/mariomka/vue-datetime)
 
-> Mobile friendly datetime picker for Vue. Supports date, datetime and time modes, i18n and disabling dates.
+> Mobile friendly datetime picker for Vue. Supports date, datetime and time modes, i18n and more.
 
 ## Demo
 
