@@ -53,8 +53,8 @@ export function yearIsDisabled (minDate, maxDate, year) {
 }
 
 export function timeComponentIsDisabled (min, max, component) {
-  return (min && component < min) ||
-         (max && component > max)
+  return (min !== null && component < min) ||
+         (max !== null && component > max)
 }
 
 export function weekdays (weekStart) {

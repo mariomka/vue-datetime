@@ -138,6 +138,38 @@ describe('DatetimeTimePicker.vue', function () {
       })
     })
 
+    it('should disable time after max time (midnight)', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker :hour="0" :minute="0" max-time="00:00"></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker }
+        })
+
+      const hours = vm.$$('.vdatetime-time-picker__list--hours .vdatetime-time-picker__item')
+
+      hours.forEach(hour => {
+        const hourNumber = parseInt(hour.textContent)
+
+        if (hourNumber > 0) {
+          expect(hour).to.have.class('vdatetime-time-picker__item--disabled')
+        } else {
+          expect(hour).to.have.not.class('vdatetime-time-picker__item--disabled')
+        }
+      })
+
+      const minutes = vm.$$('.vdatetime-time-picker__list--minutes .vdatetime-time-picker__item')
+
+      minutes.forEach(minute => {
+        const minuteNumber = parseInt(minute.textContent)
+
+        if (minuteNumber > 0) {
+          expect(minute).to.have.class('vdatetime-time-picker__item--disabled')
+        } else {
+          expect(minute).to.have.not.class('vdatetime-time-picker__item--disabled')
+        }
+      })
+    })
+
     it('should render the time picker with am/pm suffixes', function () {
       const vm = createVM(this,
         `<DatetimeTimePicker :hour="15" :minute="11" use12-hour></DatetimeTimePicker>`,
