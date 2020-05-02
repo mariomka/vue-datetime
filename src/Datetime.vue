@@ -28,6 +28,7 @@
           :max-datetime="popupMaxDatetime"
           @confirm="confirm"
           @cancel="cancel"
+          @clear="clear"
           :auto="auto"
           :week-start="weekStart"
           :flow="flow"
@@ -94,6 +95,7 @@ export default {
       type: Object,
       default () {
         return {
+          clear: 'Clear',
           cancel: 'Cancel',
           ok: 'Ok'
         }
@@ -215,6 +217,11 @@ export default {
       this.close()
     },
     cancel () {
+      this.close()
+    },
+    clear () {
+      this.datetime = null
+      this.emitInput()
       this.close()
     },
     newPopupDatetime () {

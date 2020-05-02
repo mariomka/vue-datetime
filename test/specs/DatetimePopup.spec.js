@@ -68,8 +68,9 @@ describe('DatetimePopup.vue', function () {
         })
 
       expect(vm.$('.vdatetime-popup__actions')).to.exist
-      expect(vm.$$('.vdatetime-popup__actions__button')[0]).to.have.text('Cancel')
-      expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.text('Ok')
+      expect(vm.$$('.vdatetime-popup__actions__button')[0]).to.have.text('Clear')
+      expect(vm.$$('.vdatetime-popup__actions__button')[1]).to.have.text('Cancel')
+      expect(vm.$$('.vdatetime-popup__actions__button')[2]).to.have.text('Ok')
     })
 
     it('should render the action buttons with custom slots', function () {
