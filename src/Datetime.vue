@@ -9,8 +9,8 @@
            :value="inputValue"
            v-bind="$attrs"
            v-on="$listeners"
-           @click="open"
-           @focus="open">
+           @click.self="open"
+           @focus.self="open">
     <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value" @input="setValue">
     <slot name="after"></slot>
     <transition-group name="vdatetime-fade" tag="div">
