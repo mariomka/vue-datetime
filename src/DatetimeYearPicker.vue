@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { DateTime } from 'luxon'
 import { yearIsDisabled, years } from './util'
 
 export default {
@@ -17,12 +16,8 @@ export default {
       type: Number,
       required: true
     },
-    minDate: {
-      type: DateTime,
-      default: null
-    },
-    maxDate: {
-      type: DateTime,
+    allowedDateTimeRanges: {
+      type: Array,
       default: null
     }
   },
@@ -32,7 +27,7 @@ export default {
       return years(this.year).map(year => ({
         number: year,
         selected: year === this.year,
-        disabled: !year || yearIsDisabled(this.minDate, this.maxDate, year)
+        disabled: !year || yearIsDisabled(this.allowedDateTimeRanges, year)
       }))
     }
   },

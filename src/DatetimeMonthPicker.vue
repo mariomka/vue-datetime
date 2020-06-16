@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { DateTime } from 'luxon'
 import { monthIsDisabled, months } from './util'
 
 export default {
@@ -21,12 +20,8 @@ export default {
       type: Number,
       required: true
     },
-    minDate: {
-      type: DateTime,
-      default: null
-    },
-    maxDate: {
-      type: DateTime,
+    allowedDateTimeRanges: {
+      type: Array,
       default: null
     }
   },
@@ -37,7 +32,7 @@ export default {
         number: ++index,
         label: month,
         selected: index === this.month,
-        disabled: !index || monthIsDisabled(this.minDate, this.maxDate, this.year, index)
+        disabled: !index || monthIsDisabled(this.allowedDateTimeRanges, this.year, index)
       }))
     }
   },

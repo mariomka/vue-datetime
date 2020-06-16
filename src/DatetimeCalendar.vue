@@ -43,12 +43,8 @@ export default {
     disabled: {
       type: Array
     },
-    minDate: {
-      type: DateTime,
-      default: null
-    },
-    maxDate: {
-      type: DateTime,
+    allowedDateTimeRanges: {
+      type: Array,
       default: null
     },
     weekStart: {
@@ -79,7 +75,7 @@ export default {
       return monthDays(this.newYear, this.newMonth, this.weekStart).map(day => ({
         number: day,
         selected: day && this.year === this.newYear && this.month === this.newMonth && this.day === day,
-        disabled: !day || monthDayIsDisabled(this.minDate, this.maxDate, this.newYear, this.newMonth, day)
+        disabled: !day || monthDayIsDisabled(this.allowedDateTimeRanges, this.newYear, this.newMonth, day)
       }))
     }
   },
