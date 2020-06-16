@@ -33,12 +33,22 @@ function getDateFromDateTime (dateTime) {
   return DateTime.fromObject({ year: dateTime.c.year, month: dateTime.c.month, day: dateTime.c.day, zone: 'UTC' })
 }
 
-function checkAllowedDateTimeRanges (allowedDateTimeRanges, start, end = null) {
-  end = end || start
+function checkAllowedDateTimeRanges (allowedDateTimeRanges, startCheck, endCheck = null) {
+  endCheck = endCheck || startCheck
   return allowedDateTimeRanges && !allowedDateTimeRanges.find(function (dates) {
-    const startDayDate = dates[0] ? getDateFromDateTime(dates[0]) : null
-    const endDayDate = dates[1] ? getDateFromDateTime(dates[1]) : null
-    return (startDayDate && start >= startDayDate) && (endDayDate && end <= endDayDate)
+    const startDate = dates[0] ? getDateFromDateTime(dates[0]) : null
+    const endDate = dates[1] ? getDateFromDateTime(dates[1]) : null
+    return (startDate && startCheck >= startDate) && (endDate && endCheck <= endDate)
+  })
+}
+
+// This is needed to reduce what we pass to the time component keeping it loose-ish for isolated use
+export function findAllowedDateTimeRanges (allowedDateTimeRanges, startDay, endDay = null) {
+  endDay = endDay || startDay
+  return allowedDateTimeRanges.filter(function (dates) {
+    const startDateTime = dates[0] ? dates[0] : null
+    const endDateTime = dates[1] ? dates[1] : null
+    return (startDateTime && (startDay >= startDateTime)) || (endDateTime && (endDay <= endDateTime))
   })
 }
 
@@ -58,9 +68,17 @@ export function yearIsDisabled (allowedDateTimeRanges, year) {
   return checkAllowedDateTimeRanges(allowedDateTimeRanges, DateTime.utc(year))
 }
 
-export function timeComponentIsDisabled (min, max, component) {
-  return (min !== null && component < min) ||
-         (max !== null && component > max)
+export function hourIsDisabled (validTimes, hour) {
+  return !validTimes.hours.find(hourX => hourX === hour)
+}
+
+export function minuteIsDisabled (validTimes, hour, minute) {
+  return !validTimes.minutes.find(minuteX => minuteX === minute) && !hourIsDisabled(validTimes, hour)
+}
+
+// just adding cause why not :)
+export function secondIsDisabled (validTimes, hour, minute, second) {
+  return !validTimes.seconds.find(secondX => secondX === second) && !hourIsDisabled(validTimes, hour) && !minuteIsDisabled(validTimes, minute)
 }
 
 export function weekdays (weekStart) {
