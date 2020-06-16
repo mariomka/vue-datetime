@@ -34,8 +34,7 @@
           :use12-hour="use12Hour"
           :hour-step="hourStep"
           :minute-step="minuteStep"
-          :min-time="minTime"
-          :max-time="maxTime"></datetime-time-picker>
+          :valid-times="validTimes"></datetime-time-picker>
     </div>
     <div class="vdatetime-popup__actions">
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">
@@ -50,7 +49,7 @@
 
 <script>
 import { DateTime } from 'luxon'
-import { createFlowManager, createFlowManagerFromType } from './util'
+import { createFlowManager, createFlowManagerFromType, findAllowedDateTimeRanges } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeTimePicker from './DatetimeTimePicker'
 import DatetimeYearPicker from './DatetimeYearPicker'
@@ -161,24 +160,23 @@ export default {
         day: 'numeric'
       })
     },
-    minTime () {
-      return (
-        this.minDatetime &&
-        this.minDatetime.year === this.year &&
-        this.minDatetime.month === this.month &&
-        this.minDatetime.day === this.day
-      ) ? this.minDatetime.toFormat('HH:mm') : null
-    },
-    maxTime () {
-      return (
-        this.maxDatetime &&
-        this.maxDatetime.year === this.year &&
-        this.maxDatetime.month === this.month &&
-        this.maxDatetime.day === this.day
-      ) ? this.maxDatetime.toFormat('HH:mm') : null
+    validTimes () {
+      const startDateTime = DateTime.fromObject({ year: this.year, month: this.month, day: this.day, hour: 0, minute: 0, second: 0, zone: 'UTC' })
+      const endDateTime = DateTime.fromObject({ year: this.year, month: this.month, day: this.day, hour: 23, minute: 59, second: 59, zone: 'UTC' })
+      return findAllowedDateTimeRanges(this.allowedDateTimeRanges, startDateTime, endDateTime).reduce((acc, ranges) => {
+        const acc2 = ranges.reduce((acc2, range) => {
+          acc2.hours.push(range.c.hour + 1)
+          acc2.minutes.push(range.c.minute + 1)
+          acc2.seconds.push(range.c.second + 1)
+          return acc2
+        }, { hours: [], minutes: [], seconds: [] })
+        acc.hours = acc.hours.concat(acc2.hours)
+        acc.minutes = acc.minutes.concat(acc2.minutes)
+        acc.seconds = acc.seconds.concat(acc2.seconds)
+        return acc
+      }, { hours: [], minutes: [], seconds: [] })
     }
   },
-
   methods: {
     nextStep () {
       this.step = this.flowManager.next(this.step)
