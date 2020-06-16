@@ -9,14 +9,12 @@
       <datetime-year-picker
           v-if="step === 'year'"
           @change="onChangeYear"
-          :min-date="minDatetime"
-          :max-date="maxDatetime"
+          :allowed-date-time-ranges="allowedDateTimeRanges"
           :year="year"></datetime-year-picker>
       <datetime-month-picker
           v-if="step === 'month'"
           @change="onChangeMonth"
-          :min-date="minDatetime"
-          :max-date="maxDatetime"
+          :allowed-date-time-ranges="allowedDateTimeRanges"
           :year="year"
           :month="month"></datetime-month-picker>
       <datetime-calendar
@@ -25,8 +23,7 @@
           :year="year"
           :month="month"
           :day="day"
-          :min-date="minDatetime"
-          :max-date="maxDatetime"
+          :allowed-date-time-ranges="allowedDateTimeRanges"
           :week-start="weekStart"
       ></datetime-calendar>
       <datetime-time-picker
@@ -101,12 +98,8 @@ export default {
       type: Number,
       default: 1
     },
-    minDatetime: {
-      type: DateTime,
-      default: null
-    },
-    maxDatetime: {
-      type: DateTime,
+    allowedDateTimeRanges: {
+      type: Array,
       default: null
     },
     auto: {

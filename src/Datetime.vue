@@ -24,8 +24,7 @@
           :use12-hour="use12Hour"
           :hour-step="hourStep"
           :minute-step="minuteStep"
-          :min-datetime="popupMinDatetime"
-          :max-datetime="popupMaxDatetime"
+          :allowed-date-time-ranges="allowedDateTimeRangesFormatted"
           @confirm="confirm"
           @cancel="cancel"
           :auto="auto"
@@ -52,9 +51,7 @@ export default {
   components: {
     DatetimePopup
   },
-
   inheritAttrs: false,
-
   props: {
     value: {
       type: String
@@ -119,6 +116,10 @@ export default {
       type: String,
       default: null
     },
+    allowedDateTimeRanges: {
+      type: Array,
+      default: () => []
+    },
     auto: {
       type: Boolean,
       default: false
@@ -181,6 +182,15 @@ export default {
     },
     popupDate () {
       return this.datetime ? this.datetime.setZone(this.zone) : this.newPopupDatetime()
+    },
+    allowedDateTimeRangesFormatted () {
+      const allowedDateTimeRanges = this.allowedDateTimeRanges
+      const minMaxArray = []
+      // this preserves the existing min-max functionality by assuming its just one set of "allowed ranges"
+      this.popupMinDatetime ? minMaxArray.push(this.popupMinDatetime) : null
+      this.popupMaxDatetime ? minMaxArray.push(this.popupMaxDatetime) : null
+      minMaxArray.length ? allowedDateTimeRanges.push(minMaxArray) : null
+      return allowedDateTimeRanges
     },
     popupMinDatetime () {
       return this.minDatetime ? DateTime.fromISO(this.minDatetime).setZone(this.zone) : null

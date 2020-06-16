@@ -29,27 +29,33 @@ export function monthDays (year, month, weekStart) {
     )
 }
 
-export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
-  const date = DateTime.fromObject({ year, month, day, zone: 'UTC' })
-
-  minDate = minDate ? startOfDay(minDate.setZone('UTC', { keepLocalTime: true })) : null
-  maxDate = maxDate ? startOfDay(maxDate.setZone('UTC', { keepLocalTime: true })) : null
-
-  return (minDate && date < minDate) ||
-         (maxDate && date > maxDate)
+function getDateFromDateTime (dateTime) {
+  return DateTime.fromObject({ year: dateTime.c.year, month: dateTime.c.month, day: dateTime.c.day, zone: 'UTC' })
 }
 
-export function monthIsDisabled (minDate, maxDate, year, month) {
-  return (minDate && minDate > DateTime.utc(year, month, DateTime.utc(year, month).daysInMonth)) ||
-         (maxDate && maxDate < DateTime.utc(year, month, 1))
+function checkAllowedDateTimeRanges (allowedDateTimeRanges, start, end = null) {
+  end = end || start
+  return allowedDateTimeRanges && !allowedDateTimeRanges.find(function (dates) {
+    const startDayDate = dates[0] ? getDateFromDateTime(dates[0]) : null
+    const endDayDate = dates[1] ? getDateFromDateTime(dates[1]) : null
+    return (startDayDate && start >= startDayDate) && (endDayDate && end <= endDayDate)
+  })
 }
 
-export function yearIsDisabled (minDate, maxDate, year) {
-  const minYear = minDate ? minDate.year : null
-  const maxYear = maxDate ? maxDate.year : null
+export function monthDayIsDisabled (allowedDateTimeRanges, year, month, day) {
+  return checkAllowedDateTimeRanges(allowedDateTimeRanges, DateTime.fromObject({ year, month, day, zone: 'UTC' }))
+}
 
-  return (minYear && year < minYear) ||
-         (maxYear && year > maxYear)
+export function monthIsDisabled (allowedDateTimeRanges, year, month) {
+  return checkAllowedDateTimeRanges(
+    allowedDateTimeRanges,
+    DateTime.utc(year, month, DateTime.utc(year, month).daysInMonth),
+    DateTime.utc(year, month, 1)
+  )
+}
+
+export function yearIsDisabled (allowedDateTimeRanges, year) {
+  return checkAllowedDateTimeRanges(allowedDateTimeRanges, DateTime.utc(year))
 }
 
 export function timeComponentIsDisabled (min, max, component) {
