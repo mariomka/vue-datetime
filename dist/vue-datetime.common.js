@@ -366,7 +366,7 @@ var DatetimeTimePicker = {render: function(){var _vm=this;var _h=_vm.$createElem
     },
     selectSuffix: function selectSuffix (selection) {
       // TODO once we figured out refresh bug on selections
-      if (true && selection.disabled) {
+      if (false && selection.disabled) {
         return
       }
       if (selection.id === 'am') {
