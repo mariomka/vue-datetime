@@ -29,26 +29,20 @@ export function monthDays (year, month, weekStart) {
     )
 }
 
-function getDateFromDateTime (dateTime) {
-  return DateTime.fromObject({ year: dateTime.c.year, month: dateTime.c.month, day: dateTime.c.day, zone: 'UTC' })
+function getDateFromDateTime (dateTime, dateModification) {
+  const dateTimeOpts = {
+    zone: 'UTC'
+  }
+  dateModification.map(option => { dateTimeOpts[option] = dateTime.c[option] })
+  return DateTime.fromObject(dateTimeOpts)
 }
 
-function checkAllowedDateTimeRanges (allowedDateTimeRanges, startCheck, endCheck = null) {
+function checkAllowedDateTimeRanges (allowedDateTimeRanges, startCheck, endCheck = null, dateModification = ['year', 'month', 'day']) {
   endCheck = endCheck || startCheck
-  return allowedDateTimeRanges && !allowedDateTimeRanges.find(function (dates) {
-    const startDate = dates[0] ? getDateFromDateTime(dates[0]) : null
-    const endDate = dates[1] ? getDateFromDateTime(dates[1]) : null
+  return allowedDateTimeRanges && !allowedDateTimeRanges.find(function ([startDate, endDate]) {
+    startDate = startDate ? getDateFromDateTime(startDate, dateModification) : startDate
+    endDate = endDate ? getDateFromDateTime(endDate, dateModification) : endDate
     return (startDate && startCheck >= startDate) && (endDate && endCheck <= endDate)
-  })
-}
-
-// This is needed to reduce what we pass to the time component keeping it loose-ish for isolated use
-export function findAllowedDateTimeRanges (allowedDateTimeRanges, startDay, endDay = null) {
-  endDay = endDay || startDay
-  return allowedDateTimeRanges.filter(function (dates) {
-    const startDateTime = dates[0] ? dates[0] : null
-    const endDateTime = dates[1] ? dates[1] : null
-    return (startDateTime && (startDay >= startDateTime)) || (endDateTime && (endDay <= endDateTime))
   })
 }
 
@@ -68,17 +62,23 @@ export function yearIsDisabled (allowedDateTimeRanges, year) {
   return checkAllowedDateTimeRanges(allowedDateTimeRanges, DateTime.utc(year))
 }
 
-export function hourIsDisabled (validTimes, hour) {
-  return !validTimes.hours.find(hourX => hourX === hour)
+export function hourIsDisabled (allowedDateTimeRanges, currentDateTime, hour) {
+  const startCheck = DateTime.fromObject({ year: currentDateTime.c.year, month: currentDateTime.c.month, day: currentDateTime.c.day, hour, zone: 'UTC' })
+  const dateTimeModification = ['year', 'month', 'day', 'hour']
+  return checkAllowedDateTimeRanges(allowedDateTimeRanges, startCheck, null, dateTimeModification)
 }
 
-export function minuteIsDisabled (validTimes, hour, minute) {
-  return !validTimes.minutes.find(minuteX => minuteX === minute) && !hourIsDisabled(validTimes, hour)
+export function minuteIsDisabled (allowedDateTimeRanges, currentDateTime, hour, minute) {
+  const startCheck = DateTime.fromObject({ year: currentDateTime.c.year, month: currentDateTime.c.month, day: currentDateTime.c.day, hour, minute, zone: 'UTC' })
+  const dateTimeModification = ['year', 'month', 'day', 'hour', 'minute']
+  return checkAllowedDateTimeRanges(allowedDateTimeRanges, startCheck, null, dateTimeModification)
 }
 
 // just adding cause why not :)
-export function secondIsDisabled (validTimes, hour, minute, second) {
-  return !validTimes.seconds.find(secondX => secondX === second) && !hourIsDisabled(validTimes, hour) && !minuteIsDisabled(validTimes, minute)
+export function secondIsDisabled (allowedDateTimeRanges, currentDateTime, hour, minute, second) {
+  const startCheck = DateTime.fromObject({ year: currentDateTime.c.year, month: currentDateTime.c.month, day: currentDateTime.c.day, hour, minute, second, zone: 'UTC' })
+  const dateTimeModification = ['year', 'month', 'day', 'hour', 'minute', 'second']
+  return checkAllowedDateTimeRanges(allowedDateTimeRanges, startCheck, null, dateTimeModification)
 }
 
 export function weekdays (weekStart) {

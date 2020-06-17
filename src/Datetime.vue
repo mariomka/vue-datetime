@@ -185,11 +185,13 @@ export default {
     },
     allowedDateTimeRangesFormatted () {
       const allowedDateTimeRanges = this.allowedDateTimeRanges
-      const minMaxArray = []
-      // this preserves the existing min-max functionality by assuming its just one set of "allowed ranges"
-      this.popupMinDatetime ? minMaxArray.push(this.popupMinDatetime) : null
-      this.popupMaxDatetime ? minMaxArray.push(this.popupMaxDatetime) : null
-      minMaxArray.length ? allowedDateTimeRanges.push(minMaxArray) : null
+      if (!allowedDateTimeRanges.length) {
+        const minMaxArray = []
+        // this preserves the existing min-max functionality by assuming its just one set of "allowed ranges"
+        this.popupMinDatetime ? minMaxArray.push(this.popupMinDatetime) : null
+        this.popupMaxDatetime ? minMaxArray.push(this.popupMaxDatetime) : null
+        minMaxArray.length ? allowedDateTimeRanges.push(minMaxArray) : null
+      }
       return allowedDateTimeRanges
     },
     popupMinDatetime () {
