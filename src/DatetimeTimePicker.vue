@@ -15,6 +15,7 @@
 
 <script>
 import { hourIsDisabled, hours, minuteIsDisabled, minutes, pad } from './util'
+import { DateTime } from 'luxon'
 
 export default {
   props: {
@@ -38,8 +39,12 @@ export default {
       type: Number,
       default: 1
     },
-    validTimes: {
-      type: Object,
+    currentDateTime: {
+      type: DateTime,
+      default: DateTime.utc()
+    },
+    allowedDateTimeRanges: {
+      type: Array,
       default: null
     }
   },
@@ -59,14 +64,14 @@ export default {
       }).map(hour => ({
         number: pad(hour),
         selected: hour === this.hour,
-        disabled: hourIsDisabled(this.validTimes, hour)
+        disabled: hourIsDisabled(this.allowedDateTimeRanges, this.currentDateTime, hour)
       }))
     },
     minutes () {
       return minutes(this.minuteStep).map(minute => ({
         number: pad(minute),
         selected: minute === this.minute,
-        disabled: minuteIsDisabled(this.validTimes, this.hour, minute)
+        disabled: minuteIsDisabled(this.allowedDateTimeRanges, this.currentDateTime, this.hour, minute)
       }))
     }
   },
