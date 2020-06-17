@@ -101,7 +101,7 @@ export default {
     },
     selectSuffix (selection) {
       // TODO once we figured out refresh bug on selections
-      if (true && selection.disabled) {
+      if (false && selection.disabled) {
         return
       }
       if (selection.id === 'am') {
