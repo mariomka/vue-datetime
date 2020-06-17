@@ -48,7 +48,6 @@
       "stylelint"
     ]
   },
-  "pre-commit": "lint:staged",
   "devDependencies": {
     "add-asset-html-webpack-plugin": "^2.0.0",
     "auto-changelog": "^1.3.0",
