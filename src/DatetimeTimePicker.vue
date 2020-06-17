@@ -7,14 +7,13 @@
       <div class="vdatetime-time-picker__item" v-for="minute in minutes" @click="selectMinute(minute)" :class="{'vdatetime-time-picker__item--selected': minute.selected, 'vdatetime-time-picker__item--disabled': minute.disabled}">{{ minute.number }}</div>
     </div>
     <div class="vdatetime-time-picker__list vdatetime-time-picker__list--suffix" ref="suffixList" v-if="use12Hour">
-      <div class="vdatetime-time-picker__item" @click="selectSuffix('am')" :class="{'vdatetime-time-picker__item--selected': hour < 12}">am</div>
-      <div class="vdatetime-time-picker__item" @click="selectSuffix('pm')" :class="{'vdatetime-time-picker__item--selected': hour >= 12}">pm</div>
+      <div class="vdatetime-time-picker__item" v-for="timeSelection in timeSelections" @click="selectSuffix(timeSelection)" :class="{'vdatetime-time-picker__item--selected': timeSelection.comparison(hour) , 'vdatetime-time-picker__item--disabled': timeSelection.disabled }">{{timeSelection.id}}</div>
     </div>
   </div>
 </template>
 
 <script>
-import { hourIsDisabled, hours, minuteIsDisabled, minutes, pad } from './util'
+import { hourIsDisabled, hours, minuteIsDisabled, minutes, pad, selectionIsDisabled } from './util'
 import { DateTime } from 'luxon'
 
 export default {
@@ -43,6 +42,8 @@ export default {
       type: DateTime,
       default: DateTime.utc()
     },
+    // TODO re-add min and max to support backwards compatibility
+    // TODO (confirm with peeps if this is something people actually need?)
     allowedDateTimeRanges: {
       type: Array,
       default: null
@@ -50,6 +51,13 @@ export default {
   },
 
   computed: {
+    timeSelections () {
+      // TODO this doesnt seem to update when we change date?
+      return this.use12Hour
+        ? [{ id: 'am', comparison: (hour) => hour < 12, disabled: selectionIsDisabled(this.hours, this.use12Hour, 'am') },
+          { id: 'pm', comparison: (hour) => hour >= 12, disabled: selectionIsDisabled(this.hours, this.use12Hour, 'pm') }]
+        : []
+    },
     hours () {
       return hours(this.hourStep).filter(hour => {
         if (!this.use12Hour) {
@@ -91,13 +99,17 @@ export default {
 
       this.$emit('change', { minute: parseInt(minute.number) })
     },
-    selectSuffix (suffix) {
-      if (suffix === 'am') {
+    selectSuffix (selection) {
+      // TODO once we figured out refresh bug on selections
+      if (true && selection.disabled) {
+        return
+      }
+      if (selection.id === 'am') {
         if (this.hour >= 12) {
           this.$emit('change', { hour: parseInt(this.hour - 12), suffixTouched: true })
         }
       }
-      if (suffix === 'pm') {
+      if (selection.id === 'pm') {
         if (this.hour < 12) {
           this.$emit('change', { hour: parseInt(this.hour + 12), suffixTouched: true })
         }
