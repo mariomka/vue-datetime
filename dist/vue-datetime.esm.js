@@ -78,14 +78,15 @@ function checkAllowedDateTimeRanges (allowedDateTimeRanges, startCheck, endCheck
   if ( dateModification === void 0 ) dateModification = ['year', 'month', 'day'];
 
   endCheck = endCheck || startCheck;
-  return allowedDateTimeRanges && !allowedDateTimeRanges.find(function (ref) {
-    var startDate = ref[0];
-    var endDate = ref[1];
+  return allowedDateTimeRanges && (allowedDateTimeRanges.length > 0) &&
+    !allowedDateTimeRanges.find(function (ref) {
+      var startDate = ref[0];
+      var endDate = ref[1];
 
-    startDate = startDate ? getDateFromDateTime(startDate, dateModification) : startDate;
-    endDate = endDate ? getDateFromDateTime(endDate, dateModification) : endDate;
-    return (startDate && startCheck >= startDate) && (endDate && endCheck <= endDate)
-  })
+      startDate = startDate ? getDateFromDateTime(startDate, dateModification) : startDate;
+      endDate = endDate ? getDateFromDateTime(endDate, dateModification) : endDate;
+      return (startDate && startCheck >= startDate) && (endDate && endCheck <= endDate)
+    })
 }
 
 function monthDayIsDisabled (allowedDateTimeRanges, year, month, day) {

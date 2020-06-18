@@ -39,11 +39,12 @@ function getDateFromDateTime (dateTime, dateModification) {
 
 function checkAllowedDateTimeRanges (allowedDateTimeRanges, startCheck, endCheck = null, dateModification = ['year', 'month', 'day']) {
   endCheck = endCheck || startCheck
-  return allowedDateTimeRanges && !allowedDateTimeRanges.find(function ([startDate, endDate]) {
-    startDate = startDate ? getDateFromDateTime(startDate, dateModification) : startDate
-    endDate = endDate ? getDateFromDateTime(endDate, dateModification) : endDate
-    return (startDate && startCheck >= startDate) && (endDate && endCheck <= endDate)
-  })
+  return allowedDateTimeRanges && (allowedDateTimeRanges.length > 0) &&
+    !allowedDateTimeRanges.find(function ([startDate, endDate]) {
+      startDate = startDate ? getDateFromDateTime(startDate, dateModification) : startDate
+      endDate = endDate ? getDateFromDateTime(endDate, dateModification) : endDate
+      return (startDate && startCheck >= startDate) && (endDate && endCheck <= endDate)
+    })
 }
 
 export function monthDayIsDisabled (allowedDateTimeRanges, year, month, day) {
