@@ -9,12 +9,12 @@
       <datetime-year-picker
           v-if="step === 'year'"
           @change="onChangeYear"
-          :allowed-date-time-ranges="allowedDateTimeRanges"
+          :allowed-date-time-ranges="allowedDateTimeRangesFormatted"
           :year="year"></datetime-year-picker>
       <datetime-month-picker
           v-if="step === 'month'"
           @change="onChangeMonth"
-          :allowed-date-time-ranges="allowedDateTimeRanges"
+          :allowed-date-time-ranges="allowedDateTimeRangesFormatted"
           :year="year"
           :month="month"></datetime-month-picker>
       <datetime-calendar
@@ -23,7 +23,7 @@
           :year="year"
           :month="month"
           :day="day"
-          :allowed-date-time-ranges="allowedDateTimeRanges"
+          :allowed-date-time-ranges="allowedDateTimeRangesFormatted"
           :week-start="weekStart"
       ></datetime-calendar>
       <datetime-time-picker
@@ -35,7 +35,7 @@
           :hour-step="hourStep"
           :minute-step="minuteStep"
           :current-date-time="newDatetime"
-          :allowed-date-time-ranges="allowedDateTimeRanges"></datetime-time-picker>
+          :allowed-date-time-ranges="allowedDateTimeRangesFormatted"></datetime-time-picker>
     </div>
     <div class="vdatetime-popup__actions">
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">
@@ -50,7 +50,7 @@
 
 <script>
 import { DateTime } from 'luxon'
-import { createFlowManager, createFlowManagerFromType } from './util'
+import { createFlowManager, createFlowManagerFromType, getAllowedDateTimeRanges } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeTimePicker from './DatetimeTimePicker'
 import DatetimeYearPicker from './DatetimeYearPicker'
@@ -100,6 +100,14 @@ export default {
     },
     allowedDateTimeRanges: {
       type: Array,
+      default: () => []
+    },
+    minDatetime: {
+      type: DateTime,
+      default: null
+    },
+    maxDatetime: {
+      type: DateTime,
       default: null
     },
     auto: {
@@ -160,6 +168,9 @@ export default {
         month: 'long',
         day: 'numeric'
       })
+    },
+    allowedDateTimeRangesFormatted () {
+      return getAllowedDateTimeRanges(this.allowedDateTimeRanges, this.minDatetime, this.maxDatetime)
     }
   },
   methods: {

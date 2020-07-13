@@ -7,13 +7,21 @@
       <div class="vdatetime-time-picker__item" v-for="minute in minutes" @click="selectMinute(minute)" :class="{'vdatetime-time-picker__item--selected': minute.selected, 'vdatetime-time-picker__item--disabled': minute.disabled}">{{ minute.number }}</div>
     </div>
     <div class="vdatetime-time-picker__list vdatetime-time-picker__list--suffix" ref="suffixList" v-if="use12Hour">
-      <div class="vdatetime-time-picker__item" v-for="timeSelection in timeSelections" @click="selectSuffix(timeSelection)" :class="{'vdatetime-time-picker__item--selected': timeSelection.comparison(hour) , 'vdatetime-time-picker__item--disabled': timeSelection.disabled }">{{timeSelection.id}}</div>
+      <div class="vdatetime-time-picker__item" v-for="timeSelection in timeSelections" @click="selectSuffix(timeSelection)" :class="{'vdatetime-time-picker__item--selected': timeSelection.comparison(hour) , 'vdatetime-time-picker__item--disabled': timeSelection.disabled }">{{ timeSelection.id }}</div>
     </div>
   </div>
 </template>
 
 <script>
-import { hourIsDisabled, hours, minuteIsDisabled, minutes, pad, selectionIsDisabled } from './util'
+import {
+    getAllowedDateTimeRanges,
+    hourIsDisabled,
+    hours,
+    minuteIsDisabled,
+    minutes,
+    pad,
+    selectionIsDisabled
+  } from './util'
 import { DateTime } from 'luxon'
 
 export default {
@@ -40,12 +48,20 @@ export default {
     },
     currentDateTime: {
       type: DateTime,
-      default: DateTime.utc()
+      default: () => DateTime.utc()
     },
     // TODO re-add min and max to support backwards compatibility
     // TODO (confirm with peeps if this is something people actually need?)
     allowedDateTimeRanges: {
       type: Array,
+      default: () => []
+    },
+    minTime: {
+      type: String,
+      default: null
+    },
+    maxTime: {
+      type: String,
       default: null
     }
   },
@@ -72,15 +88,25 @@ export default {
       }).map(hour => ({
         number: pad(hour),
         selected: hour === this.hour,
-        disabled: hourIsDisabled(this.allowedDateTimeRanges, this.currentDateTime, hour)
+        disabled: hourIsDisabled(this.allowedDateTimeRangesFormatted, this.currentDateTime, hour)
       }))
     },
     minutes () {
       return minutes(this.minuteStep).map(minute => ({
         number: pad(minute),
         selected: minute === this.minute,
-        disabled: minuteIsDisabled(this.allowedDateTimeRanges, this.currentDateTime, this.hour, minute)
+        disabled: minuteIsDisabled(this.allowedDateTimeRangesFormatted, this.currentDateTime, this.hour, minute)
       }))
+    },
+    minTimeFormatted () {
+      return this.minTime ? DateTime.fromISO(this.minTime) : this.minTime
+    },
+    maxTimeFormatted () {
+      return this.maxTime ? DateTime.fromISO(this.maxTime) : this.maxTime
+    },
+    allowedDateTimeRangesFormatted () {
+      console.log(DateTime.fromISO(this.minTime).c)
+      return getAllowedDateTimeRanges(this.allowedDateTimeRanges, this.minTimeFormatted, this.maxTimeFormatted)
     }
   },
 
@@ -131,10 +157,16 @@ export default {
   },
 
   mounted () {
-    const selectedHour = this.$refs.hourList.querySelector('.vdatetime-time-picker__item--selected')
-    const selectedMinute = this.$refs.minuteList.querySelector('.vdatetime-time-picker__item--selected')
-    this.$refs.hourList.scrollTop = selectedHour ? selectedHour.offsetTop - 250 : 0
-    this.$refs.minuteList.scrollTop = selectedMinute ? selectedMinute.offsetTop - 250 : 0
+    const hourListRef = this.$refs.hourList
+    const minuteListRef = this.$refs.minuteList
+    if (hourListRef) {
+      const selectedHour = hourListRef ? hourListRef.querySelector('.vdatetime-time-picker__item--selected') : null
+      hourListRef.scrollTop = selectedHour ? selectedHour.offsetTop - 250 : 0
+    }
+    if (minuteListRef) {
+      const selectedMinute = minuteListRef ? minuteListRef.querySelector('.vdatetime-time-picker__item--selected') : null
+      minuteListRef.scrollTop = selectedMinute ? selectedMinute.offsetTop - 250 : 0
+    }
   }
 }
 </script>

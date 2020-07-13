@@ -45,7 +45,7 @@
 <script>
 import { DateTime } from 'luxon'
 import DatetimePopup from './DatetimePopup'
-import { datetimeFromISO, startOfDay, weekStart } from './util'
+import { datetimeFromISO, getAllowedDateTimeRanges, startOfDay, weekStart } from './util'
 
 export default {
   components: {
@@ -192,15 +192,7 @@ export default {
       return this.datetime ? this.datetime.setZone(this.zone) : this.newPopupDatetime()
     },
     allowedDateTimeRangesFormatted () {
-      const allowedDateTimeRanges = this.allowedDateTimeRanges
-      if (!allowedDateTimeRanges.length) {
-        const minMaxArray = []
-        // this preserves the existing min-max functionality by assuming its just one set of "allowed ranges"
-        this.popupMinDatetime ? minMaxArray.push(this.popupMinDatetime) : null
-        this.popupMaxDatetime ? minMaxArray.push(this.popupMaxDatetime) : null
-        minMaxArray.length ? allowedDateTimeRanges.push(minMaxArray) : null
-      }
-      return allowedDateTimeRanges
+      return getAllowedDateTimeRanges(this.allowedDateTimeRanges, this.popupMinDatetime, this.popupMaxDatetime)
     },
     popupMinDatetime () {
       return this.minDatetime ? DateTime.fromISO(this.minDatetime).setZone(this.zone) : null
