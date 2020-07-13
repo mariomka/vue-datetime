@@ -37,13 +37,18 @@ function getDateFromDateTime (dateTime, dateModification) {
   return DateTime.fromObject(dateTimeOpts)
 }
 
-function checkAllowedDateTimeRanges (allowedDateTimeRanges, startCheck, endCheck = null, dateModification = ['year', 'month', 'day']) {
-  endCheck = endCheck || startCheck
+function checkAllowedDateTimeRanges (allowedDateTimeRanges, startCheck, endCheck = startCheck, dateModification = ['year', 'month', 'day']) {
+  // if the default doesnt work as expected
+  // endCheck = endCheck || startCheck
   return allowedDateTimeRanges && (allowedDateTimeRanges.length > 0) &&
-    !allowedDateTimeRanges.find(function ([startDate, endDate]) {
-      startDate = startDate ? getDateFromDateTime(startDate, dateModification) : startDate
-      endDate = endDate ? getDateFromDateTime(endDate, dateModification) : endDate
-      return (startDate && startCheck >= startDate) && (endDate && endCheck <= endDate)
+    // is the current date being checked within an allowed date range
+    !allowedDateTimeRanges.find(function ([allowedStartDate, allowedEndDate]) {
+      // this is done to strip out extra date info
+      // i.e when comparing start and end days we dont want hours or minutes
+      allowedStartDate = allowedStartDate.c ? getDateFromDateTime(allowedStartDate, dateModification) : allowedStartDate
+      allowedEndDate = allowedEndDate.c ? getDateFromDateTime(allowedEndDate, dateModification) : allowedEndDate
+      // is the current date being checked within an this date range
+      return (allowedStartDate && startCheck >= allowedStartDate) && (allowedEndDate && endCheck <= allowedEndDate)
     })
 }
 
@@ -64,7 +69,7 @@ export function yearIsDisabled (allowedDateTimeRanges, year) {
 }
 
 export function hourIsDisabled (allowedDateTimeRanges, currentDateTime, hour) {
-  const startCheck = DateTime.fromObject({ year: currentDateTime.c.year, month: currentDateTime.c.month, day: currentDateTime.c.day, hour, zone: 'UTC' })
+  const startCheck = DateTime.fromObject({ year: currentDateTime.c.year, month: currentDateTime.c.month, day: currentDateTime.c.day, hour })
   const dateTimeModification = ['year', 'month', 'day', 'hour']
   return checkAllowedDateTimeRanges(allowedDateTimeRanges, startCheck, null, dateTimeModification)
 }
@@ -72,13 +77,6 @@ export function hourIsDisabled (allowedDateTimeRanges, currentDateTime, hour) {
 export function minuteIsDisabled (allowedDateTimeRanges, currentDateTime, hour, minute) {
   const startCheck = DateTime.fromObject({ year: currentDateTime.c.year, month: currentDateTime.c.month, day: currentDateTime.c.day, hour, minute, zone: 'UTC' })
   const dateTimeModification = ['year', 'month', 'day', 'hour', 'minute']
-  return checkAllowedDateTimeRanges(allowedDateTimeRanges, startCheck, null, dateTimeModification)
-}
-
-// just adding cause why not :)
-export function secondIsDisabled (allowedDateTimeRanges, currentDateTime, hour, minute, second) {
-  const startCheck = DateTime.fromObject({ year: currentDateTime.c.year, month: currentDateTime.c.month, day: currentDateTime.c.day, hour, minute, second, zone: 'UTC' })
-  const dateTimeModification = ['year', 'month', 'day', 'hour', 'minute', 'second']
   return checkAllowedDateTimeRanges(allowedDateTimeRanges, startCheck, null, dateTimeModification)
 }
 
@@ -118,6 +116,25 @@ export function minutes (step) {
 
 export function years (current) {
   return Array.apply(null, Array(201)).map((item, index) => current - 100 + index)
+}
+
+export function getAllowedDateTimeRanges (allowedDateTimeRanges, min, max) {
+  if (!allowedDateTimeRanges.length) {
+    const minMaxArray = []
+    // this preserves the existing min-max functionality by assuming its just one set of "allowed ranges"
+    if (min && max) {
+      minMaxArray.push(min)
+      minMaxArray.push(max)
+    } else if (min) {
+      minMaxArray.push(min)
+      minMaxArray.push(DateTime.fromFormat('31-12-3000 23:59:59', 'dd-MM-y hh:mm:ss'))
+    } else if (max) {
+      minMaxArray.push(DateTime.fromFormat('01-01-1972 00:00:00', 'dd-MM-y hh:mm:ss'))
+      minMaxArray.push(max)
+    }
+    minMaxArray.length ? allowedDateTimeRanges.push(minMaxArray) : null
+  }
+  return allowedDateTimeRanges
 }
 
 export function pad (number) {
