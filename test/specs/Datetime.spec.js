@@ -894,6 +894,21 @@ describe('Datetime.vue', function () {
         })
       })
     })
+
+    it('should not render overlay', function (done) {
+      const vm = createVM(this,
+        `<Datetime :hideBackdrop="true"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-overlay')).to.not.exist
+        done()
+      })
+    })
   })
 
   describe('events', function () {
