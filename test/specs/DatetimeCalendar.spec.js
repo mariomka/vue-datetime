@@ -30,7 +30,7 @@ describe('DatetimeCalendar.vue', function () {
           components: { DatetimeCalendar }
         })
 
-      expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('Julio 2018')
+      expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('julio de 2018')
 
       const weekdays = vm.$$('.vdatetime-calendar__month__weekday').map(el => el.textContent)
       expect(weekdays).deep.equal(['Lun.', 'Mar.', 'Mié.', 'Jue.', 'Vie.', 'Sáb.', 'Dom.'])
