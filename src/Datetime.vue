@@ -14,7 +14,7 @@
     <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value" @input="setValue">
     <slot name="after"></slot>
     <transition-group name="vdatetime-fade" tag="div">
-      <div key="overlay" v-if="isOpen" class="vdatetime-overlay" @click.self="cancel"></div>
+      <div key="overlay" v-if="isOpen && !hideBackdrop" class="vdatetime-overlay" @click.self="clickOutside"></div>
       <datetime-popup
           key="popup"
           v-if="isOpen"
@@ -134,6 +134,14 @@ export default {
     },
     title: {
       type: String
+    },
+    hideBackdrop: {
+      type: Boolean,
+      default: false
+    },
+    backdropClick: {
+      type: Boolean,
+      default: true
     }
   },
 
@@ -216,6 +224,9 @@ export default {
     },
     cancel () {
       this.close()
+    },
+    clickOutside () {
+      if (this.backdropClick === true) { this.cancel() }
     },
     newPopupDatetime () {
       let datetime = DateTime.utc().setZone(this.zone).set({ seconds: 0, milliseconds: 0 })

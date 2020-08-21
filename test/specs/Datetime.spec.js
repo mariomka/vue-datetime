@@ -875,6 +875,40 @@ describe('Datetime.vue', function () {
         })
       })
     })
+
+    it('should not close when clicking the overlay', function (done) {
+      const vm = createVM(this,
+        `<Datetime :backdropClick="false"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        vm.$('.vdatetime-overlay').click()
+        vm.$nextTick(() => {
+          expect(vm.$('.vdatetime-overlay')).to.exist
+          expect(vm.$('.vdatetime-popup')).to.exist
+          done()
+        })
+      })
+    })
+
+    it('should not render overlay', function (done) {
+      const vm = createVM(this,
+        `<Datetime :hideBackdrop="true"></Datetime>`,
+        {
+          components: { Datetime }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-overlay')).to.not.exist
+        done()
+      })
+    })
   })
 
   describe('events', function () {
