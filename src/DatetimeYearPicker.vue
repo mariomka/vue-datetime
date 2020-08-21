@@ -1,14 +1,14 @@
 <template>
   <div class="vdatetime-year-picker">
     <div class="vdatetime-year-picker__list vdatetime-year-picker__list" ref="yearList">
-      <div class="vdatetime-year-picker__item" v-for="year in years" @click="select(year)" :class="{'vdatetime-year-picker__item--selected': year.selected, 'vdatetime-year-picker__item--disabled': year.disabled}">{{ year.number }}
+      <div class="vdatetime-year-picker__item" v-for="year in years" @click="select(year)" :class="{'vdatetime-year-picker__item--selected': year.selected, 'vdatetime-year-picker__item--disabled': year.disabled}">{{ yearLocal(year.number) }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { DateTime } from 'luxon'
+import { DateTime, Settings } from 'luxon'
 import { yearIsDisabled, years } from './util'
 
 export default {
@@ -51,6 +51,14 @@ export default {
         const selectedYear = this.$refs.yearList.querySelector('.vdatetime-year-picker__item--selected')
         this.$refs.yearList.scrollTop = selectedYear ? selectedYear.offsetTop - 250 : 0
       }
+    },
+
+    yearLocal (year) {
+      const current = DateTime.fromFormat(year.toString(), 'yyyy')
+      const yearString = current
+        .reconfigure({ outputCalendar: Settings.defaultOuputCalendar })
+        .toFormat('yyyy')
+      return parseInt(yearString)
     }
   },
 
