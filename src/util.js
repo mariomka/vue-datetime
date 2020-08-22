@@ -37,9 +37,12 @@ function getDateFromDateTime (dateTime, dateModification) {
   return DateTime.fromObject(dateTimeOpts)
 }
 
-function checkAllowedDateTimeRanges (allowedDateTimeRanges, startCheck, endCheck = startCheck, dateModification = ['year', 'month', 'day']) {
-  // if the default doesnt work as expected
-  // endCheck = endCheck || startCheck
+function checkAllowedDateTimeRanges (allowedDateTimeRanges, startCheck, endCheck = null, dateModification = ['year', 'month', 'day']) {
+  endCheck = endCheck || startCheck
+  // UTC all dates for even comparisons
+  startCheck = getDateFromDateTime(startCheck, dateModification)
+  endCheck = getDateFromDateTime(endCheck, dateModification)
+
   return allowedDateTimeRanges && (allowedDateTimeRanges.length > 0) &&
     // is the current date being checked within an allowed date range
     !allowedDateTimeRanges.find(function ([allowedStartDate, allowedEndDate]) {
@@ -48,6 +51,7 @@ function checkAllowedDateTimeRanges (allowedDateTimeRanges, startCheck, endCheck
       allowedStartDate = allowedStartDate.c ? getDateFromDateTime(allowedStartDate, dateModification) : allowedStartDate
       allowedEndDate = allowedEndDate.c ? getDateFromDateTime(allowedEndDate, dateModification) : allowedEndDate
       // is the current date being checked within an this date range
+
       return (allowedStartDate && startCheck >= allowedStartDate) && (allowedEndDate && endCheck <= allowedEndDate)
     })
 }
@@ -75,7 +79,7 @@ export function hourIsDisabled (allowedDateTimeRanges, currentDateTime, hour) {
 }
 
 export function minuteIsDisabled (allowedDateTimeRanges, currentDateTime, hour, minute) {
-  const startCheck = DateTime.fromObject({ year: currentDateTime.c.year, month: currentDateTime.c.month, day: currentDateTime.c.day, hour, minute, zone: 'UTC' })
+  const startCheck = DateTime.fromObject({ year: currentDateTime.c.year, month: currentDateTime.c.month, day: currentDateTime.c.day, hour, minute })
   const dateTimeModification = ['year', 'month', 'day', 'hour', 'minute']
   return checkAllowedDateTimeRanges(allowedDateTimeRanges, startCheck, null, dateTimeModification)
 }
@@ -85,7 +89,9 @@ export function selectionIsDisabled (hours, use12Hour, selection) {
   const enabledHours = hours.filter(hour => !hour.disabled)
   let hasSelection = enabledHours.length > 0
   if (use12Hour) {
-    hasSelection = !!enabledHours.find(hour => selection === 'am' ? hour.number < 12 : hour.number >= 12)
+    hasSelection = !!enabledHours.find(hour =>
+      selection === 'am' ? hour.number < 12 : hour.number >= 12
+    )
   }
   return !hasSelection
 }
