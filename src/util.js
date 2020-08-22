@@ -29,32 +29,71 @@ export function monthDays (year, month, weekStart) {
     )
 }
 
-export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
-  const date = DateTime.fromObject({ year, month, day, zone: 'UTC' })
-
-  minDate = minDate ? startOfDay(minDate.setZone('UTC', { keepLocalTime: true })) : null
-  maxDate = maxDate ? startOfDay(maxDate.setZone('UTC', { keepLocalTime: true })) : null
-
-  return (minDate && date < minDate) ||
-         (maxDate && date > maxDate)
+function getDateFromDateTime (dateTime, dateModification) {
+  const dateTimeOpts = {
+    zone: 'UTC'
+  }
+  dateModification.map(option => { dateTimeOpts[option] = dateTime.c[option] })
+  return DateTime.fromObject(dateTimeOpts)
 }
 
-export function monthIsDisabled (minDate, maxDate, year, month) {
-  return (minDate && minDate > DateTime.utc(year, month, DateTime.utc(year, month).daysInMonth)) ||
-         (maxDate && maxDate < DateTime.utc(year, month, 1))
+function checkAllowedDateTimeRanges (allowedDateTimeRanges, startCheck, endCheck = null, dateModification = ['year', 'month', 'day']) {
+  endCheck = endCheck || startCheck
+  // UTC all dates for even comparisons
+  startCheck = getDateFromDateTime(startCheck, dateModification)
+  endCheck = getDateFromDateTime(endCheck, dateModification)
+
+  return allowedDateTimeRanges && (allowedDateTimeRanges.length > 0) &&
+    // is the current date being checked within an allowed date range
+    !allowedDateTimeRanges.find(function ([allowedStartDate, allowedEndDate]) {
+      // this is done to strip out extra date info
+      // i.e when comparing start and end days we dont want hours or minutes
+      allowedStartDate = allowedStartDate.c ? getDateFromDateTime(allowedStartDate, dateModification) : allowedStartDate
+      allowedEndDate = allowedEndDate.c ? getDateFromDateTime(allowedEndDate, dateModification) : allowedEndDate
+      // is the current date being checked within an this date range
+
+      return (allowedStartDate && startCheck >= allowedStartDate) && (allowedEndDate && endCheck <= allowedEndDate)
+    })
 }
 
-export function yearIsDisabled (minDate, maxDate, year) {
-  const minYear = minDate ? minDate.year : null
-  const maxYear = maxDate ? maxDate.year : null
-
-  return (minYear && year < minYear) ||
-         (maxYear && year > maxYear)
+export function monthDayIsDisabled (allowedDateTimeRanges, year, month, day) {
+  return checkAllowedDateTimeRanges(allowedDateTimeRanges, DateTime.fromObject({ year, month, day, zone: 'UTC' }))
 }
 
-export function timeComponentIsDisabled (min, max, component) {
-  return (min !== null && component < min) ||
-         (max !== null && component > max)
+export function monthIsDisabled (allowedDateTimeRanges, year, month) {
+  return checkAllowedDateTimeRanges(
+    allowedDateTimeRanges,
+    DateTime.utc(year, month, DateTime.utc(year, month).daysInMonth),
+    DateTime.utc(year, month, 1)
+  )
+}
+
+export function yearIsDisabled (allowedDateTimeRanges, year) {
+  return checkAllowedDateTimeRanges(allowedDateTimeRanges, DateTime.utc(year))
+}
+
+export function hourIsDisabled (allowedDateTimeRanges, currentDateTime, hour) {
+  const startCheck = DateTime.fromObject({ year: currentDateTime.c.year, month: currentDateTime.c.month, day: currentDateTime.c.day, hour })
+  const dateTimeModification = ['year', 'month', 'day', 'hour']
+  return checkAllowedDateTimeRanges(allowedDateTimeRanges, startCheck, null, dateTimeModification)
+}
+
+export function minuteIsDisabled (allowedDateTimeRanges, currentDateTime, hour, minute) {
+  const startCheck = DateTime.fromObject({ year: currentDateTime.c.year, month: currentDateTime.c.month, day: currentDateTime.c.day, hour, minute })
+  const dateTimeModification = ['year', 'month', 'day', 'hour', 'minute']
+  return checkAllowedDateTimeRanges(allowedDateTimeRanges, startCheck, null, dateTimeModification)
+}
+
+export function selectionIsDisabled (hours, use12Hour, selection) {
+  // if not use12hours
+  const enabledHours = hours.filter(hour => !hour.disabled)
+  let hasSelection = enabledHours.length > 0
+  if (use12Hour) {
+    hasSelection = !!enabledHours.find(hour =>
+      selection === 'am' ? hour.number < 12 : hour.number >= 12
+    )
+  }
+  return !hasSelection
 }
 
 export function weekdays (weekStart) {
@@ -83,6 +122,25 @@ export function minutes (step) {
 
 export function years (current) {
   return Array.apply(null, Array(201)).map((item, index) => current - 100 + index)
+}
+
+export function getAllowedDateTimeRanges (allowedDateTimeRanges, min, max) {
+  if (!allowedDateTimeRanges.length) {
+    const minMaxArray = []
+    // this preserves the existing min-max functionality by assuming its just one set of "allowed ranges"
+    if (min && max) {
+      minMaxArray.push(min)
+      minMaxArray.push(max)
+    } else if (min) {
+      minMaxArray.push(min)
+      minMaxArray.push(DateTime.fromFormat('31-12-3000 23:59:59', 'dd-MM-y hh:mm:ss'))
+    } else if (max) {
+      minMaxArray.push(DateTime.fromFormat('01-01-1972 00:00:00', 'dd-MM-y hh:mm:ss'))
+      minMaxArray.push(max)
+    }
+    minMaxArray.length ? allowedDateTimeRanges.push(minMaxArray) : null
+  }
+  return allowedDateTimeRanges
 }
 
 export function pad (number) {

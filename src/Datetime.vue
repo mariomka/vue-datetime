@@ -24,8 +24,7 @@
           :use12-hour="use12Hour"
           :hour-step="hourStep"
           :minute-step="minuteStep"
-          :min-datetime="popupMinDatetime"
-          :max-datetime="popupMaxDatetime"
+          :allowed-date-time-ranges="allowedDateTimeRangesFormatted"
           @confirm="confirm"
           @cancel="cancel"
           :auto="auto"
@@ -46,15 +45,13 @@
 <script>
 import { DateTime } from 'luxon'
 import DatetimePopup from './DatetimePopup'
-import { datetimeFromISO, startOfDay, weekStart } from './util'
+import { datetimeFromISO, getAllowedDateTimeRanges, startOfDay, weekStart } from './util'
 
 export default {
   components: {
     DatetimePopup
   },
-
   inheritAttrs: false,
-
   props: {
     value: {
       type: String
@@ -118,6 +115,10 @@ export default {
     maxDatetime: {
       type: String,
       default: null
+    },
+    allowedDateTimeRanges: {
+      type: Array,
+      default: () => []
     },
     auto: {
       type: Boolean,
@@ -189,6 +190,9 @@ export default {
     },
     popupDate () {
       return this.datetime ? this.datetime.setZone(this.zone) : this.newPopupDatetime()
+    },
+    allowedDateTimeRangesFormatted () {
+      return getAllowedDateTimeRanges(this.allowedDateTimeRanges, this.popupMinDatetime, this.popupMaxDatetime)
     },
     popupMinDatetime () {
       return this.minDatetime ? DateTime.fromISO(this.minDatetime).setZone(this.zone) : null

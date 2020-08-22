@@ -8,14 +8,18 @@
 </template>
 
 <script>
+import { getAllowedDateTimeRanges, yearIsDisabled, years } from './util'
 import { DateTime } from 'luxon'
-import { yearIsDisabled, years } from './util'
 
 export default {
   props: {
     year: {
       type: Number,
       required: true
+    },
+    allowedDateTimeRanges: {
+      type: Array,
+      default: () => []
     },
     minDate: {
       type: DateTime,
@@ -28,11 +32,14 @@ export default {
   },
 
   computed: {
+    allowedDateTimeRangesFormatted () {
+      return getAllowedDateTimeRanges(this.allowedDateTimeRanges, this.minDate, this.maxDate)
+    },
     years () {
       return years(this.year).map(year => ({
         number: year,
         selected: year === this.year,
-        disabled: !year || yearIsDisabled(this.minDate, this.maxDate, year)
+        disabled: !year || yearIsDisabled(this.allowedDateTimeRangesFormatted, year)
       }))
     }
   },

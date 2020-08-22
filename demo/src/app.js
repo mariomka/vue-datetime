@@ -1,5 +1,7 @@
 import Vue from 'vue'
-import { DateTime as LuxonDateTime } from 'luxon'
+import {
+  DateTime as LuxonDateTime
+} from 'luxon'
 import Datetime from '../../dist/vue-datetime'
 import '../../dist/vue-datetime.css'
 import './app.css'
@@ -17,10 +19,32 @@ new Vue({
       datetime12: '2018-05-12T17:19:06.151Z',
       datetime13: '2018-05-12T17:19:06.151Z',
       datetimeEmpty: '',
-      minDatetime: LuxonDateTime.local().minus({ month: 1, days: 3 }).toISO(),
-      maxDatetime: LuxonDateTime.local().plus({ days: 3 }).toISO(),
+      allowedDateTimeRanges: [
+        [
+          LuxonDateTime.local().minus({
+            days: 5
+          }),
+          LuxonDateTime.local().minus({
+            days: 2
+          })
+        ],
+        [
+          LuxonDateTime.local().plus({
+            days: 3
+          }),
+          LuxonDateTime.local().plus({
+            days: 5
+          })
+        ]
+      ],
+      minDatetime: LuxonDateTime.local().minus({
+        month: 1,
+        days: 3
+      }).toISO(),
+      maxDatetime: LuxonDateTime.local().plus({
+        days: 3
+      }).toISO(),
       datetimeTheming: LuxonDateTime.local().toISO()
     }
   }
 })
-
