@@ -97,12 +97,11 @@
       </div>
   </div>
 
-  <h2>Complete demo</h2>
+    <h2>Complete demo min-max</h2>
 
-  <div class="example">
-    <div class="example-inputs">
-      <datetime
-          type="datetime"
+    <div class="example">
+      <div class="example-inputs">
+        <datetime type="datetime"
           v-model="datetimeEmpty"
           placeholder="Select date"
           class="my-wrapper-class"
@@ -117,17 +116,17 @@
           :max-datetime="maxDatetime"
           :week-start="7"
           use12-hour
-          auto
-      ></datetime>
+          auto>
+        </datetime>
 
-      <div class="values">
-        <p>
-          <strong>Value:</strong> {{ datetimeEmpty }}
-        </p>
+        <div class="values">
+          <p>
+            <strong>Value:</strong> {{ datetimeEmpty }}
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="example-code">
-      <pre><code>&#x3C;datetime
+      <div class="example-code">
+        <pre><code>&#x3C;datetime
   type=&#x22;datetime&#x22;
   v-model=&#x22;datetimeEmpty&#x22;
   input-class=&#x22;my-class&#x22;
@@ -143,19 +142,50 @@
   use12-hour
   auto
   &#x3E;&#x3C;/datetime&#x3E;</code></pre>
+      </div>
     </div>
-  </div>
 
-  <h2>Theming</h2>
+    <h2>Complete demo ranges</h2>
 
-  <div class="example">
-    <div class="example-inputs">
-      <datetime type="datetime" v-model="datetimeTheming" class="theme-orange"></datetime>
+    <div class="example">
+      <div class="example-inputs">
+        <datetime type="datetime"
+          v-model="datetimeEmpty"
+          placeholder="Select date"
+          class="my-wrapper-class"
+          input-class="my-input-class"
+          value-zone="America/New_York"
+          zone="Asia/Shanghai"
+          :format="{ year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }"
+          :phrases="{ok: 'Continue', cancel: 'Exit'}"
+          :allowed-date-time-ranges="allowedDateTimeRanges"
+          :week-start="7"
+          use12-hour
+          auto>
+        </datetime>
 
-      <div class="values">
-        <p>
-          <strong>Value:</strong> {{ datetimeTheming }}
-        </p>
+        <div class="values">
+          <p>
+            <strong>Value:</strong> {{ datetimeEmpty }}
+          </p>
+        </div>
+      </div>
+      <div class="example-code">
+        <pre><code>&#x3C;datetime
+  type=&#x22;datetime&#x22;
+  v-model=&#x22;datetimeEmpty&#x22;
+  input-class=&#x22;my-class&#x22;
+  value-zone=&#x22;America/New_York&#x22;
+  zone=&#x22;Asia/Shanghai&#x22;
+  :format=&#x22;{ year: &#x27;numeric&#x27;, month: &#x27;long&#x27;, day: &#x27;numeric&#x27;, hour: &#x27;numeric&#x27;, minute: &#x27;2-digit&#x27;, timeZoneName: &#x27;short&#x27; }&#x22;
+  :phrases=&#x22;{ok: &#x27;Continue&#x27;, cancel: &#x27;Exit&#x27;}&#x22;
+  :hour-step=&#x22;2&#x22;
+  :minute-step=&#x22;15&#x22;
+  :allowed-date-time-ranges=&#x22;allowedDateTimeRanges&#x22;
+  :week-start=&#x22;7&#x22;
+  use12-hour
+  auto
+  &#x3E;&#x3C;/datetime&#x3E;</code></pre>
       </div>
     </div>
     <div class="example-code">

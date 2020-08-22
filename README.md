@@ -113,12 +113,13 @@ phrases | `Object` | `{ok: 'Ok', cancel: 'Cancel'}` | Phrases.
 use12-hour | `Boolean` | `false` | Display 12 hour (AM/PM) mode
 hour-step | `Number` | `1` | Hour step.
 minute-step | `Number` | `1` | Minute step.
-min-datetime | ISO 8601 `String` | `null` | Minimum datetime.
-max-datetime | ISO 8601 `String` | `null` | Maximum datetime.
+min-datetime | ISO 8601 `String` | `null` | Minimum datetime. NOTE: Has no effect when allowed-date-time-ranges is provided
+max-datetime | ISO 8601 `String` | `null` | Maximum datetime. NOTE: Has no effect when allowed-date-time-ranges is provided
 auto | `Boolean` | `false` | Auto continue/close on select.
 week-start | `Number` | auto from locale if _weekstart_ is available or `1` | First day of the week. 1 is Monday and 7 is Sunday.
 flow | `Array` | Depends of *type* | Customize steps flow, steps available: time, date, month, year. Example: ['year', 'date', 'time']
 title | `String` | `''` | Popup title.
+allowed-date-time-ranges | `Array` of `Array`'s of 2 `Datetime` | `[]`                                                                      | Array of Arrays containing Allowed DateTime ranges i.e `[[DateTime.fromISO('2017-05-15T17:36'),DateTime.fromISO('2017-05-17T17:36')]]` (Allowed datetime ranges are the only selectable ranges)
 
 Input inherits all props not defined above but `style` and `class` will be inherited by root element. [See inheritAttrs option](https://vuejs.org/v2/api/#inheritAttrs)
 
