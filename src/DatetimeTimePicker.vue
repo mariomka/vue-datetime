@@ -15,6 +15,7 @@
 
 <script>
 import { hours, minutes, pad, timeComponentIsDisabled } from './util'
+import { DateTime } from 'luxon'
 
 export default {
   props: {
@@ -34,6 +35,14 @@ export default {
       type: Number,
       default: 1
     },
+    datetimeDisabledChecker: {
+      type: Function,
+      default: (year, month, day, hour, minute, second) => true
+    },
+    currentDateTime: {
+      type: DateTime,
+      default: () => DateTime.utc()
+    },
     minuteStep: {
       type: Number,
       default: 1
@@ -50,6 +59,9 @@ export default {
 
   computed: {
     hours () {
+      const year = this.currentDateTime.c.year
+      const month = this.currentDateTime.c.month
+      const day = this.currentDateTime.c.day
       return hours(this.hourStep).filter(hour => {
         if (!this.use12Hour) {
           return true
@@ -63,14 +75,17 @@ export default {
       }).map(hour => ({
         number: pad(hour),
         selected: hour === this.hour,
-        disabled: timeComponentIsDisabled(this.minHour, this.maxHour, hour)
+        disabled: timeComponentIsDisabled(this.minHour, this.maxHour, hour) || this.datetimeDisabledChecker(year, month, day, hour)
       }))
     },
     minutes () {
+      const year = this.currentDateTime.c.year
+      const month = this.currentDateTime.c.month
+      const day = this.currentDateTime.c.day
       return minutes(this.minuteStep).map(minute => ({
         number: pad(minute),
         selected: minute === this.minute,
-        disabled: timeComponentIsDisabled(this.minMinute, this.maxMinute, minute)
+        disabled: timeComponentIsDisabled(this.minMinute, this.maxMinute, minute) || this.datetimeDisabledChecker(year, month, day, this.hour, minute)
       }))
     },
     minHour () {
