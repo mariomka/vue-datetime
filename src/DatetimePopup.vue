@@ -40,6 +40,7 @@
           :use12-hour="use12Hour"
           :hour-step="hourStep"
           :minute-step="minuteStep"
+          :current-date-time="newDatetime"
           :datetime-disabled-checker="datetimeDisabledChecker"
           :min-time="minTime"
           :max-time="maxTime"></datetime-time-picker>
@@ -91,7 +92,7 @@ export default {
     },
     datetimeDisabledChecker: {
       type: Function,
-      default: (year, month, day, hour, minute, second) => true
+      default: (year, month, day, hour, minute, second) => false
     },
     type: {
       type: String,
