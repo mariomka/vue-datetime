@@ -6,15 +6,24 @@
     <div class="vdatetime-time-picker__list vdatetime-time-picker__list--minutes" ref="minuteList">
       <div class="vdatetime-time-picker__item" v-for="minute in minutes" @click="selectMinute(minute)" :class="{'vdatetime-time-picker__item--selected': minute.selected, 'vdatetime-time-picker__item--disabled': minute.disabled}">{{ minute.number }}</div>
     </div>
-    <div class="vdatetime-time-picker__list vdatetime-time-picker__list--suffix" ref="suffixList" v-if="use12Hour">
-      <div class="vdatetime-time-picker__item" @click="selectSuffix('am')" :class="{'vdatetime-time-picker__item--selected': hour < 12}">am</div>
-      <div class="vdatetime-time-picker__item" @click="selectSuffix('pm')" :class="{'vdatetime-time-picker__item--selected': hour >= 12}">pm</div>
+    <div
+      class="vdatetime-time-picker__list vdatetime-time-picker__list--suffix"
+      ref="suffixList"
+      v-if="use12Hour"
+    >
+      <div
+        class="vdatetime-time-picker__item"
+        v-for="timeSelection in timeSelections"
+        :key="`selection-${timeSelection}`"
+        @click="selectSuffix(timeSelection)"
+        :class="{'vdatetime-time-picker__item--selected': timeSelection.comparison(hour) , 'vdatetime-time-picker__item--disabled': timeSelection.disabled }"
+      >{{ timeSelection.id }}</div>
     </div>
   </div>
 </template>
 
 <script>
-import { hours, minutes, pad, timeComponentIsDisabled } from './util'
+import { hours, minutes, pad, timeComponentIsDisabled, selectionIsDisabled } from './util'
 import { DateTime } from 'luxon'
 
 export default {
@@ -58,6 +67,22 @@ export default {
   },
 
   computed: {
+    timeSelections () {
+      return this.use12Hour
+        ? [
+          {
+            id: 'am',
+            comparison: (hour) => hour < 12,
+            disabled: selectionIsDisabled(this.hours, this.use12Hour, 'am')
+          },
+          {
+            id: 'pm',
+            comparison: (hour) => hour >= 12,
+            disabled: selectionIsDisabled(this.hours, this.use12Hour, 'pm')
+          }
+        ]
+        : []
+    },
     hours () {
       const year = this.currentDateTime.c.year
       const month = this.currentDateTime.c.month
