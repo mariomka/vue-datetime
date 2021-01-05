@@ -45,7 +45,7 @@ export default {
     },
     datetimeDisabledChecker: {
       type: Function,
-      default: (year, month, day, hour, minute, second) => true
+      default: (year, month, day, hour, minute, second) => false
     },
     minDate: {
       type: DateTime,
