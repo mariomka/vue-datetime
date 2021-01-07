@@ -329,7 +329,7 @@ describe('DatetimePopup.vue', function () {
             return {
               datetime: LuxonDatetime.local(),
               minDatetime: LuxonDatetime.fromISO('2018-01-01T12:35:22.000Z'),
-              maxDatetime: LuxonDatetime.fromISO('2018-01-03T12:43:13.000Z')
+              maxDatetime: LuxonDatetime.fromISO('2018-01-03T20:43:13.000Z')
             }
           }
         })
@@ -339,8 +339,8 @@ describe('DatetimePopup.vue', function () {
     })
 
     it('should pass min and max time to time picker when date are equals', function (done) {
-      const minDatetime = LuxonDatetime.fromISO('2018-01-01T08:35:22.000Z')
-      const maxDatetime = LuxonDatetime.fromISO('2018-01-01T12:43:13.000Z')
+      const minDatetime = LuxonDatetime.fromISO('2018-01-01T12:35:22.000Z')
+      const maxDatetime = LuxonDatetime.fromISO('2018-01-01T20:43:13.000Z')
 
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime" type="datetime" :min-datetime="minDatetime" :max-datetime="maxDatetime"></DatetimePopup>`,
@@ -348,7 +348,7 @@ describe('DatetimePopup.vue', function () {
           components: { DatetimePopup },
           data () {
             return {
-              datetime: LuxonDatetime.fromISO('2018-01-01T09:42:11.000Z'),
+              datetime: LuxonDatetime.fromISO('2018-01-01T17:42:11.000Z'),
               minDatetime: minDatetime,
               maxDatetime: maxDatetime
             }
