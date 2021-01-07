@@ -52,6 +52,18 @@ export function yearIsDisabled (minDate, maxDate, year) {
          (maxYear && year > maxYear)
 }
 
+export function selectionIsDisabled (hours, use12Hour, selection) {
+  // if not use12hours
+  const enabledHours = hours.filter(hour => !hour.disabled)
+  let hasSelection = enabledHours.length > 0
+  if (use12Hour) {
+    hasSelection = !!enabledHours.find(hour =>
+      selection === 'am' ? hour.number < 12 : hour.number >= 12
+    )
+  }
+  return !hasSelection
+}
+
 export function timeComponentIsDisabled (min, max, component) {
   return (min !== null && component < min) ||
          (max !== null && component > max)

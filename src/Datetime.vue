@@ -23,6 +23,7 @@
           :phrases="phrases"
           :use12-hour="use12Hour"
           :hour-step="hourStep"
+          :datetime-disabled-checker="datetimeDisabledChecker"
           :minute-step="minuteStep"
           :min-datetime="popupMinDatetime"
           :max-datetime="popupMaxDatetime"
@@ -118,6 +119,10 @@ export default {
     maxDatetime: {
       type: String,
       default: null
+    },
+    datetimeDisabledChecker: {
+      type: Function,
+      default: (year, month, day, hour, minute, second) => false
     },
     auto: {
       type: Boolean,

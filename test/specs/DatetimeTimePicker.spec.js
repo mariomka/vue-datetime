@@ -1,4 +1,5 @@
 import { createVM } from '../helpers/utils.js'
+import { DateTime } from 'luxon'
 import DatetimeTimePicker from 'src/DatetimeTimePicker.vue'
 
 describe('DatetimeTimePicker.vue', function () {
@@ -72,6 +73,43 @@ describe('DatetimeTimePicker.vue', function () {
 
       const minutes = vm.$$('.vdatetime-time-picker__list--minutes .vdatetime-time-picker__item').map(el => el.textContent)
       expect(minutes).eql(['00', '15', '30', '45'])
+    })
+
+    it('should disable time given datetime disabled checker', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker :hour="8" :minute="52" :datetime-disabled-checker="datetimeDisabledChecker"></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker },
+          data () {
+            return {
+              datetimeDisabledChecker: (year, month, day, hour, minute) => {
+                return DateTime.fromObject({ year, month, day, hour, minute, timezone: 'UTC' }) < DateTime.fromObject({ year, month, day, hour: 8, minute: minute != null ? 32 : 0, timezone: 'UTC' })
+              }
+            }
+          }
+        })
+
+      const hours = vm.$$('.vdatetime-time-picker__list--hours .vdatetime-time-picker__item')
+
+      hours.forEach(hour => {
+        const hourNumber = parseInt(hour.textContent)
+        if (hourNumber < 8) {
+          expect(hour).to.have.class('vdatetime-time-picker__item--disabled')
+        } else {
+          expect(hour).to.have.not.class('vdatetime-time-picker__item--disabled')
+        }
+      })
+
+      const minutes = vm.$$('.vdatetime-time-picker__list--minutes .vdatetime-time-picker__item')
+
+      minutes.forEach(minute => {
+        const minuteNumber = parseInt(minute.textContent)
+        if (minuteNumber < 32) {
+          expect(minute).to.have.class('vdatetime-time-picker__item--disabled')
+        } else {
+          expect(minute).to.have.not.class('vdatetime-time-picker__item--disabled')
+        }
+      })
     })
 
     it('should disable time before min time', function () {
@@ -257,6 +295,35 @@ describe('DatetimeTimePicker.vue', function () {
       expect(vm.spy).to.have.not.been.called
     })
 
+    it('should disable am/pm when no selectable options', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker :hour="3" :minute="45" max-time="03:15" use12-hour></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker }
+        })
+
+      const am = vm.$$('.vdatetime-time-picker__list--suffix .vdatetime-time-picker__item')[0]
+      const pm = vm.$$('.vdatetime-time-picker__list--suffix .vdatetime-time-picker__item')[1]
+
+      expect(am).not.to.have.class('vdatetime-time-picker__item--disabled')
+      expect(pm).to.have.class('vdatetime-time-picker__item--disabled')
+    })
+
+    it('should not emit change event on select a disabled am/pm', function () {
+      const vm = createVM(this,
+        `<DatetimeTimePicker @change="spy" :hour="3" :minute="45" min-time="13:15" use12-hour></DatetimeTimePicker>`,
+        {
+          components: { DatetimeTimePicker },
+          data () {
+            return {
+              spy: sinon.spy()
+            }
+          }
+        })
+      vm.$$('.vdatetime-time-picker__list--suffix .vdatetime-time-picker__item')[0].click()
+      expect(vm.spy).to.have.not.been.called
+    })
+
     it('should emit change event on suffix change am -> pm', function () {
       const vm = createVM(this,
         `<DatetimeTimePicker @change="onChange" :hour="3" :minute="45" use12-hour></DatetimeTimePicker>`,
@@ -277,6 +344,7 @@ describe('DatetimeTimePicker.vue', function () {
         })
 
       vm.$$('.vdatetime-time-picker__list--suffix .vdatetime-time-picker__item')[1].click()
+
       expect(vm.hour).to.be.equal(15)
       expect(vm.suffixTouched).to.be.equal(true)
     })

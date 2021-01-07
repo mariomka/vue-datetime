@@ -11,12 +11,14 @@
           @change="onChangeYear"
           :min-date="minDatetime"
           :max-date="maxDatetime"
+          :datetime-disabled-checker="datetimeDisabledChecker"
           :year="year"></datetime-year-picker>
       <datetime-month-picker
           v-if="step === 'month'"
           @change="onChangeMonth"
           :min-date="minDatetime"
           :max-date="maxDatetime"
+          :datetime-disabled-checker="datetimeDisabledChecker"
           :year="year"
           :month="month"></datetime-month-picker>
       <datetime-calendar
@@ -27,6 +29,7 @@
           :day="day"
           :min-date="minDatetime"
           :max-date="maxDatetime"
+          :datetime-disabled-checker="datetimeDisabledChecker"
           :week-start="weekStart"
       ></datetime-calendar>
       <datetime-time-picker
@@ -37,6 +40,8 @@
           :use12-hour="use12Hour"
           :hour-step="hourStep"
           :minute-step="minuteStep"
+          :current-date-time="newDatetime"
+          :datetime-disabled-checker="datetimeDisabledChecker"
           :min-time="minTime"
           :max-time="maxTime"></datetime-time-picker>
     </div>
@@ -84,6 +89,10 @@ export default {
           ok: 'Ok'
         }
       }
+    },
+    datetimeDisabledChecker: {
+      type: Function,
+      default: (year, month, day, hour, minute, second) => false
     },
     type: {
       type: String,

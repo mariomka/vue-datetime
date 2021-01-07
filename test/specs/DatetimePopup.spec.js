@@ -305,6 +305,21 @@ describe('DatetimePopup.vue', function () {
       })
     })
 
+    it('should pass datetime disabled checker function to popup', function () {
+      const vm = createVM(this,
+        `<DatetimePopup :datetime="datetime" type="datetime" :datetime-disabled-checker="datetimeDisabledChecker"></DatetimePopup>`,
+        {
+          components: { DatetimePopup },
+          data () {
+            return {
+              datetime: LuxonDatetime.local(),
+              datetimeDisabledChecker: (year) => year === 2000
+            }
+          }
+        })
+      expect(vm.$findChild('.vdatetime-calendar').datetimeDisabledChecker(2000)).to.be.equal(true)
+    })
+
     it('should pass min and max date to calendar', function () {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime" type="datetime" :min-datetime="minDatetime" :max-datetime="maxDatetime"></DatetimePopup>`,

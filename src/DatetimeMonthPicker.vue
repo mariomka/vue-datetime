@@ -28,6 +28,10 @@ export default {
     maxDate: {
       type: DateTime,
       default: null
+    },
+    datetimeDisabledChecker: {
+      type: Function,
+      default: (year, month, day, hour, minute, second) => false
     }
   },
 
@@ -37,7 +41,7 @@ export default {
         number: ++index,
         label: month,
         selected: index === this.month,
-        disabled: !index || monthIsDisabled(this.minDate, this.maxDate, this.year, index)
+        disabled: !index || monthIsDisabled(this.minDate, this.maxDate, this.year, index) || this.datetimeDisabledChecker(this.year, index)
       }))
     }
   },

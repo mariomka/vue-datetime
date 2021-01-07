@@ -24,6 +24,10 @@ export default {
     maxDate: {
       type: DateTime,
       default: null
+    },
+    datetimeDisabledChecker: {
+      type: Function,
+      default: (year, month, day, hour, minute, second) => false
     }
   },
 
@@ -32,7 +36,7 @@ export default {
       return years(this.year).map(year => ({
         number: year,
         selected: year === this.year,
-        disabled: !year || yearIsDisabled(this.minDate, this.maxDate, year)
+        disabled: !year || yearIsDisabled(this.minDate, this.maxDate, year) || this.datetimeDisabledChecker(year)
       }))
     }
   },

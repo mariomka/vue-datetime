@@ -262,6 +262,26 @@ describe('Datetime.vue', function () {
       })
     })
 
+    it('should pass datetime disabled checker function to popup', function (done) {
+      const vm = createVM(this,
+        `<Datetime type="datetime" :datetime-disabled-checker="datetimeDisabledChecker"></Datetime>`,
+        {
+          components: { Datetime },
+          data () {
+            return {
+              datetimeDisabledChecker: (year) => year === 2000
+            }
+          }
+        })
+
+      vm.$('.vdatetime-input').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-popup').datetimeDisabledChecker(2000)).to.be.equal(true)
+        done()
+      })
+    })
+
     it('should pass auto to popup', function (done) {
       const vm = createVM(this,
         `<Datetime auto></Datetime>`,
