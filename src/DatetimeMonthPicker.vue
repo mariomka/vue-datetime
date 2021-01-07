@@ -41,7 +41,7 @@ export default {
         number: ++index,
         label: month,
         selected: index === this.month,
-        disabled: !index || monthIsDisabled(this.minDate, this.maxDate, this.year, index) || this.datetimeDisabledChecker(this.year, month)
+        disabled: !index || monthIsDisabled(this.minDate, this.maxDate, this.year, index) || this.datetimeDisabledChecker(this.year, index)
       }))
     }
   },
