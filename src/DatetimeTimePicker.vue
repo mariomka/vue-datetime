@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { hours, minutes, pad, timeComponentIsDisabled } from './util'
+import { hours, minutes, pad, timeComponentIsDisabled, timeFromPart } from './util'
 
 export default {
   props: {
@@ -45,33 +45,83 @@ export default {
     maxTime: {
       type: String,
       default: null
+    },
+    timeParts: {
+      type: Array,
+      default: () => []
+    },
+    timePartsEmpty: {
+      type: Boolean,
+      default: true
+    },
+    hourSelected: {
+      type: Boolean,
+      default: false
+    },
+    minuteSelected: {
+      type: Boolean,
+      default: false
     }
   },
 
   computed: {
-    hours () {
-      return hours(this.hourStep).filter(hour => {
-        if (!this.use12Hour) {
-          return true
-        } else {
-          if (this.hour < 12) {
-            return hour < 12
-          } else {
-            return hour >= 12
-          }
+    parts () {
+      const parts = {}
+      for (const partKey in this.timeParts) {
+        const [hour, minute] = timeFromPart(this.timeParts[partKey])
+        if (!parts[hour]) {
+          parts[hour] = []
         }
-      }).map(hour => ({
-        number: pad(hour),
-        selected: hour === this.hour,
-        disabled: timeComponentIsDisabled(this.minHour, this.maxHour, hour)
-      }))
+
+        parts[hour].push(minute)
+      }
+
+      return parts
+    },
+    hours () {
+      if (this.timePartsEmpty) {
+        return hours(this.hourStep).filter(hour => {
+          if (!this.use12Hour) {
+            return true
+          } else {
+            if (this.hour < 12) {
+              return hour < 12
+            } else {
+              return hour >= 12
+            }
+          }
+        }).map(hour => ({
+          number: pad(hour),
+          selected: hour === this.hour,
+          disabled: timeComponentIsDisabled(this.minHour, this.maxHour, hour)
+        }))
+      } else {
+        return Object.keys(this.parts).map((hour, hourIndex) => {
+          return {
+            number: pad(hour),
+            selected: this.hourSelected ? parseInt(hour) === this.hour : hourIndex === 0,
+            disabled: timeComponentIsDisabled(this.minHour, this.maxHour, hour)
+          }
+        })
+      }
     },
     minutes () {
-      return minutes(this.minuteStep).map(minute => ({
-        number: pad(minute),
-        selected: minute === this.minute,
-        disabled: timeComponentIsDisabled(this.minMinute, this.maxMinute, minute)
-      }))
+      if (this.timePartsEmpty) {
+        return minutes(this.minuteStep).map(minute => ({
+          number: pad(minute),
+          selected: minute === this.minute,
+          disabled: timeComponentIsDisabled(this.minMinute, this.maxMinute, minute)
+        }))
+      } else {
+        const selectedHour = this.hourSelected ? this.hour : Object.keys(this.parts)[0]
+        return this.parts[selectedHour].map((minute, minuteIndex) => {
+          return {
+            number: pad(minute),
+            selected: this.minuteSelected ? parseInt(minute) === this.minute : minuteIndex === 0,
+            disabled: timeComponentIsDisabled(this.minMinute, this.maxMinute, minute)
+          }
+        })
+      }
     },
     minHour () {
       return this.minTime ? parseInt(this.minTime.split(':')[0]) : null

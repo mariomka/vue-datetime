@@ -85,7 +85,13 @@ export function years (current) {
   return Array.apply(null, Array(201)).map((item, index) => current - 100 + index)
 }
 
+export function timeFromPart (part) {
+  const time = part.split(':')
+  return [parseInt(time[0]), parseInt(time[1])]
+}
+
 export function pad (number) {
+  number = parseInt(number)
   return number < 10 ? '0' + number : number
 }
 

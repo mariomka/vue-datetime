@@ -31,6 +31,8 @@
       ></datetime-calendar>
       <datetime-time-picker
           v-if="step === 'time'"
+          :hour-selected="selected.hour"
+          :minute-selected="selected.minute"
           @change="onChangeTime"
           :hour="hour"
           :minute="minute"
@@ -38,7 +40,9 @@
           :hour-step="hourStep"
           :minute-step="minuteStep"
           :min-time="minTime"
-          :max-time="maxTime"></datetime-time-picker>
+          :max-time="maxTime"
+          :time-parts="timeParts"
+          :time-parts-empty="timePartsEmpty"></datetime-time-picker>
     </div>
     <div class="vdatetime-popup__actions">
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">
@@ -101,6 +105,14 @@ export default {
       type: Number,
       default: 1
     },
+    timeParts: {
+      type: Array,
+      default: () => []
+    },
+    timePartsEmpty: {
+      type: Boolean,
+      default: true
+    },
     minDatetime: {
       type: DateTime,
       default: null
@@ -134,7 +146,11 @@ export default {
       newDatetime: this.datetime,
       flowManager,
       step: flowManager.first(),
-      timePartsTouched: []
+      timePartsTouched: [],
+      selected: {
+        hour: false,
+        minute: false
+      }
     }
   },
 
@@ -238,11 +254,14 @@ export default {
       if (Number.isInteger(hour)) {
         this.newDatetime = this.newDatetime.set({ hour })
         this.timePartsTouched['hour'] = true
+        this.selected.hour = true
+        this.selected.minute = false
       }
 
       if (Number.isInteger(minute)) {
         this.newDatetime = this.newDatetime.set({ minute })
         this.timePartsTouched['minute'] = true
+        this.selected.minute = true
       }
 
       const goNext = this.auto && this.timePartsTouched['hour'] && this.timePartsTouched['minute'] && (

@@ -81,6 +81,21 @@
     </div>
   </div>
 
+  <h2>Time parts</h2>
+  <div class="example">
+    <div class="example-inputs">
+      <datetime type="time" :time-parts="timeParts" v-model="time"></datetime>
+      <div class="values">
+        <p>
+          <strong>Value:</strong> {{ time }}
+        </p>
+      </div>
+    </div>
+    <div class="example-code">
+      <pre><code>&#x3C;datetime type=&#x22;time&#x22; v-model=&#x22;time&#x22;&#x3E;&#x3C;/datetime&#x3E;</code></pre>
+    </div>
+  </div>
+
   <h2>Macro tokens</h2>
   <div class="example">
       <div class="example-inputs">

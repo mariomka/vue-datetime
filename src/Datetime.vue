@@ -24,6 +24,8 @@
           :use12-hour="use12Hour"
           :hour-step="hourStep"
           :minute-step="minuteStep"
+          :time-parts="timeParts"
+          :time-parts-empty="timePartsEmpty"
           :min-datetime="popupMinDatetime"
           :max-datetime="popupMaxDatetime"
           @confirm="confirm"
@@ -111,6 +113,10 @@ export default {
       type: Number,
       default: 1
     },
+    timeParts: {
+      type: Array,
+      default: () => []
+    },
     minDatetime: {
       type: String,
       default: null
@@ -195,6 +201,9 @@ export default {
     },
     popupMaxDatetime () {
       return this.maxDatetime ? DateTime.fromISO(this.maxDatetime).setZone(this.zone) : null
+    },
+    timePartsEmpty () {
+      return this.timeParts.length === 0
     }
   },
 
