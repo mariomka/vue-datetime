@@ -86,12 +86,10 @@ export function years (current) {
 }
 
 export function timeFromPart (part) {
-  const time = part.split(':')
-  return [parseInt(time[0]), parseInt(time[1])]
+  return part.split(':')
 }
 
 export function pad (number) {
-  number = parseInt(number)
   return number < 10 ? '0' + number : number
 }
 
