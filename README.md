@@ -121,6 +121,7 @@ flow | `Array` | Depends of *type* | Customize steps flow, steps available: time
 title | `String` | `''` | Popup title.
 hide-backdrop | `Boolean` | `false` | Show/Hide backdrop.
 backdrop-click | `Boolean` | `true` | Enable/Disable backdrop click to cancel (outside click).
+show-week-numbers | `Boolean`| `false` | Display weeknumber in front of every week in the calendar
 
 Input inherits all props not defined above but `style` and `class` will be inherited by root element. [See inheritAttrs option](https://vuejs.org/v2/api/#inheritAttrs)
 
