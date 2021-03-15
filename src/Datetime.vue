@@ -31,7 +31,9 @@
           :auto="auto"
           :week-start="weekStart"
           :flow="flow"
-          :title="title">
+          :title="title"
+          :show-week-numbers="showWeekNumbers"
+      >
         <template slot="button-cancel__internal" slot-scope="scope">
           <slot name="button-cancel" v-bind:step="scope.step">{{ phrases.cancel }}</slot>
         </template>
@@ -142,6 +144,10 @@ export default {
     backdropClick: {
       type: Boolean,
       default: true
+    },
+    showWeekNumbers: {
+      type: Boolean,
+      default: false
     }
   },
 

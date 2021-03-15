@@ -20,14 +20,15 @@
           :year="year"
           :month="month"></datetime-month-picker>
       <datetime-calendar
-          v-if="step === 'date'"
-          @change="onChangeDate"
-          :year="year"
-          :month="month"
-          :day="day"
-          :min-date="minDatetime"
-          :max-date="maxDatetime"
-          :week-start="weekStart"
+        v-if="step === 'date'"
+        @change="onChangeDate"
+        :year="year"
+        :month="month"
+        :day="day"
+        :min-date="minDatetime"
+        :max-date="maxDatetime"
+        :week-start="weekStart"
+        :show-week-numbers="showWeekNumbers"
       ></datetime-calendar>
       <datetime-time-picker
           v-if="step === 'time'"
@@ -122,6 +123,9 @@ export default {
     },
     title: {
       type: String
+    },
+    showWeekNumbers: {
+      type: Boolean
     }
   },
 

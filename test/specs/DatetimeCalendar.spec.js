@@ -15,10 +15,11 @@ describe('DatetimeCalendar.vue', function () {
       expect(vm.$('.vdatetime-calendar')).to.exist
       expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('April 2017')
 
-      const weekdays = vm.$$('.vdatetime-calendar__month__weekday').map(el => el.textContent)
-      expect(weekdays).deep.equal(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
+      const weekdays = vm.$$('.vdatetime-calendar__display__month__weekday').map(el => el.textContent)
+      const trimmedWeekdays = weekdays.map(weekday => weekday.trim())
+      expect(trimmedWeekdays).deep.equal(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
 
-      const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
+      const days = vm.$$('.vdatetime-calendar__display__month__day').map(el => el.textContent)
       expect(days).deep.equal(['', '', '', '', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'])
     })
 
@@ -32,7 +33,7 @@ describe('DatetimeCalendar.vue', function () {
 
       expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('Julio 2018')
 
-      const weekdays = vm.$$('.vdatetime-calendar__month__weekday').map(el => el.textContent)
+      const weekdays = vm.$$('.vdatetime-calendar__display__month__weekday').map(el => el.textContent)
       expect(weekdays).deep.equal(['Lun.', 'Mar.', 'Mié.', 'Jue.', 'Vie.', 'Sáb.', 'Dom.'])
     })
 
@@ -46,10 +47,11 @@ describe('DatetimeCalendar.vue', function () {
 
       expect(vm.$('.vdatetime-calendar')).to.exist
 
-      const weekdays = vm.$$('.vdatetime-calendar__month__weekday').map(el => el.textContent)
-      expect(weekdays).deep.equal(['Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed'])
+      const weekdays = vm.$$('.vdatetime-calendar__display__month__weekday').map(el => el.textContent)
+      const trimmedWeekdays = weekdays.map(weekday => weekday.trim())
+      expect(trimmedWeekdays).deep.equal(['Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed'])
 
-      const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
+      const days = vm.$$('.vdatetime-calendar__display__month__day').map(el => el.textContent)
       expect(days).deep.equal(['', '', '', '', '', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '', '', '', '', ''])
     })
 
@@ -60,7 +62,7 @@ describe('DatetimeCalendar.vue', function () {
           components: { DatetimeCalendar }
         })
 
-      expect(vm.$('.vdatetime-calendar__month__day--selected')).to.have.text('10')
+      expect(vm.$('.vdatetime-calendar__display__month__day--selected')).to.have.text('10')
     })
 
     it('should disable days before min date', function () {
@@ -68,22 +70,22 @@ describe('DatetimeCalendar.vue', function () {
         `<DatetimeCalendar :year="2018" :month="7" :day="10" :min-date="minDate"></DatetimeCalendar>`,
         {
           components: { DatetimeCalendar },
-          data () {
+          data() {
             return {
               minDate: LuxonDatetime.fromISO('2018-07-06T12:00:00.000Z').toUTC()
             }
           }
         })
 
-      const monthDays = vm.$$('.vdatetime-calendar__month__day')
+      const monthDays = vm.$$('.vdatetime-calendar__display__month__day')
 
       monthDays.forEach(monthDay => {
         const dayNumber = parseInt(monthDay.textContent)
 
         if (isNaN(dayNumber) || dayNumber < 6) {
-          expect(monthDay).to.have.class('vdatetime-calendar__month__day--disabled')
+          expect(monthDay).to.have.class('vdatetime-calendar__display__month__day--disabled')
         } else {
-          expect(monthDay).to.have.not.class('vdatetime-calendar__month__day--disabled')
+          expect(monthDay).to.have.not.class('vdatetime-calendar__display__month__day--disabled')
         }
       })
     })
@@ -93,23 +95,49 @@ describe('DatetimeCalendar.vue', function () {
         `<DatetimeCalendar :year="2018" :month="7" :day="10" :max-date="maxDate"></DatetimeCalendar>`,
         {
           components: { DatetimeCalendar },
-          data () {
+          data() {
             return {
               maxDate: LuxonDatetime.fromISO('2018-07-12T00:00:00.000Z').toUTC()
             }
           }
         })
 
-      const monthDays = vm.$$('.vdatetime-calendar__month__day')
+      const monthDays = vm.$$('.vdatetime-calendar__display__month__day')
 
       monthDays.forEach(monthDay => {
         const dayNumber = parseInt(monthDay.textContent)
 
         if (isNaN(dayNumber) || dayNumber > 12) {
-          expect(monthDay).to.have.class('vdatetime-calendar__month__day--disabled')
+          expect(monthDay).to.have.class('vdatetime-calendar__display__month__day--disabled')
         } else {
-          expect(monthDay).to.have.not.class('vdatetime-calendar__month__day--disabled')
+          expect(monthDay).to.have.not.class('vdatetime-calendar__display__month__day--disabled')
         }
+      })
+    })
+
+    it('should render a calendar with weeknumbers', function (done) {
+      const vm = createVM(this,
+        `<DatetimeCalendar :year="2021" :month="1" :show-week-numbers="true"></DatetimeCalendar>`,
+        {
+          components: { DatetimeCalendar }
+        })
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-calendar__display__weeknumbers table tr:nth-child(1) td')).to.have.text('53')
+        done()
+      })
+    })
+
+    it('should not render a calendar with weeknumbers', function (done) {
+      const vm = createVM(this,
+        `<DatetimeCalendar :year="2021" :month="1"></DatetimeCalendar>`,
+        {
+          components: { DatetimeCalendar }
+        })
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-calendar__display__weeknumbers')).not.exist
+        done()
       })
     })
   })
@@ -126,7 +154,7 @@ describe('DatetimeCalendar.vue', function () {
 
       vm.$nextTick(() => {
         expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('May 2017')
-        const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
+        const days = vm.$$('.vdatetime-calendar__display__month__day').map(el => el.textContent)
         expect(days).deep.equal(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '', '', '', ''])
         done()
       })
@@ -143,7 +171,7 @@ describe('DatetimeCalendar.vue', function () {
 
       vm.$nextTick(() => {
         expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('January 2018')
-        const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
+        const days = vm.$$('.vdatetime-calendar__display__month__day').map(el => el.textContent)
         expect(days).deep.equal(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '', '', '', ''])
         done()
       })
@@ -160,7 +188,7 @@ describe('DatetimeCalendar.vue', function () {
 
       vm.$nextTick(() => {
         expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('March 2017')
-        const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
+        const days = vm.$$('.vdatetime-calendar__display__month__day').map(el => el.textContent)
         expect(days).deep.equal(['', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '', ''])
         done()
       })
@@ -177,8 +205,36 @@ describe('DatetimeCalendar.vue', function () {
 
       vm.$nextTick(() => {
         expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('December 2016')
-        const days = vm.$$('.vdatetime-calendar__month__day').map(el => el.textContent)
+        const days = vm.$$('.vdatetime-calendar__display__month__day').map(el => el.textContent)
         expect(days).deep.equal(['', '', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', ''])
+        done()
+      })
+    })
+
+    it('should render weeknumbers when clicking next', function (done) {
+      const vm = createVM(this,
+        `<DatetimeCalendar :year="2021" :month="1" :show-week-numbers="true"></DatetimeCalendar>`,
+        {
+          components: { DatetimeCalendar }
+        })
+      vm.$('.vdatetime-calendar__navigation--next').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-calendar__display__weeknumbers table tr:nth-child(1) td')).to.have.text('05')
+        done()
+      })
+    })
+
+    it('should render weeknumbers when clicking previous', function (done) {
+      const vm = createVM(this,
+        `<DatetimeCalendar :year="2021" :month="1" :show-week-numbers="true"></DatetimeCalendar>`,
+        {
+          components: { DatetimeCalendar }
+        })
+      vm.$('.vdatetime-calendar__navigation--previous').click()
+
+      vm.$nextTick(() => {
+        expect(vm.$('.vdatetime-calendar__display__weeknumbers table tr:nth-child(5) td')).to.have.text('53')
         done()
       })
     })
@@ -190,7 +246,7 @@ describe('DatetimeCalendar.vue', function () {
         `<DatetimeCalendar @change="onChange" :year="2017" :month="4"></DatetimeCalendar>`,
         {
           components: { DatetimeCalendar },
-          data () {
+          data() {
             return {
               year: null,
               month: null,
@@ -198,7 +254,7 @@ describe('DatetimeCalendar.vue', function () {
             }
           },
           methods: {
-            onChange (year, month, day) {
+            onChange(year, month, day) {
               this.year = year
               this.month = month
               this.day = day
@@ -206,7 +262,7 @@ describe('DatetimeCalendar.vue', function () {
           }
         })
 
-      vm.$$('.vdatetime-calendar__month__day')[10].click()
+      vm.$$('.vdatetime-calendar__display__month__day')[10].click()
       expect(vm.year).to.be.equal(2017)
       expect(vm.month).to.be.equal(4)
       expect(vm.day).to.be.equal(6)
@@ -217,7 +273,7 @@ describe('DatetimeCalendar.vue', function () {
         `<DatetimeCalendar @change="spy" :year="2017" :month="4" :max-date="maxDate"></DatetimeCalendar>`,
         {
           components: { DatetimeCalendar },
-          data () {
+          data() {
             return {
               maxDate: LuxonDatetime.fromISO('2017-04-04T04:04:04.000Z'),
               spy: sinon.spy()
@@ -225,7 +281,7 @@ describe('DatetimeCalendar.vue', function () {
           }
         })
 
-      vm.$$('.vdatetime-calendar__month__day')[10].click()
+      vm.$$('.vdatetime-calendar__display__month__day')[10].click()
       expect(vm.spy).to.have.not.been.called
     })
   })

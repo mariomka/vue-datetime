@@ -13,10 +13,19 @@
         </svg>
       </div>
     </div>
-    <div class="vdatetime-calendar__month">
-      <div class="vdatetime-calendar__month__weekday" v-for="weekday in weekdays">{{ weekday }}</div>
-      <div class="vdatetime-calendar__month__day" v-for="day in days" @click="selectDay(day)" :class="{'vdatetime-calendar__month__day--selected': day.selected, 'vdatetime-calendar__month__day--disabled': day.disabled}">
-        <span><span>{{ day.number }}</span></span>
+    <div :class="{ 'vdatetime-calendar__display': showWeekNumbers }">
+      <div v-if="showWeekNumbers" class="vdatetime-calendar__display__weeknumbers">
+        <table>
+          <tr v-for="weekNumber in weekNumbers" :key="weekNumber">
+            <td>{{ weekNumber }}</td>
+          </tr>
+        </table>
+      </div>
+      <div :class="showWeekNumbers ? 'vdatetime-calendar__display__month--weeknumbers' : 'vdatetime-calendar__display__month'">
+        <div class="vdatetime-calendar__display__month__weekday" v-for="weekday in weekdays">{{ weekday }}</div>
+        <div class="vdatetime-calendar__display__month__day" v-for="day in days" @click="selectDay(day)" :class="{'vdatetime-calendar__display__month__day--selected': day.selected,'vdatetime-calendar__display__month__day--disabled': day.disabled}">
+          <span><span>{{ day.number }}</span></span>
+        </div>
       </div>
     </div>
   </div>
@@ -54,17 +63,25 @@ export default {
     weekStart: {
       type: Number,
       default: 1
+    },
+    showWeekNumbers: {
+      type: Boolean,
+      default: false
     }
   },
-
   data () {
     return {
       newDate: DateTime.fromObject({ year: this.year, month: this.month, zone: 'UTC' }),
       weekdays: weekdays(this.weekStart),
-      months: months()
+      months: months(),
+      weekNumbers: []
     }
   },
-
+  mounted () {
+    if (this.showWeekNumbers) {
+      this.getWeekNumberForDisplayedMonth()
+    }
+  },
   computed: {
     newYear () {
       return this.newDate.year
@@ -92,11 +109,43 @@ export default {
 
       this.$emit('change', this.newYear, this.newMonth, day.number)
     },
+    getWeekNumberForDisplayedMonth () {
+      const weekNumbers = []
+      const weeksInMonth = this.days.length / 7
+      const firstWeekOfMonth = DateTime.local(this.newYear, this.newMonth, 1)
+        .weekNumber
+
+      weekNumbers.push(this.getFormattedWeekNumber(firstWeekOfMonth))
+      let weekNumber
+      if (DateTime.local(this.newYear, this.newMonth, 7).weekNumber === 1) {
+        weekNumber = 0
+      } else {
+        weekNumber = firstWeekOfMonth
+      }
+      for (let counter = 1; counter < weeksInMonth; counter++) {
+        weekNumber++
+        weekNumbers.push(this.getFormattedWeekNumber(weekNumber))
+      }
+      this.weekNumbers = weekNumbers
+    },
+    getFormattedWeekNumber (weekNumber) {
+      let stringifiedWeekNumber = weekNumber.toString()
+      if (stringifiedWeekNumber.length === 1) {
+        stringifiedWeekNumber = '0' + stringifiedWeekNumber
+      }
+      return stringifiedWeekNumber
+    },
     previousMonth () {
       this.newDate = this.newDate.minus({ months: 1 })
+      if (this.showWeekNumbers) {
+        this.getWeekNumberForDisplayedMonth()
+      }
     },
     nextMonth () {
       this.newDate = this.newDate.plus({ months: 1 })
+      if (this.showWeekNumbers) {
+        this.getWeekNumberForDisplayedMonth()
+      }
     }
   }
 }
@@ -151,13 +200,45 @@ export default {
   text-transform: capitalize;
 }
 
-.vdatetime-calendar__month {
+.vdatetime-calendar__display {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.vdatetime-calendar__display__weeknumbers {
+  width: 20%;
+  padding-top: 36px;
+  padding-left: 20px;
+
+  & table {
+    width: 100%;
+  }
+
+  & tr {
+    height: 36px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 375px) {
+  .vdatetime-calendar__display__weeknumbers tr {
+    height: 10vw;
+  }
+}
+
+.vdatetime-calendar__display__month--weeknumbers {
+  padding: 0 20px 0 5px;
+  transition: height .2s;
+  width: 80%;
+}
+
+.vdatetime-calendar__display__month {
   padding: 0 20px;
   transition: height .2s;
 }
 
-.vdatetime-calendar__month__weekday,
-.vdatetime-calendar__month__day {
+.vdatetime-calendar__display__month__weekday,
+.vdatetime-calendar__display__month__day {
   display: inline-block;
   width: calc(100% / 7);
   line-height: 36px;
@@ -190,15 +271,15 @@ export default {
   }
 }
 
-.vdatetime-calendar__month__weekday {
+.vdatetime-calendar__display__month__weekday {
   font-weight: bold;
 }
 
-.vdatetime-calendar__month__day:hover > span > span {
+.vdatetime-calendar__display__month__day:hover > span > span {
   background: #eee;
 }
 
-.vdatetime-calendar__month__day--selected {
+.vdatetime-calendar__display__month__day--selected {
   & > span > span,
   &:hover > span > span {
     color: #fff;
@@ -206,7 +287,7 @@ export default {
   }
 }
 
-.vdatetime-calendar__month__day--disabled {
+.vdatetime-calendar__display__month__day--disabled {
   opacity: 0.4;
   cursor: default;
 
