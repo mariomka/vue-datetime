@@ -81,6 +81,33 @@
     </div>
   </div>
 
+    <h2>Event on close , steps </h2>
+  <div class="example">
+    <div class="example-inputs">
+    <datetime
+              :backdrop-click="true"
+              type="datetime"
+              placeholder="Appointment Date and time"
+              format="yyyy-MM-dd hh:mm a"
+              :minute-step="30"
+              v-model="appointmentTime"
+              title="Booking date and time"
+              use12-hour
+              input-id="appointmentDate"
+              @close="onAppointmentTimeSelect"
+            >
+      <div class="values">
+        <p>
+          <strong>Value:</strong> {{ time }}
+        </p>
+      </div>
+    </div>
+    <div class="example-code">
+      <pre><code>&#x3C;datetime type=&#x22;time&#x22; v-model=&#x22;time&#x22;&#x3E;&#x3C;/datetime&#x3E;</code></pre>
+    </div>
+  </div>
+
+  
   <h2>Macro tokens</h2>
   <div class="example">
       <div class="example-inputs">
