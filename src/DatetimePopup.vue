@@ -37,8 +37,8 @@
           :use12-hour="use12Hour"
           :hour-step="hourStep"
           :minute-step="minuteStep"
-          :min-time="minTime"
-          :max-time="maxTime"></datetime-time-picker>
+          :min-time="handleMinTime()"
+          :max-time="handleMaxTime()"></datetime-time-picker>
     </div>
     <div class="vdatetime-popup__actions">
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">
@@ -109,6 +109,14 @@ export default {
       type: DateTime,
       default: null
     },
+    minTime: {
+      type: String,
+      default: null
+    },
+    maxTime: {
+      type: String,
+      default: null
+    },
     auto: {
       type: Boolean,
       default: false
@@ -167,26 +175,26 @@ export default {
         month: 'long',
         day: 'numeric'
       })
-    },
-    minTime () {
-      return (
+    }
+  },
+
+  methods: {
+    handleMinTime () {
+      return this.minTime ? this.minTime : (
         this.minDatetime &&
         this.minDatetime.year === this.year &&
         this.minDatetime.month === this.month &&
         this.minDatetime.day === this.day
       ) ? this.minDatetime.toFormat('HH:mm') : null
     },
-    maxTime () {
-      return (
+    handleMaxTime () {
+      return this.maxTime ? this.maxTime : (
         this.maxDatetime &&
         this.maxDatetime.year === this.year &&
         this.maxDatetime.month === this.month &&
         this.maxDatetime.day === this.day
       ) ? this.maxDatetime.toFormat('HH:mm') : null
-    }
-  },
-
-  methods: {
+    },
     nextStep () {
       this.step = this.flowManager.next(this.step)
       this.timePartsTouched = []

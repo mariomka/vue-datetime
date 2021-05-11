@@ -693,7 +693,7 @@ describe('Datetime.vue', function () {
           },
           mounted () {
             setTimeout(() => {
-              this.datetime = '2017-12-07T00:00:00.000Z'
+              this.datetime = '2017-12-07T10:00:00.000Z'
             }, 50)
           }
         })
