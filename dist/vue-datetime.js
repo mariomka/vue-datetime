@@ -602,7 +602,6 @@ var DatetimePopup = {render: function(){var _vm=this;var _h=_vm.$createElement;v
 
   methods: {
     handleMinTime: function handleMinTime () {
-      alert(this.minTime);
       return this.minTime ? this.minTime : (
         this.minDatetime &&
         this.minDatetime.year === this.year &&
