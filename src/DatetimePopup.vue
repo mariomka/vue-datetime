@@ -192,12 +192,16 @@ export default {
         }
       }
 
-      return date || (
+      const defaultMinDate = (
         this.minDatetime &&
         this.minDatetime.year === this.year &&
         this.minDatetime.month === this.month &&
         this.minDatetime.day === this.day
       ) ? this.minDatetime.toFormat('HH:mm') : null
+      if (date) {
+        return date
+      }
+      return defaultMinDate
     },
     handleMaxTime () {
       return this.maxTime ? this.maxTime : (
