@@ -180,6 +180,19 @@ export default {
 
   methods: {
     handleMinTime () {
+      let date = this.minTime;
+      const today = DateTime.now().toFormat('yyyy-MM-DD');
+      const selected_day = this.newDatetime.toFormat('yyyy-MM-DD');
+
+
+      if(date) {
+        const hour = date.split(':')[0];
+        const dateHour = this.minDatetime.toFormat('HH')
+        if(hour < dateHour && selected_day === today) {
+          date = `${(Number(dateHour) + 1).toString().padStart(2,'0')}:00`;
+        }
+      }
+
       return this.minTime ? this.minTime : (
         this.minDatetime &&
         this.minDatetime.year === this.year &&

@@ -602,6 +602,19 @@ var DatetimePopup = {render: function(){var _vm=this;var _h=_vm.$createElement;v
 
   methods: {
     handleMinTime: function handleMinTime () {
+      var date = this.minTime;
+      var today = luxon.DateTime.now().toFormat('yyyy-MM-DD');
+      var selected_day = this.newDatetime.toFormat('yyyy-MM-DD');
+
+
+      if(date) {
+        var hour = date.split(':')[0];
+        var dateHour = this.minDatetime.toFormat('HH');
+        if(hour < dateHour && selected_day === today) {
+          date = ((Number(dateHour) + 1).toString().padStart(2,'0')) + ":00";
+        }
+      }
+
       return this.minTime ? this.minTime : (
         this.minDatetime &&
         this.minDatetime.year === this.year &&
