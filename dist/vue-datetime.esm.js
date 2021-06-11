@@ -610,12 +610,16 @@ var DatetimePopup = {render: function(){var _vm=this;var _h=_vm.$createElement;v
         }
       }
 
-      return date || (
+      var defaultMinDate = (
         this.minDatetime &&
         this.minDatetime.year === this.year &&
         this.minDatetime.month === this.month &&
         this.minDatetime.day === this.day
-      ) ? this.minDatetime.toFormat('HH:mm') : null
+      ) ? this.minDatetime.toFormat('HH:mm') : null;
+      if (date) {
+        return date
+      }
+      return defaultMinDate
     },
     handleMaxTime: function handleMaxTime () {
       return this.maxTime ? this.maxTime : (
