@@ -187,7 +187,7 @@ export default {
       if (date) {
         const hour = date.split(':')[0]
         const dateHour = this.minDatetime.toFormat('HH')
-        if (hour < dateHour && selected_day === today) {
+        if (hour <= dateHour && selected_day === today) {
           date = `${(Number(dateHour) + 1).toString().padStart(2, '0')}:00`
         }
       }

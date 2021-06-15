@@ -609,7 +609,7 @@ var DatetimePopup = {render: function(){var _vm=this;var _h=_vm.$createElement;v
       if (date) {
         var hour = date.split(':')[0];
         var dateHour = this.minDatetime.toFormat('HH');
-        if (hour < dateHour && selected_day === today) {
+        if (hour <= dateHour && selected_day === today) {
           date = ((Number(dateHour) + 1).toString().padStart(2, '0')) + ":00";
         }
       }
