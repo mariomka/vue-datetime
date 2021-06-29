@@ -4,6 +4,7 @@
       <div class="vdatetime-popup__title" v-if="title">{{ title }}</div>
       <div class="vdatetime-popup__year" @click="showYear" v-if="type !== 'time'">{{ year }}</div>
       <div class="vdatetime-popup__date" @click="showMonth" v-if="type !== 'time'">{{ dateFormatted }}</div>
+      <div class="vdatetime-popup__week" v-if="showWeekNumber && type !== 'time'">{{ weekNumber }}</div>
     </div>
     <div class="vdatetime-popup__body">
       <datetime-year-picker
@@ -122,6 +123,10 @@ export default {
     },
     title: {
       type: String
+    },
+    showWeekNumber: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -167,6 +172,9 @@ export default {
         month: 'long',
         day: 'numeric'
       })
+    },
+    weekNumber () {
+      return this.newDatetime.weekYear
     },
     minTime () {
       return (
