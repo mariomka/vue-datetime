@@ -7,7 +7,10 @@
       <div class="vdatetime-time-picker__item" v-for="minute in minutes" @click="selectMinute(minute)" :class="{'vdatetime-time-picker__item--selected': minute.selected, 'vdatetime-time-picker__item--disabled': minute.disabled}">{{ minute.number }}</div>
     </div>
     <div class="vdatetime-time-picker__list vdatetime-time-picker__list--suffix" ref="suffixList" v-if="use12Hour">
-      <div class="vdatetime-time-picker__item" @click="selectSuffix('am')" :class="{'vdatetime-time-picker__item--selected': hour < 12}">am</div>
+      <div class="vdatetime-time-picker__item" @click="selectSuffix('am')"
+           :class="{'vdatetime-time-picker__item--selected': hour < 12, 'vdatetime-time-picker__item--disabled': disableBtnAM}"
+      >am
+      </div>
       <div class="vdatetime-time-picker__item" @click="selectSuffix('pm')" :class="{'vdatetime-time-picker__item--selected': hour >= 12}">pm</div>
     </div>
   </div>
@@ -84,6 +87,15 @@ export default {
     },
     maxMinute () {
       return this.maxTime && this.maxHour === this.hour ? parseInt(this.maxTime.split(':')[1]) : null
+    },
+    disableBtnAM () {
+      let disableBtnAM = true
+      this.getHoursAM().forEach(hour => {
+        if (!timeComponentIsDisabled(this.minHour, this.maxHour, hour)) {
+          disableBtnAM = false
+        }
+      })
+      return disableBtnAM
     }
   },
 
@@ -95,6 +107,11 @@ export default {
 
       this.$emit('change', { hour: parseInt(hour.number) })
     },
+    getHoursAM () {
+      return hours(this.hourStep).filter(hour => {
+        return hour < 12
+      })
+    },
     selectMinute (minute) {
       if (minute.disabled) {
         return
@@ -104,6 +121,7 @@ export default {
     },
     selectSuffix (suffix) {
       if (suffix === 'am') {
+        if (this.disableBtnAM) return
         if (this.hour >= 12) {
           this.$emit('change', { hour: parseInt(this.hour - 12), suffixTouched: true })
         }
