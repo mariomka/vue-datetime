@@ -212,6 +212,8 @@ export default {
       event.target.blur()
 
       this.isOpen = true
+
+      this.$emit('open')
     },
     close () {
       this.isOpen = false
