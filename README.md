@@ -142,6 +142,8 @@ Settings.defaultLocale = 'es'
 
 Component emits the `input` event to work with `v-model`. [More info](https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events).
 
+`open` event is emitted when the popup opens.
+
 `close` event is emitted when the popup closes.
 
 Also, input text inherits all component events.
