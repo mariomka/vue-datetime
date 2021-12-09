@@ -1,10 +1,13 @@
 <template>
-  <div :class="{'vdatetime-time-picker': true, 'vdatetime-time-picker__with-suffix': use12Hour}">
+  <div :class="{'vdatetime-time-picker': true, 'vdatetime-time-picker__with-suffix': use12Hour || useSecond}">
     <div class="vdatetime-time-picker__list vdatetime-time-picker__list--hours" ref="hourList">
       <div class="vdatetime-time-picker__item" v-for="hour in hours" @click="selectHour(hour)" :class="{'vdatetime-time-picker__item--selected': hour.selected, 'vdatetime-time-picker__item--disabled': hour.disabled}">{{ formatHour(hour.number) }}</div>
     </div>
     <div class="vdatetime-time-picker__list vdatetime-time-picker__list--minutes" ref="minuteList">
       <div class="vdatetime-time-picker__item" v-for="minute in minutes" @click="selectMinute(minute)" :class="{'vdatetime-time-picker__item--selected': minute.selected, 'vdatetime-time-picker__item--disabled': minute.disabled}">{{ minute.number }}</div>
+    </div>
+    <div class="vdatetime-time-picker__list vdatetime-time-picker__list--minutes" ref="secondList" v-if="useSecond">
+      <div class="vdatetime-time-picker__item" v-for="second in seconds" @click="selectSecond(second)" :class="{'vdatetime-time-picker__item--selected': second.selected, 'vdatetime-time-picker__item--disabled': second.disabled}">{{ second.number }}</div>
     </div>
     <div class="vdatetime-time-picker__list vdatetime-time-picker__list--suffix" ref="suffixList" v-if="use12Hour">
       <div class="vdatetime-time-picker__item" @click="selectSuffix('am')" :class="{'vdatetime-time-picker__item--selected': hour < 12}">am</div>
@@ -14,7 +17,7 @@
 </template>
 
 <script>
-import { hours, minutes, pad, timeComponentIsDisabled } from './util'
+import { hours, minutes, seconds, pad, timeComponentIsDisabled } from './util'
 
 export default {
   props: {
@@ -26,7 +29,15 @@ export default {
       type: Number,
       required: true
     },
+    second: {
+      type: Number,
+      required: true
+    },
     use12Hour: {
+      type: Boolean,
+      default: false
+    },
+    useSecond: {
       type: Boolean,
       default: false
     },
@@ -35,6 +46,10 @@ export default {
       default: 1
     },
     minuteStep: {
+      type: Number,
+      default: 1
+    },
+    secondStep: {
       type: Number,
       default: 1
     },
@@ -73,17 +88,30 @@ export default {
         disabled: timeComponentIsDisabled(this.minMinute, this.maxMinute, minute)
       }))
     },
+    seconds () {
+      return seconds(this.secondStep).map(second => ({
+        number: pad(second),
+        selected: second === this.second,
+        disabled: timeComponentIsDisabled(this.minSecond, this.maxSecond, second)
+      }))
+    },
     minHour () {
       return this.minTime ? parseInt(this.minTime.split(':')[0]) : null
     },
     minMinute () {
       return this.minTime && this.minHour === this.hour ? parseInt(this.minTime.split(':')[1]) : null
     },
+    minSecond () {
+      return this.minTime && this.minHour === this.hour && this.minMinute === this.minute ? parseInt(this.minTime.split(':')[2]) : null
+    },
     maxHour () {
       return this.maxTime ? parseInt(this.maxTime.split(':')[0]) : null
     },
     maxMinute () {
       return this.maxTime && this.maxHour === this.hour ? parseInt(this.maxTime.split(':')[1]) : null
+    },
+    maxSecond () {
+      return this.maxTime && this.maxHour === this.hour && this.maxMinute === this.minute ? parseInt(this.maxTime.split(':')[2]) : null
     }
   },
 
@@ -101,6 +129,13 @@ export default {
       }
 
       this.$emit('change', { minute: parseInt(minute.number) })
+    },
+    selectSecond (second) {
+      if (second.disabled) {
+        return
+      }
+
+      this.$emit('change', { second: parseInt(second.number) })
     },
     selectSuffix (suffix) {
       if (suffix === 'am') {
@@ -132,8 +167,10 @@ export default {
   mounted () {
     const selectedHour = this.$refs.hourList.querySelector('.vdatetime-time-picker__item--selected')
     const selectedMinute = this.$refs.minuteList.querySelector('.vdatetime-time-picker__item--selected')
+    const selectedSecond = this.$refs.secondList.querySelector('.vdatetime-time-picker__item--selected')
     this.$refs.hourList.scrollTop = selectedHour ? selectedHour.offsetTop - 250 : 0
     this.$refs.minuteList.scrollTop = selectedMinute ? selectedMinute.offsetTop - 250 : 0
+    this.$refs.secondList.scrollTop = selectedSecond ? selectedSecond.offsetTop - 250 : 0
   }
 }
 </script>

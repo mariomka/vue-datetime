@@ -113,6 +113,7 @@ zone | `String` | `local` | Time zone for the picker.
 format | `Object` or `String` | `DateTime.DATE_MED`, `DateTime.DATETIME_MED` or `DateTime.TIME_24_SIMPLE` | Input date format. Luxon [presets](https://moment.github.io/luxon/docs/manual/formatting.html#tolocalestring--strings-for-humans-) or [tokens](https://moment.github.io/luxon/docs/manual/formatting.html#formatting-with-tokens--strings-for-cthulhu-).
 phrases | `Object` | `{ok: 'Ok', cancel: 'Cancel'}` | Phrases.
 use12-hour | `Boolean` | `false` | Display 12 hour (AM/PM) mode
+use-second | `Boolean` | `false` | Display second selection
 hour-step | `Number` | `1` | Hour step.
 minute-step | `Number` | `1` | Minute step.
 min-datetime | ISO 8601 `String` | `null` | Minimum datetime.
