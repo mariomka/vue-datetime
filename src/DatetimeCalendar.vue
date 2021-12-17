@@ -43,6 +43,10 @@ export default {
     disabled: {
       type: Array
     },
+    datetimeDisabledChecker: {
+      type: Function,
+      default: (year, month, day, hour, minute, second) => false
+    },
     minDate: {
       type: DateTime,
       default: null
@@ -79,7 +83,7 @@ export default {
       return monthDays(this.newYear, this.newMonth, this.weekStart).map(day => ({
         number: day,
         selected: day && this.year === this.newYear && this.month === this.newMonth && this.day === day,
-        disabled: !day || monthDayIsDisabled(this.minDate, this.maxDate, this.newYear, this.newMonth, day)
+        disabled: !day || monthDayIsDisabled(this.minDate, this.maxDate, this.newYear, this.newMonth, day) || this.datetimeDisabledChecker(this.newYear, this.newMonth, day)
       }))
     }
   },

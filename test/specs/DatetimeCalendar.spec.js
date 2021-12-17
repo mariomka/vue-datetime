@@ -63,6 +63,32 @@ describe('DatetimeCalendar.vue', function () {
       expect(vm.$('.vdatetime-calendar__month__day--selected')).to.have.text('10')
     })
 
+    it('should disable days considered invalid by datetime checker', function () {
+      const vm = createVM(this,
+        `<DatetimeCalendar :year="2018" :month="7" :day="10" :datetime-disabled-checker="datetimeDisabledChecker"></DatetimeCalendar>`,
+        {
+          components: { DatetimeCalendar },
+          data () {
+            return {
+              datetimeDisabledChecker: (year, month, day) => {
+                return LuxonDatetime.fromObject({ year, month, day, timezone: 'UTC' }) < LuxonDatetime.fromISO('2018-07-06T00:00:00.000Z').toUTC()
+              }
+            }
+          }
+        })
+
+      const monthDays = vm.$$('.vdatetime-calendar__month__day')
+
+      monthDays.forEach(monthDay => {
+        const dayNumber = parseInt(monthDay.textContent)
+        if (isNaN(dayNumber) || dayNumber < 7) {
+          expect(monthDay).to.have.class('vdatetime-calendar__month__day--disabled')
+        } else {
+          expect(monthDay).to.have.not.class('vdatetime-calendar__month__day--disabled')
+        }
+      })
+    })
+
     it('should disable days before min date', function () {
       const vm = createVM(this,
         `<DatetimeCalendar :year="2018" :month="7" :day="10" :min-date="minDate"></DatetimeCalendar>`,

@@ -45,6 +45,33 @@ describe('DatetimeMonthPicker.vue', function () {
         }
       })
     })
+
+    it('should disable months given disabled datetime checker', function () {
+      const vm = createVM(this,
+        `<DatetimeMonthPicker :datetime-disabled-checker="datetimeDisabledChecker" :year="2018" :month="10"></DatetimeMonthPicker>`,
+        {
+          components: { DatetimeMonthPicker },
+          data () {
+            return {
+              datetimeDisabledChecker: (_year, month) => {
+                return month < 7
+              }
+            }
+          }
+        })
+
+      const months = vm.$$('.vdatetime-month-picker__list .vdatetime-month-picker__item')
+
+      months.forEach(month => {
+        const monthName = month.textContent.trim()
+
+        if (!(['July', 'August', 'September', 'October', 'November', 'December'].indexOf(monthName) === -1)) {
+          expect(month).to.have.not.class('vdatetime-month-picker__item--disabled')
+        } else {
+          expect(month).to.have.class('vdatetime-month-picker__item--disabled')
+        }
+      })
+    })
   })
 
   describe('events', function () {
