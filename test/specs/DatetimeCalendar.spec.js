@@ -33,7 +33,7 @@ describe('DatetimeCalendar.vue', function () {
       expect(vm.$('.vdatetime-calendar__current--month')).to.have.text('Julio 2018')
 
       const weekdays = vm.$$('.vdatetime-calendar__month__weekday').map(el => el.textContent)
-      expect(weekdays).deep.equal(['Lun.', 'Mar.', 'Mié.', 'Jue.', 'Vie.', 'Sáb.', 'Dom.'])
+      expect(weekdays).deep.equal(['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'])
     })
 
     it('should render a calendar with other week start', function () {
