@@ -46,7 +46,7 @@
 <script>
 import { DateTime } from 'luxon'
 import DatetimePopup from './DatetimePopup'
-import { datetimeFromISO, startOfDay, weekStart } from './util'
+import { datetimeFromISO, datetimeFromFormat, startOfDay, weekStart } from './util'
 
 export default {
   components: {
@@ -57,7 +57,8 @@ export default {
 
   props: {
     value: {
-      type: String
+      type: String,
+      default: ''
     },
     valueZone: {
       type: String,
@@ -84,6 +85,10 @@ export default {
     },
     format: {
       type: [Object, String],
+      default: null
+    },
+    valueFormat: {
+      type: String,
       default: null
     },
     type: {
@@ -148,13 +153,13 @@ export default {
   data () {
     return {
       isOpen: false,
-      datetime: datetimeFromISO(this.value)
+      datetime: this.prepareDateString(this.value)
     }
   },
 
   watch: {
     value (newValue) {
-      this.datetime = datetimeFromISO(newValue)
+      this.datetime = this.prepareDateString(newValue)
     }
   },
 
@@ -206,7 +211,13 @@ export default {
         datetime = startOfDay(datetime)
       }
 
-      this.$emit('input', datetime ? datetime.toISO() : '')
+      if (this.valueFormat) {
+        datetime = datetime ? datetime.toFormat(this.valueFormat) : ''
+      } else {
+        datetime = datetime ? datetime.toISO() : ''
+      }
+
+      this.$emit('input', datetime)
     },
     open (event) {
       event.target.blur()
@@ -251,8 +262,19 @@ export default {
 
       return datetime.set({ minute: roundedMinute })
     },
+    prepareDateString (string) {
+      let datetime
+
+      if (this.valueFormat) {
+        datetime = datetimeFromFormat(string, this.valueFormat, this.valueZone)
+      } else {
+        datetime = datetimeFromISO(string)
+      }
+
+      return datetime
+    },
     setValue (event) {
-      this.datetime = datetimeFromISO(event.target.value)
+      this.datetime = this.prepareDateString(event.target.value)
       this.emitInput()
     }
   }

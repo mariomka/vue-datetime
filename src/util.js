@@ -11,6 +11,12 @@ export function datetimeFromISO (string) {
   return datetime.isValid ? datetime : null
 }
 
+export function datetimeFromFormat (string, format, zone = 'utc') {
+  const datetime = DateTime.fromFormat(string, format, { zone }).toUTC()
+
+  return datetime.isValid ? datetime : null
+}
+
 export function monthDays (year, month, weekStart) {
   const monthDate = DateTime.local(year, month, 1)
   let firstDay = monthDate.weekday - weekStart
