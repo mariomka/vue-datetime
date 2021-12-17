@@ -6,7 +6,7 @@
           <path fill="none" stroke="#444" stroke-width="14" stroke-miterlimit="10" d="M56.3 97.8L9.9 51.4 56.3 5"/>
         </svg>
       </div>
-      <div class="vdatetime-calendar__current--month">{{ monthName }} {{ newYear }}</div>
+      <div class="vdatetime-calendar__current--month">{{ yearMonth }}</div>
       <div class="vdatetime-calendar__navigation--next" @click="nextMonth">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 61.3 102.8">
           <path fill="none" stroke="#444" stroke-width="14" stroke-miterlimit="10" d="M56.3 97.8L9.9 51.4 56.3 5"/>
@@ -66,14 +66,14 @@ export default {
   },
 
   computed: {
+    yearMonth () {
+      return this.newDate.toLocaleString({ year: 'numeric', month: 'long' })
+    },
     newYear () {
       return this.newDate.year
     },
     newMonth () {
       return this.newDate.month
-    },
-    monthName () {
-      return this.months[this.newMonth - 1]
     },
     days () {
       return monthDays(this.newYear, this.newMonth, this.weekStart).map(day => ({
