@@ -305,7 +305,7 @@ describe('DatetimePopup.vue', function () {
       })
     })
 
-    it('should pass min and max date to calendar', function () {
+    it('should pass min and max date to calendar', function (done) {
       const vm = createVM(this,
         `<DatetimePopup :datetime="datetime" type="datetime" :min-datetime="minDatetime" :max-datetime="maxDatetime"></DatetimePopup>`,
         {
@@ -318,9 +318,11 @@ describe('DatetimePopup.vue', function () {
             }
           }
         })
-
-      expect(vm.$findChild('.vdatetime-calendar').minDate.toISODate()).to.be.equal('2018-01-01')
-      expect(vm.$findChild('.vdatetime-calendar').maxDate.toISODate()).to.be.equal('2018-01-03')
+      vm.$nextTick(() => {
+        expect(vm.$findChild('.vdatetime-calendar').allowedDateTimeRanges[0][0].toISODate()).to.be.equal('2018-01-01')
+        expect(vm.$findChild('.vdatetime-calendar').allowedDateTimeRanges[0][1].toISODate()).to.be.equal('2018-01-04')
+        done()
+      })
     })
 
     it('should pass min and max time to time picker when date are equals', function (done) {
@@ -343,8 +345,8 @@ describe('DatetimePopup.vue', function () {
       vm.$('.vdatetime-popup__actions__button--confirm').click()
 
       vm.$nextTick(() => {
-        expect(vm.$findChild('.vdatetime-time-picker').minTime).to.be.equal(minDatetime.toFormat('HH:mm'))
-        expect(vm.$findChild('.vdatetime-time-picker').maxTime).to.be.equal(maxDatetime.toFormat('HH:mm'))
+        expect(vm.$findChild('.vdatetime-time-picker').allowedDateTimeRanges[0][0].toFormat('HH:mm')).to.be.equal(minDatetime.toFormat('HH:mm'))
+        expect(vm.$findChild('.vdatetime-time-picker').allowedDateTimeRanges[0][1].toFormat('HH:mm')).to.be.equal(maxDatetime.toFormat('HH:mm'))
         done()
       })
     })

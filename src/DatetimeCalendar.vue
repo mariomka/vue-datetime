@@ -24,7 +24,7 @@
 
 <script>
 import { DateTime } from 'luxon'
-import { monthDayIsDisabled, monthDays, months, weekdays } from './util'
+import { getAllowedDateTimeRanges, monthDayIsDisabled, monthDays, months, weekdays } from './util'
 
 export default {
   props: {
@@ -51,6 +51,10 @@ export default {
       type: DateTime,
       default: null
     },
+    allowedDateTimeRanges: {
+      type: Array,
+      default: () => []
+    },
     weekStart: {
       type: Number,
       default: 1
@@ -66,6 +70,9 @@ export default {
   },
 
   computed: {
+    allowedDateTimeRangesFormatted () {
+      return getAllowedDateTimeRanges(this.allowedDateTimeRanges, this.minDate, this.maxDate)
+    },
     newYear () {
       return this.newDate.year
     },
@@ -79,7 +86,7 @@ export default {
       return monthDays(this.newYear, this.newMonth, this.weekStart).map(day => ({
         number: day,
         selected: day && this.year === this.newYear && this.month === this.newMonth && this.day === day,
-        disabled: !day || monthDayIsDisabled(this.minDate, this.maxDate, this.newYear, this.newMonth, day)
+        disabled: !day || monthDayIsDisabled(this.allowedDateTimeRangesFormatted, this.newYear, this.newMonth, day)
       }))
     }
   },

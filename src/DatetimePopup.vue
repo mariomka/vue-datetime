@@ -9,14 +9,12 @@
       <datetime-year-picker
           v-if="step === 'year'"
           @change="onChangeYear"
-          :min-date="minDatetime"
-          :max-date="maxDatetime"
+          :allowed-date-time-ranges="allowedDateTimeRangesFormatted"
           :year="year"></datetime-year-picker>
       <datetime-month-picker
           v-if="step === 'month'"
           @change="onChangeMonth"
-          :min-date="minDatetime"
-          :max-date="maxDatetime"
+          :allowed-date-time-ranges="allowedDateTimeRangesFormatted"
           :year="year"
           :month="month"></datetime-month-picker>
       <datetime-calendar
@@ -25,8 +23,7 @@
           :year="year"
           :month="month"
           :day="day"
-          :min-date="minDatetime"
-          :max-date="maxDatetime"
+          :allowed-date-time-ranges="allowedDateTimeRangesFormatted"
           :week-start="weekStart"
       ></datetime-calendar>
       <datetime-time-picker
@@ -37,8 +34,8 @@
           :use12-hour="use12Hour"
           :hour-step="hourStep"
           :minute-step="minuteStep"
-          :min-time="minTime"
-          :max-time="maxTime"></datetime-time-picker>
+          :current-date-time="newDatetime"
+          :allowed-date-time-ranges="allowedDateTimeRangesFormatted"></datetime-time-picker>
     </div>
     <div class="vdatetime-popup__actions">
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">
@@ -53,7 +50,7 @@
 
 <script>
 import { DateTime } from 'luxon'
-import { createFlowManager, createFlowManagerFromType } from './util'
+import { createFlowManager, createFlowManagerFromType, getAllowedDateTimeRanges } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeTimePicker from './DatetimeTimePicker'
 import DatetimeYearPicker from './DatetimeYearPicker'
@@ -100,6 +97,10 @@ export default {
     minuteStep: {
       type: Number,
       default: 1
+    },
+    allowedDateTimeRanges: {
+      type: Array,
+      default: () => []
     },
     minDatetime: {
       type: DateTime,
@@ -168,24 +169,10 @@ export default {
         day: 'numeric'
       })
     },
-    minTime () {
-      return (
-        this.minDatetime &&
-        this.minDatetime.year === this.year &&
-        this.minDatetime.month === this.month &&
-        this.minDatetime.day === this.day
-      ) ? this.minDatetime.toFormat('HH:mm') : null
-    },
-    maxTime () {
-      return (
-        this.maxDatetime &&
-        this.maxDatetime.year === this.year &&
-        this.maxDatetime.month === this.month &&
-        this.maxDatetime.day === this.day
-      ) ? this.maxDatetime.toFormat('HH:mm') : null
+    allowedDateTimeRangesFormatted () {
+      return getAllowedDateTimeRanges(this.allowedDateTimeRanges, this.minDatetime, this.maxDatetime)
     }
   },
-
   methods: {
     nextStep () {
       this.step = this.flowManager.next(this.step)

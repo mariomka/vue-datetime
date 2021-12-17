@@ -8,8 +8,8 @@
 </template>
 
 <script>
+import { getAllowedDateTimeRanges, monthIsDisabled, months } from './util'
 import { DateTime } from 'luxon'
-import { monthIsDisabled, months } from './util'
 
 export default {
   props: {
@@ -20,6 +20,10 @@ export default {
     month: {
       type: Number,
       required: true
+    },
+    allowedDateTimeRanges: {
+      type: Array,
+      default: () => []
     },
     minDate: {
       type: DateTime,
@@ -32,12 +36,15 @@ export default {
   },
 
   computed: {
+    allowedDateTimeRangesFormatted () {
+      return getAllowedDateTimeRanges(this.allowedDateTimeRanges, this.minDate, this.maxDate)
+    },
     months () {
       return months(this.month).map((month, index) => ({
         number: ++index,
         label: month,
         selected: index === this.month,
-        disabled: !index || monthIsDisabled(this.minDate, this.maxDate, this.year, index)
+        disabled: !index || monthIsDisabled(this.allowedDateTimeRangesFormatted, this.year, index)
       }))
     }
   },

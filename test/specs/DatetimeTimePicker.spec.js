@@ -85,7 +85,7 @@ describe('DatetimeTimePicker.vue', function () {
 
       hours.forEach(hour => {
         const hourNumber = parseInt(hour.textContent)
-
+        // this is disabling too many
         if (hourNumber < 8) {
           expect(hour).to.have.class('vdatetime-time-picker__item--disabled')
         } else {
@@ -117,7 +117,6 @@ describe('DatetimeTimePicker.vue', function () {
 
       hours.forEach(hour => {
         const hourNumber = parseInt(hour.textContent)
-
         if (hourNumber > 15) {
           expect(hour).to.have.class('vdatetime-time-picker__item--disabled')
         } else {
